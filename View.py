@@ -4,3 +4,6 @@ class View:
         self.master = master
         self.frame = tk.Frame(self.master)
         self.frame.pack()
+
+    def login(utilizador, nif, senha):
+        
