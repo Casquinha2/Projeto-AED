@@ -9,5 +9,4 @@ class View:
         self.frame = tk.Frame(self.master)
         self.frame.pack()
 
-        try:
         self.label1 =tk.Label()
