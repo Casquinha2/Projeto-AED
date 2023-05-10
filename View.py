@@ -52,61 +52,43 @@ class View:
         self.shutdown_button.pack(pady=10, ipadx=20, ipady=5)
 
     def registar(self):
-              #Implementar a função registo()
-
-            #Criação de um usuário
-            nome = self.nome_entry.get()
-            password = self.password_entry.get()            
-            cliente = Cliente(nome, password)
-            
-            if  self.clientes.head is None:
-                self.clientes.insert_last(cliente)
-                
-                messagebox.showinfo('Sucesso!', 'Usuário registado com sucesso. Já pode fazer o login em sua conta.')                    
-
-            else: 
-                if self.clientes.head is not None:
-                    i = self.clientes.find_username(nome)
-                    
-                    if i == -1:
-                        self.clientes.insert_last(cliente)
-                        messagebox.showinfo('Sucesso!', 'Usuário registado com sucesso. Já pode fazer o login em sua conta.')
-
-                    elif self.clientes.get(i).get_nome() == cliente.get_nome():
-                        messagebox.showinfo('Usuário existente.', 'Por favor, digite um nome de usuário diferente.')
-                        print(self.clientes.size)
-                        print(self.clientes.get_first().get_nome())
-
+        nome = self.nome_entry.get()
+        password = self.password_entry.get()
+        nif = self.nif_entry.get()            
+        cliente = Cliente(nome, password, nif)
+        if self.clientes.find_username(nome) == -1:
+            self.clientes.insert_last(cliente)
+            messagebox.showinfo('Sucesso!', 'Usuário registado com sucesso. Já pode fazer o login em sua conta.')
+        else:
+            messagebox.showinfo('Usuário existente.', 'Por favor, digite um nome de usuário diferente.')
 
     def login(self):
-        
-            
-        if self.clientes.size <= 0:
+        if self.clientes.is_empty == True:
             messagebox.showerror('Nenhum usuário registado', 'Por favor, registe um usuário antes de fazer login.')
-
         else:
-            if self.clientes is not None:
-                try:
+            nome = self.nome_entry.get()
+            password = self.password_entry.get()
+            nif = self.nif_entry.get()
+            posicao = self.clientes.find_username(nome)
+            if posicao == -1:
+                messagebox.showerror('Erro.', 'Credênciais inválidas.')
+            else:
+                if self.clientes.get(posicao).get_password() != password:
+                    messagebox.showerror('Erro.', 'Credênciais inválidas.')
+                else:
+                    if self.clientes.get(posicao).get_nif() != nif:
+                        messagebox.showerror('Erro.', 'Credênciais inválidas.')
+                    else:
+                        return True
+                    
+                                        
 
-                    if self.clientes.size > 0:
-                        nome = self.nome_entry.get()
-                        password = self.password_entry.get()
-                        i = self.clientes.find_username(nome)
-                        print(nome)
-                        print(password) 
-                        try:
-                            if self.clientes.get(i).get_nome() == nome:
-                                if self.clientes.get(i).get_password() == password:
-                                    messagebox.showinfo('Sucesso!', 'Usuário logado com sucesso.')
-                                    print(self.clientes.get(i).get_nome())
-                                    return True
 
-                                else:
-                                    messagebox.showerror('Erro.', 'Credênciais inválidas.')
-                                              
 
-                        except Exception or AttributeError:
-                            messagebox.showerror('Erro de login', 'Usuário não encontrado.')
 
-                except AttributeError:
-                    messagebox.showerror('erro de login', 'usuário não encontrado.')
+
+
+#[{nome:..., senha:..., nif:...}, despesas, grafico,....]
+#[{nome:..., se, despesas, grafico,...]
+
+#[{nome:..., senha:..., nif:...}, {nome:..., senha:..., nif:...}, {nome:..., senha:..., nif:...}
