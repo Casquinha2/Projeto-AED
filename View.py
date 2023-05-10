@@ -1,6 +1,7 @@
 from Controller import *
 import tkinter as tk
 from model.ClientLinkedList import*
+from model.Cliente import *
 class View:
     def __init__(self, master):
         self.master = master
@@ -47,4 +48,3 @@ class View:
         #botão de fecho do programa
         self.shutdown_button = tk.Button(self.frame, text="Sair", font=('Arial', 14), fg='white', bg='#6d7575', command= self.master.destroy)
         self.shutdown_button.pack(pady=10, ipadx=20, ipady=5)
-
