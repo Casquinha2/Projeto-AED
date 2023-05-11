@@ -8,7 +8,8 @@ class View:
         self.master = master
         self.frame = tk.Frame(self.master)
         self.frame.pack()
-        self.clientes = ClientLinkedList() #Criação da lista de clientesº
+        self.clientes = ClientLinkedList() #Criação da lista de clientes
+        
             
         #Frame
         self.master.attributes('-fullscreen', True)
@@ -51,6 +52,14 @@ class View:
         self.shutdown_button = tk.Button(self.frame, text="Sair", font=('Arial', 14), fg='white', bg='#6d7575', command= self.master.destroy)
         self.shutdown_button.pack(pady=10, ipadx=20, ipady=5)
 
+        self.advance_button = tk.Button(self.master, text="avançar", font=('Arial', 14), fg='white', bg='#6d7575', command= self.frame_creation)
+        self.advance_button.pack(pady=10, ipadx=20, ipady=5)
+    
+    
+    def frame_creation(self):
+        if self.login() == 1:
+            self.frame1 = tk.Toplevel(self.master)            
+    
     def registar(self):
         nome = self.nome_entry.get()
         password = self.password_entry.get()
@@ -98,14 +107,9 @@ class View:
                         if self.clientes.get(posicao).get_nif() != nif:
                             messagebox.showerror('Erro.', 'Credênciais inválidas.')
                         else:
-                            return True
-                    
-                                        
-
-
-
-
-
+                            return 1
+                        
+    
 
 #[{nome:..., senha:..., nif:...}, despesas, grafico,....]
 #[{nome:..., se, despesas, grafico,...]
