@@ -1,18 +1,25 @@
 from model.Tree import*
 
-class utilizadorTree(Tree):
-    @abstractmethod
+class UtilizadorTree(Tree):
+    def __init__(self):
+        self.root = None
     def get_root (self):
-        '''Retorna a raiz da árvore.'''
-    @abstractmethod
+        return self.root
     def size(self):
-        """Retorna o número de elementos na árvore."""
-    @abstractmethod
-    def height (self):
-        """Retorna a altura da árvore."""
-    @abstractmethod
+        return self.node_size(self.root)
+    def node_size(self, node):
+        if node is None:
+            return 0
+        return (1 + self.node_size(node.get_left_child()) + self.node_size(node.get_right_child()))
     def is_empty (self):
-        """Retorna True se a árvore estiver vazia."""
-    @abstractmethod
+        return self.size() == 0
     def is_full (self):
-        """Retorna True se a árvore estiver cheia."""
+        return False
+    def height (self):
+        return self.node_height(self.root)
+    def node_height(self, node):
+        if node is None:
+            return 0
+        return 1 + max(self.node_height(node.get_left_child()), self.node_height(node.get_rigth_child()))
+    
+    
