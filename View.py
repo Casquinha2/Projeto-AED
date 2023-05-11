@@ -6,11 +6,10 @@ from tkinter import messagebox
 class View:
     def __init__(self, master):
         self.master = master
-        self.frame = tk.Frame(self.master)
-        self.frame.pack()
+        self.frame = self.frame_login()
         self.clientes = ClientLinkedList() #Criação da lista de clientes
         
-            
+    def frame_login(self):        
         #Frame
         self.master.attributes('-fullscreen', True)
         self.master.configure(bg= '#ffe76c')
@@ -30,7 +29,7 @@ class View:
         self.nome_entry = tk.Entry(self.frame, font=('Arial', 14))
         self.nome_entry.pack(pady=5)
 
-        self.nif_label = tk.Label(self.frame, text="Nif:", font=('Arial', 14), bg='#ffe76c')
+        self.nif_label = tk.Label(self.frame, text="NIF:", font=('Arial', 14), bg='#ffe76c')
         self.nif_label.pack()
         self.nif_entry = tk.Entry(self.frame, font=('Arial', 14))
         self.nif_entry.pack(pady=5)     
@@ -51,14 +50,12 @@ class View:
         #botão de fecho do programa
         self.shutdown_button = tk.Button(self.frame, text="Sair", font=('Arial', 14), fg='white', bg='#6d7575', command= self.master.destroy)
         self.shutdown_button.pack(pady=10, ipadx=20, ipady=5)
-
-        self.advance_button = tk.Button(self.master, text="avançar", font=('Arial', 14), fg='white', bg='#6d7575', command= self.frame_creation)
-        self.advance_button.pack(pady=10, ipadx=20, ipady=5)
     
     
-    def frame_creation(self):
-        if self.login() == 1:
-            self.frame1 = tk.Toplevel(self.master)            
+    def frame_principal(self):
+        self.frame.destroy()
+        self.frame1 = tk.Toplevel(self.master)
+        
     
     def registar(self):
         nome = self.nome_entry.get()
@@ -69,7 +66,7 @@ class View:
                 nif = int(nif)
             else:
                 raise TypeError
-        except TypeError:
+        except ValueError:
             messagebox.showerror('Erro.', 'NIF inválido.')
         else:
             cliente = Cliente(nome, password, nif)
@@ -80,7 +77,7 @@ class View:
                     self.clientes.insert_last(cliente)
                     messagebox.showinfo('Sucesso!', 'Usuário registado com sucesso. Já pode fazer o login em sua conta.')
                 else:
-                    messagebox.showinfo('Usuário existente.', 'Por favor, digite um nome de usuário diferente.')
+                    messagebox.showerror('Usuário existente.', 'Por favor, digite um nome de usuário diferente.')
 
     def login(self):
         if self.clientes.is_empty == True:
@@ -107,8 +104,7 @@ class View:
                         if self.clientes.get(posicao).get_nif() != nif:
                             messagebox.showerror('Erro.', 'Credênciais inválidas.')
                         else:
-                            return 1
-                        
+                            self.frame_principal()                       
     
 
 #[{nome:..., senha:..., nif:...}, despesas, grafico,....]
