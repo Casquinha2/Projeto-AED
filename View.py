@@ -41,10 +41,10 @@ class View:
         self.password_entry.pack(pady=5)
 
         #Botões de Login + registo
-        self.login_button = tk.Button(self.frame, text="Login", font=('Arial', 14),fg='white', bg='#6d7575')
+        self.login_button = tk.Button(self.frame, text="Login", font=('Arial', 14),fg='white', bg='#6d7575', command=self.login)
         self.login_button.pack(pady=10, ipadx=20, ipady=5)
 
-        self.registo_button = tk.Button(self.frame, text="Registo", font=('Arial', 14), fg='white', bg='#6d7575')
+        self.registo_button = tk.Button(self.frame, text="Registo", font=('Arial', 14), fg='white', bg='#6d7575', command=self.registar)
         self.registo_button.pack(pady=10, ipadx=20, ipady=5)
 
         #botão de fecho do programa
@@ -54,13 +54,24 @@ class View:
     def registar(self):
         nome = self.nome_entry.get()
         password = self.password_entry.get()
-        nif = self.nif_entry.get()            
-        cliente = Cliente(nome, password, nif)
-        if self.clientes.find_username(nome) == -1:
-            self.clientes.insert_last(cliente)
-            messagebox.showinfo('Sucesso!', 'Usuário registado com sucesso. Já pode fazer o login em sua conta.')
+        nif = self.nif_entry.get().strip()
+        try:
+            if len(nif) == 9:
+                nif = int(nif)
+            else:
+                raise TypeError
+        except TypeError:
+            messagebox.showerror('Erro.', 'NIF inválido.')
         else:
-            messagebox.showinfo('Usuário existente.', 'Por favor, digite um nome de usuário diferente.')
+            cliente = Cliente(nome, password, nif)
+            if nome == '' or password == '':
+                messagebox.showerror('Erro.', 'Credênciais inválidas.')
+            else:
+                if self.clientes.find_username(nome) == -1:
+                    self.clientes.insert_last(cliente)
+                    messagebox.showinfo('Sucesso!', 'Usuário registado com sucesso. Já pode fazer o login em sua conta.')
+                else:
+                    messagebox.showinfo('Usuário existente.', 'Por favor, digite um nome de usuário diferente.')
 
     def login(self):
         if self.clientes.is_empty == True:
@@ -68,18 +79,26 @@ class View:
         else:
             nome = self.nome_entry.get()
             password = self.password_entry.get()
-            nif = self.nif_entry.get()
+            nif = self.nif_entry.get().strip()
             posicao = self.clientes.find_username(nome)
-            if posicao == -1:
-                messagebox.showerror('Erro.', 'Credênciais inválidas.')
-            else:
-                if self.clientes.get(posicao).get_password() != password:
+            try:
+                if len(nif) == 9:
+                    nif = int(nif)
+                else:
+                    raise TypeError
+            except TypeError:
+                messagebox.showerror('Error.', 'NIF inválido.')
+            else:    
+                if posicao == -1:
                     messagebox.showerror('Erro.', 'Credênciais inválidas.')
                 else:
-                    if self.clientes.get(posicao).get_nif() != nif:
+                    if self.clientes.get(posicao).get_password() != password:
                         messagebox.showerror('Erro.', 'Credênciais inválidas.')
                     else:
-                        return True
+                        if self.clientes.get(posicao).get_nif() != nif:
+                            messagebox.showerror('Erro.', 'Credênciais inválidas.')
+                        else:
+                            return True
                     
                                         
 
