@@ -53,7 +53,7 @@ class View:
     
     
     def frame_principal(self):
-        self.frame.destroy()
+        self.master.withdraw()
         self.frame1 = tk.Toplevel(self.master)
         
     
