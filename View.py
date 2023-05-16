@@ -115,24 +115,16 @@ class View:
             password = self.password_entry.get()
             nif = self.nif_entry.get().strip()
             posicao = self.clientes.find_username(nome)
-            try:
-                if len(nif) == 9:
-                    nif = int(nif)
-                else:
-                    raise TypeError
-            except TypeError:
-                messagebox.showerror('Error.', 'NIF inválido.')
-            else:    
-                if posicao == -1:
+            if posicao == -1:
+                messagebox.showerror('Erro.', 'Credênciais inválidas.')
+            else:
+                if self.clientes.get(posicao).get_password() != password:
                     messagebox.showerror('Erro.', 'Credênciais inválidas.')
                 else:
-                    if self.clientes.get(posicao).get_password() != password:
+                    if self.clientes.get(posicao).get_nif() != nif:
                         messagebox.showerror('Erro.', 'Credênciais inválidas.')
                     else:
-                        if self.clientes.get(posicao).get_nif() != nif:
-                            messagebox.showerror('Erro.', 'Credênciais inválidas.')
-                        else:
-                            self.frame_principal()                       
+                        self.frame_principal()                   
     
     def registo_despesas(self):
         #frame do registo de despesas
