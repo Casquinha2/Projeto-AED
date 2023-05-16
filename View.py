@@ -61,15 +61,13 @@ class View:
         nome = self.nome_entry.get()
         password = self.password_entry.get()
         nif = self.nif_entry.get().strip()
+        cliente = Cliente(nome, password, nif)
         try:
-            if len(nif) == 9:
-                nif = int(nif)
-            else:
-                raise TypeError
+            if cliente.controlNIF(nif) == False:
+                raise ValueError
         except ValueError:
             messagebox.showerror('Erro.', 'NIF inválido.')
         else:
-            cliente = Cliente(nome, password, nif)
             if nome == '' or password == '':
                 messagebox.showerror('Erro.', 'Credênciais inválidas.')
             else:
