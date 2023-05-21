@@ -124,7 +124,7 @@ class View:
                     if self.clientes.get(posicao).get_nif() != nif:
                         messagebox.showerror('Erro.', 'Credênciais inválidas.')
                     else:
-                        self.frame_principal()                   
+                        self.frame_principal()                    
     
     def registo_despesas(self):
         #frame do registo de despesas
