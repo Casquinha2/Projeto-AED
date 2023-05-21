@@ -67,7 +67,7 @@ class View:
         self.shutdown_button1.pack(pady=10, ipadx=20, ipady=5)
         
         #botão de voltar ==> ok
-        self.exit_button1 = tk.Button(self.frame1, text="Sair para área de trabalho", font=('Arial', 14), fg='white', bg='#6d7575', command= self.quit)
+        self.exit_button1 = tk.Button(self.frame1, text="Sair para área de trabalho", font=('Arial', 14), fg='white', bg='#6d7575', command= self.master.destroy)
         self.exit_button1.pack(pady=10, ipadx=20, ipady=5)
         
         #botão de registo de despesas 
