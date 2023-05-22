@@ -2,8 +2,10 @@ from Controller import *
 import tkinter as tk
 from model.ClientLinkedList import*
 from model.Cliente import *
+from model.UtilizadorTree import *
 from tkinter import messagebox
 from datetime import datetime
+import os
 
 
 class View:
@@ -11,6 +13,12 @@ class View:
         self.master = master
         self.frame = self.frame_login()
         self.clientes = ClientLinkedList() #Criação da lista de clientes
+        self.utilizador = UtilizadorTree(os.chdir("./utilizador"))
+        self.root = self.utilizador.get_root()
+        print(self.root.get_left_child())
+
+
+
         
     def frame_login(self):        
         #Frame
@@ -121,6 +129,7 @@ class View:
                     self.frame3.tkraise()
 
     def login(self):
+
         if self.clientes.is_empty == True:
             messagebox.showerror('Nenhum usuário registado', 'Por favor, registe um usuário antes de fazer login.')
         else:

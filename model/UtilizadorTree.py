@@ -1,8 +1,8 @@
 from model.Tree import*
 
 class UtilizadorTree(Tree):
-    def __init__(self):
-        self.root = None
+    def __init__(self, root):
+        self.root = root
     def get_root (self):
         return self.root
     def size(self):
