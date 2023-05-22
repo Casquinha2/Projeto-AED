@@ -15,7 +15,7 @@ class View:
         self.clientes = ClientLinkedList() #Criação da lista de clientes
         self.utilizador = UtilizadorTree(os.chdir("./utilizador"))
         self.root = self.utilizador.get_root()
-        print(self.root.get_left_child())
+#        print(self.root.get_left_child())
 
 
 
@@ -23,9 +23,16 @@ class View:
     def frame_login(self):        
         #Frame
         self.master.attributes('-fullscreen', True)
-        self.master.configure(bg= '#CF0000')
         self.frame = tk.Frame(self.master, bg='#CF0000')
         self.frame.pack()
+
+        #Imagem de fundo
+        self.logo2 = tk.PhotoImage(file='teste.png')
+        #self.logo = self.logo.subsample(5)
+        self.logo_label_desktop = tk.Label(self.master, image=self.logo2)
+        #self.logo_label.place(relx=1.0, anchor='ne')
+        self.logo_label_desktop.place(relx=.5, rely=.5, anchor= 'center')
+        self.logo_label_desktop.lower()
 
         #Imagem
 #        self.logo = tk.PhotoImage(file='movies.png')
