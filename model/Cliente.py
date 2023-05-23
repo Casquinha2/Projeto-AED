@@ -19,6 +19,8 @@ class Cliente:
     def set_nif(self, nif):
         self.__nif = nif
 
+
+
     def _toIntList(self, numstr):
         res = []
         for i in numstr:
