@@ -13,10 +13,9 @@ class View:
         self.master = master
         self.frame = self.frame_login()
         self.clientes = ClientLinkedList() #Criação da lista de clientes
-        #self.utilizador = UtilizadorTree()
-        #root = os.walk("./utilizador")
-        #self.root = self.utilizador.set_root(root)
-        #print(self.root)
+        self.utilizador = UtilizadorTree(os.chdir("./utilizador"))
+        self.root = self.utilizador.get_root()
+#        print(self.root.get_left_child())
 
 
 
@@ -66,11 +65,13 @@ class View:
         self.registo_button = tk.Button(self.frame, text="Registo", font=('Arial', 14), fg='white', bg='#6d7575', command=self.frame_registar)
         self.registo_button.pack(pady=10, ipadx=20, ipady=5)
 
+        self.registo_button = tk.Button(self.frame, text="Registo  ahaha", font=('Arial', 14), fg='white', bg='#6d7575', command=self.frame_principal)
+        self.registo_button.pack(pady=10, ipadx=20, ipady=5)
+
         #botão de fecho do programa
         self.shutdown_button = tk.Button(self.frame, text="Sair", font=('Arial', 14), fg='white', bg='#6d7575', command= self.master.destroy)
         self.shutdown_button.pack(pady=10, ipadx=20, ipady=5)
-    
-    
+
     def frame_principal(self):
         #Frame de despesas
         self.master.withdraw()
@@ -87,7 +88,7 @@ class View:
         self.exit_button1.pack(pady=10, ipadx=20, ipady=5)
         
         #botão de registo de despesas 
-        self.registo_despesas_button1 = tk.Button(self.frame1, text="Adicionar despesas", font=('Arial', 14), fg='white', bg='#6d7575', command= self.frame_registo_despesas)
+        self.registo_despesas_button1 = tk.Button(self.frame1, text="Registar despesas", font=('Arial', 14), fg='white', bg='#6d7575', command= self.frame_registar_despesas)
         self.registo_despesas_button1.pack(pady=10, ipadx=20, ipady=5)
 #        messagebox.askquestion('', 'O utilizador ainda não definiu um orçamento mensal. Deseja definir?')
 
@@ -116,25 +117,25 @@ class View:
             self.nome_entry3.delete(0, 'end')
             self.password_entry3.delete(0, 'end')
             self.nif_entry3.delete(0, 'end')
-            self.frame3.tkraise()
+            self.registo_utilizador.tkraise()
         else:
             if nome == '' or password == '':
                 messagebox.showerror('Erro.', 'Credênciais inválidas.')
                 self.nome_entry3.delete(0, 'end')
                 self.password_entry3.delete(0, 'end')
                 self.nif_entry3.delete(0, 'end')
-                self.frame3.tkraise()
+                self.registo_utilizador.tkraise()
             else:
                 if self.clientes.find_username(nome) == -1:
                     self.clientes.insert_last(cliente)
                     messagebox.showinfo('Sucesso!', 'Usuário registado com sucesso. Já pode fazer o login em sua conta.')
-                    self.frame3.destroy()
+                    self.registo_utilizador.destroy()
                 else:
                     messagebox.showerror('Usuário existente.', 'Por favor, digite um nome de usuário que ainda não foi registado.')
                     self.nome_entry3.delete(0, 'end')
                     self.password_entry3.delete(0, 'end')
                     self.nif_entry3.delete(0, 'end')
-                    self.frame3.tkraise()
+                    self.registo_utilizador.tkraise()
 
     def login(self):
 
@@ -150,6 +151,7 @@ class View:
                 self.nome_entry.delete(0, 'end')
                 self.password_entry.delete(0, 'end')
                 self.nif_entry.delete(0, 'end')
+
             else:
                 if self.clientes.get(posicao).get_password() != password:
                     messagebox.showerror('Erro.', 'Credênciais inválidas.')
@@ -166,63 +168,94 @@ class View:
                         print('teste')
                         self.frame_principal()                    
     
-    def frame_registo_despesas(self):
+    def frame_registar_despesas(self):
         #frame do registo de despesas
-        self.frame2 = tk.Toplevel(self.master)
-        self.frame2.configure(bg= '#CF0000')
+        self.registo_despesa = tk.Toplevel(self.master)
+        self.registo_despesa.configure(bg= '#CF0000')
         
         #valor de despesa
-        self.valor_despesas_label2 = tk.Label(self.frame2, text="Categoria da despesa: ", font=('Arial', 14), bg='#CF0000') #Aqui podiamos por tipo opções ("alimentação", "transporte",... e "outro") para o utilizador escolher uma em vez de escrever
+        self.valor_despesas_label2 = tk.Label(self.registo_despesa, text="Valor da despesa: ", font=('Arial', 14), bg='#CF0000')
         self.valor_despesas_label2.pack()
-        self.valor_despesas_entry2 = tk.Entry(self.frame2, font=('Arial', 14))
+        self.valor_despesas_entry2 = tk.Entry(self.registo_despesa, font=('Arial', 14),)
         self.valor_despesas_entry2.pack(pady=5)
 
         #data de despesa
-        self.data_despesas_label2 = tk.Label(self.frame2, text="Descrição da despesa: ", font=('Arial', 14), bg='#CF0000')
+        self.data_despesas_label2 = tk.Label(self.registo_despesa, text="Data da despesa: ", font=('Arial', 14), bg='#CF0000')
         self.data_despesas_label2.pack()
-        self.data_despesas_entry2 = tk.Entry(self.frame2, font=('Arial', 14))
+        self.data_despesas_entry2 = tk.Entry(self.registo_despesa, font=('Arial', 14))
         self.data_despesas_entry2.pack(pady=5)
 #        self.data = datetime.now()
 #        self.formato1 = self.data.strftime("%d/%m/%Y")
         
         #categoria de despesa
-        self.categoria_despesas_label2 = tk.Label(self.frame2, text="Valor da despesa: ", font=('Arial', 14), bg='#CF0000')
+        self.categoria_despesas_label2 = tk.Label(self.registo_despesa, text="Categoria da despesa: ", font=('Arial', 14), bg='#CF0000')
         self.categoria_despesas_label2.pack()
-        self.categoria_despesas_entry2 = tk.Entry(self.frame2, font=('Arial', 14))
+        self.categoria_despesas_entry2 = tk.Entry(self.registo_despesa, font=('Arial', 14),)
         self.categoria_despesas_entry2.pack(pady=5)
         
         #descrição de despesa
-        self.descrição_despesas_label2 = tk.Label(self.frame2, text="Data da despesa: ", font=('Arial', 14), bg='#CF0000')
+        self.descrição_despesas_label2 = tk.Label(self.registo_despesa, text="Descrição da despesa (Almoço em restaurante): ", font=('Arial', 14), bg='#CF0000')
         self.descrição_despesas_label2.pack()
-        self.descrição_despesas_entry2 = tk.Entry(self.frame2, font=('Arial', 14))
+        self.descrição_despesas_entry2 = tk.Entry(self.registo_despesa, font=('Arial', 14))
         self.descrição_despesas_entry2.pack(pady=5)
+
+        #Botão de registar despesa
+        self.registo_button2 = tk.Button(self.registo_despesa, text="Registo de Despesas", font=('Arial', 14), bg='#6d7575', command=self.registar)
+        self.registo_button2.pack(pady=10, ipadx=20, ipady=5)
+
+    def entry_valor_espesa(self):
+        valor_despesa = self.valor_despesas_entry2.get()
+        if valor_despesa != float :
+            messagebox.showerror("Erro","Caracter inválido")
+
+    def  categoria_despesas(self):
+        categoria_despesas = self.categoria_despesas_entry2.get()
+        if categoria_despesas != str :
+            messagebox.showerror("Erro","Caracter inválido")
+
+    def  descrição_despesas(self):
+        descrição_despesa = self.descrição_despesas_entry2.get()
+        if descrição_despesa != str :
+            messagebox.showerror("Erro","Caracter inválido")
+            return False
+        else :
+            return True
+        
+    #caracteristicas das despesas
+    def caracteristicas_despesas(self):
+        valor_despesas = self.categoria_despesas_entry2.get()
+        data_despesas = self.data_despesas_entry2.get()
+        categoria_despesas =  self.categoria_despesas_entry2.get()
+        descrição_despesa = self.descrição_despesas_entry2.get()
+         
+        if
+
+      
 
     def frame_registar(self):        
         #Frame
-        self.frame3 = tk.Toplevel(self.master, bg='#C90000')
-        self.frame3.geometry('450x300')
-        self.frame3.resizable(False, False)
+        self.registo_utilizador = tk.Toplevel(self.master, bg='#C90000')
+        self.registo_utilizador.geometry('450x300')
+        self.registo_utilizador.resizable(False, False)
 
         #Label + Entry para username
-        self.nome_label3 = tk.Label(self.frame3, text="Nome:", font=('Arial', 14), bg='#C90000')
+        self.nome_label3 = tk.Label(self.registo_utilizador, text="Nome:", font=('Arial', 14), bg='#C90000')
         self.nome_label3.pack()
-        self.nome_entry3 = tk.Entry(self.frame3, font=('Arial', 14))
+        self.nome_entry3 = tk.Entry(self.registo_utilizador, font=('Arial', 14))
         self.nome_entry3.pack(pady=5)
 
-        self.nif_label3 = tk.Label(self.frame3, text="NIF:", font=('Arial', 14), bg='#C90000')
+        self.nif_label3 = tk.Label(self.registo_utilizador, text="NIF:", font=('Arial', 14), bg='#C90000')
         self.nif_label3.pack()
-        self.nif_entry3 = tk.Entry(self.frame3, font=('Arial', 14))
+        self.nif_entry3 = tk.Entry(self.registo_utilizador, font=('Arial', 14))
         self.nif_entry3.pack(pady=5)     
 
         #Label + Entry para password
-        self.password_label3 = tk.Label(self.frame3, text="Password:", font=('Arial', 14), bg='#C90000')
+        self.password_label3 = tk.Label(self.registo_utilizador, text="Password:", font=('Arial', 14), bg='#C90000')
         self.password_label3.pack()
-        self.password_entry3 = tk.Entry(self.frame3, show="*", font=('Arial', 14))
+        self.password_entry3 = tk.Entry(self.registo_utilizador, show="*", font=('Arial', 14))
         self.password_entry3.pack(pady=5)
 
-        #Botão de registo
-        self.registo_button3 = tk.Button(self.frame3, text="Registo", font=('Arial', 14), fg='white', bg='#6d7575', command=self.registar)
-        self.registo_button3.pack(pady=10, ipadx=20, ipady=5)
+
 
 
 
