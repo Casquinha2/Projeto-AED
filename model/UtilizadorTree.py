@@ -1,4 +1,4 @@
-from model.Tree import*
+from model.Tree.Tree import*
 
 class UtilizadorTree(Tree):
     def __init__(self, root):

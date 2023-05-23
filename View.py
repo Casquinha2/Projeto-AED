@@ -15,7 +15,11 @@ class View:
         self.clientes = ClientLinkedList() #Criação da lista de clientes
         self.utilizador = UtilizadorTree(os.chdir("./utilizador"))
         self.root = self.utilizador.get_root()
-#        print(self.root.get_left_child())
+        #print(self.root.get_left_child())
+
+        #opcao = Controller().ler_ficheiro_json("utilizador")
+        #for i in range (0,len(opcao)):    
+        #    self.clientes.insert_last(opcao[i])
 
 
 
@@ -130,6 +134,7 @@ class View:
                     self.clientes.insert_last(cliente)
                     messagebox.showinfo('Sucesso!', 'Usuário registado com sucesso. Já pode fazer o login em sua conta.')
                     self.registo_utilizador.destroy()
+                    
                 else:
                     messagebox.showerror('Usuário existente.', 'Por favor, digite um nome de usuário que ainda não foi registado.')
                     self.nome_entry3.delete(0, 'end')
@@ -138,7 +143,6 @@ class View:
                     self.registo_utilizador.tkraise()
 
     def login(self):
-
         if self.clientes.is_empty == True:
             messagebox.showerror('Nenhum usuário registado', 'Por favor, registe um usuário antes de fazer login.')
         else:
@@ -235,15 +239,6 @@ class View:
         data_despesas = self.data_despesas_entry2.get()
         categoria_despesas =  self.categoria_despesas_entry2.get()
         descrição_despesa = self.descrição_despesas_entry2.get()
-         
-        if self. descrição_despesas() == True and self.categoria_despesas() and self.valor_despesa():
-            pass
-            
-            
-
-
-
-      
 
     def frame_registar(self):        
         #Frame
