@@ -1,10 +1,13 @@
 from model.Tree.Tree import*
+from model.Tree.BinaryTreeNode import *
 
 class UtilizadorTree(Tree):
-    def __init__(self, root):
-        self.root = root
+    def __init__(self):
+        self.root = None
     def get_root (self):
         return self.root
+    def set_root(self, root):
+        self.root = root
     def size(self):
         return self.node_size(self.root)
     def node_size(self, node):

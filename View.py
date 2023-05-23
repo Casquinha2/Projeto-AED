@@ -13,9 +13,10 @@ class View:
         self.master = master
         self.frame = self.frame_login()
         self.clientes = ClientLinkedList() #Criação da lista de clientes
-        self.utilizador = UtilizadorTree(os.chdir("./utilizador"))
-        self.root = self.utilizador.get_root()
-#        print(self.root.get_left_child())
+        #self.utilizador = UtilizadorTree()
+        #root = os.walk("./utilizador")
+        #self.root = self.utilizador.set_root(root)
+        #print(self.root)
 
 
 
