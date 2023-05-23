@@ -23,9 +23,10 @@ class View:
     def frame_login(self):        
         #Frame
         self.master.attributes('-fullscreen', True)
-        self.frame = tk.Frame(self.master, bg='#CF0000')
-        self.frame.pack()
-
+        self.master.title('Spending Control')
+        self.logo = tk.PhotoImage(file='ual.png')
+        self.master.iconphoto(False, self.logo)
+        
         #Imagem de fundo
         self.logo2 = tk.PhotoImage(file='teste.png')
         #self.logo = self.logo.subsample(5)
@@ -33,40 +34,36 @@ class View:
         #self.logo_label.place(relx=1.0, anchor='ne')
         self.logo_label_desktop.place(relx=.5, rely=.5, anchor= 'center')
         self.logo_label_desktop.lower()
-
-        #Imagem
-#        self.logo = tk.PhotoImage(file='movies.png')
-#        self.logo = self.logo.subsample(5)
-#        self.logo_label = tk.Label(self.frame, image=self.logo, bg='#CF0000')
-#        self.logo_label.place(relx=1.0, anchor='ne')
-#        self.logo_label.pack()
-
+        
+        self.frame = tk.Frame(self.master)
+        self.frame.pack()
+        
         #Label + Entry para username
-        self.nome_label = tk.Label(self.frame, text="Nome:", font=('Arial', 14), bg='#CF0000')
+        self.nome_label = tk.Label(self.frame, text="Nome:", font=('Arial', 14))
         self.nome_label.pack()
         self.nome_entry = tk.Entry(self.frame, font=('Arial', 14))
         self.nome_entry.pack(pady=5)
 
-        self.nif_label = tk.Label(self.frame, text="NIF:", font=('Arial', 14), bg='#CF0000')
+        self.nif_label = tk.Label(self.frame, text="NIF:", font=('Arial', 14))
         self.nif_label.pack()
         self.nif_entry = tk.Entry(self.frame, font=('Arial', 14))
         self.nif_entry.pack(pady=5)     
 
         #Label + Entry para password
-        self.password_label = tk.Label(self.frame, text="Password:", font=('Arial', 14), bg='#CF0000')
+        self.password_label = tk.Label(self.frame, text="Password:", font=('Arial', 14))
         self.password_label.pack()
         self.password_entry = tk.Entry(self.frame, show="*", font=('Arial', 14))
         self.password_entry.pack(pady=5)
 
         #Botões de Login + registo
-        self.login_button = tk.Button(self.frame, text="Login", font=('Arial', 14),fg='white', bg='#6d7575', command=self.login)
+        self.login_button = tk.Button(self.frame, text="Login", font=('Arial', 14), command=self.login)
         self.login_button.pack(pady=10, ipadx=20, ipady=5)
 
-        self.registo_button = tk.Button(self.frame, text="Registo", font=('Arial', 14), fg='white', bg='#6d7575', command=self.frame_registar)
+        self.registo_button = tk.Button(self.frame, text="Registo", font=('Arial', 14), command=self.frame_registar)
         self.registo_button.pack(pady=10, ipadx=20, ipady=5)
 
         #botão de fecho do programa
-        self.shutdown_button = tk.Button(self.frame, text="Sair", font=('Arial', 14), fg='white', bg='#6d7575', command= self.master.destroy)
+        self.shutdown_button = tk.Button(self.frame, text="Sair", font=('Arial', 14), command= self.master.destroy)
         self.shutdown_button.pack(pady=10, ipadx=20, ipady=5)
     
     
