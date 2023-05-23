@@ -200,24 +200,32 @@ class View:
         self.descrição_despesas_entry2.pack(pady=5)
 
         #Botão de registar despesa
-        self.registo_button2 = tk.Button(self.registo_despesa, text="Registo de Despesas", font=('Arial', 14), bg='#6d7575', command=self.registar)
+        self.registo_button2 = tk.Button(self.registo_despesa, text="Registo de Despesas", font=('Arial', 14), bg='#6d7575', command=self.caracteristicas_despesas)
         self.registo_button2.pack(pady=10, ipadx=20, ipady=5)
 
-    def entry_valor_espesa(self):
+    def valor_despesa(self):
         valor_despesa = self.valor_despesas_entry2.get()
         if valor_despesa != float :
             messagebox.showerror("Erro","Caracter inválido")
+            self.valor_despesas_entry2.delete(0,"end")
 
+        else :
+            return True
+        
     def  categoria_despesas(self):
         categoria_despesas = self.categoria_despesas_entry2.get()
         if categoria_despesas != str :
             messagebox.showerror("Erro","Caracter inválido")
-
+            self.categoria_despesas_entry2.delete(0,'end')
+        else :
+            return True
+        
     def  descrição_despesas(self):
         descrição_despesa = self.descrição_despesas_entry2.get()
-        if descrição_despesa != str :
+        if descrição_despesa != str:
             messagebox.showerror("Erro","Caracter inválido")
-            return False
+            self.descrição_despesas_entry2.delete(0,'end')
+
         else :
             return True
         
@@ -228,7 +236,12 @@ class View:
         categoria_despesas =  self.categoria_despesas_entry2.get()
         descrição_despesa = self.descrição_despesas_entry2.get()
          
-        if
+        if self. descrição_despesas() == True and self.categoria_despesas() and self.valor_despesa():
+            pass
+            
+            
+
+
 
       
 
