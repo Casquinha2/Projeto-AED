@@ -86,7 +86,7 @@ class View:
         self.exit_button1.pack(pady=10, ipadx=20, ipady=5)
         
         #botão de registo de despesas 
-        self.registo_despesas_button1 = tk.Button(self.frame1, text="Registar despesas", font=('Arial', 14), fg='white', bg='#6d7575', command= self.frame_registo_despesas)
+        self.registo_despesas_button1 = tk.Button(self.frame1, text="Adicionar despesas", font=('Arial', 14), fg='white', bg='#6d7575', command= self.frame_registo_despesas)
         self.registo_despesas_button1.pack(pady=10, ipadx=20, ipady=5)
 #        messagebox.askquestion('', 'O utilizador ainda não definiu um orçamento mensal. Deseja definir?')
 
@@ -171,13 +171,13 @@ class View:
         self.frame2.configure(bg= '#CF0000')
         
         #valor de despesa
-        self.valor_despesas_label2 = tk.Label(self.frame2, text="Valor da despesa: ", font=('Arial', 14), bg='#CF0000')
+        self.valor_despesas_label2 = tk.Label(self.frame2, text="Categoria da despesa: ", font=('Arial', 14), bg='#CF0000') #Aqui podiamos por tipo opções ("alimentação", "transporte",... e "outro") para o utilizador escolher uma em vez de escrever
         self.valor_despesas_label2.pack()
         self.valor_despesas_entry2 = tk.Entry(self.frame2, font=('Arial', 14))
         self.valor_despesas_entry2.pack(pady=5)
 
         #data de despesa
-        self.data_despesas_label2 = tk.Label(self.frame2, text="Data da despesa: ", font=('Arial', 14), bg='#CF0000')
+        self.data_despesas_label2 = tk.Label(self.frame2, text="Descrição da despesa: ", font=('Arial', 14), bg='#CF0000')
         self.data_despesas_label2.pack()
         self.data_despesas_entry2 = tk.Entry(self.frame2, font=('Arial', 14))
         self.data_despesas_entry2.pack(pady=5)
@@ -185,13 +185,13 @@ class View:
 #        self.formato1 = self.data.strftime("%d/%m/%Y")
         
         #categoria de despesa
-        self.categoria_despesas_label2 = tk.Label(self.frame2, text="Categoria da despesa: ", font=('Arial', 14), bg='#CF0000')
+        self.categoria_despesas_label2 = tk.Label(self.frame2, text="Valor da despesa: ", font=('Arial', 14), bg='#CF0000')
         self.categoria_despesas_label2.pack()
         self.categoria_despesas_entry2 = tk.Entry(self.frame2, font=('Arial', 14))
         self.categoria_despesas_entry2.pack(pady=5)
         
         #descrição de despesa
-        self.descrição_despesas_label2 = tk.Label(self.frame2, text="Descrição da despesa (Almoço em restaurante): ", font=('Arial', 14), bg='#CF0000')
+        self.descrição_despesas_label2 = tk.Label(self.frame2, text="Data da despesa: ", font=('Arial', 14), bg='#CF0000')
         self.descrição_despesas_label2.pack()
         self.descrição_despesas_entry2 = tk.Entry(self.frame2, font=('Arial', 14))
         self.descrição_despesas_entry2.pack(pady=5)
