@@ -29,7 +29,7 @@ class View:
         self.master.attributes('-fullscreen', True)
         self.master.title('Spending Control')
         self.logo = tk.PhotoImage(file='ual.png')
-        self.master.iconphoto(False, self.logo)
+        self.master.iconphoto(True, self.logo)
         
         #Imagem de fundo
         self.logo2 = tk.PhotoImage(file='teste.png')
@@ -81,7 +81,7 @@ class View:
         self.frame1.configure(bg= '#CF0000')
         
         #botão de shutdown ==> ok
-        self.shutdown_button1 = tk.Button(self.frame1, text="Sair", font=('Arial', 14), fg='white', bg='#6d7575', command=quit)
+        self.shutdown_button1 = tk.Button(self.frame1, text="Sair", font=('Arial', 14), fg='white', bg='#6d7575', command=self.quit)
         self.shutdown_button1.pack(pady=10, ipadx=20, ipady=5)
         
         #botão de voltar ==> ok
@@ -102,8 +102,8 @@ class View:
         self.orcamento_button1.pack(pady=10, ipadx=20, ipady=5)
 
     def quit(self):
-        self.frame1.destroy()
         self.master.deiconify()
+        self.frame1.destroy()
 
     def registar(self):
         nome = self.nome_entry3.get()
@@ -166,7 +166,6 @@ class View:
                         self.password_entry.delete(0, 'end')
                         self.nif_entry.delete(0, 'end')
                     else:
-                        print('teste')
                         self.frame_principal()                    
     
     def frame_registar_despesas(self):
