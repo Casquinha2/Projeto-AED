@@ -73,18 +73,19 @@ class View:
         self.frame1.attributes('-fullscreen', True)
         self.frame1.configure(bg= '#CF0000')
         
-        #botão de shutdown ==> ok
-        self.shutdown_button1 = tk.Button(self.frame1, text="Sair", font=('Arial', 14), fg='white', bg='#6d7575', command=self.quit)
+        #botão de voltar ==> ok
+        self.shutdown_button1 = tk.Button(self.frame1, text="Log out", font=('Arial', 14), fg='white', bg='#6d7575', command=self.quit)
         self.shutdown_button1.pack(pady=10, ipadx=20, ipady=5)
         
-        #botão de voltar ==> ok
+        #botão de shutdown ==> ok
         self.exit_button1 = tk.Button(self.frame1, text="Sair para área de trabalho", font=('Arial', 14), fg='white', bg='#6d7575', command= self.master.destroy)
         self.exit_button1.pack(pady=10, ipadx=20, ipady=5)
         
         #botão de registo de despesas 
         self.registo_despesas_button1 = tk.Button(self.frame1, text="Registar despesas", font=('Arial', 14), fg='white', bg='#6d7575', command= self.frame_registar_despesas)
         self.registo_despesas_button1.pack(pady=10, ipadx=20, ipady=5)
-#        messagebox.askquestion('', 'O utilizador ainda não definiu um orçamento mensal. Deseja definir?')
+        
+        
 
         #botão de detalhes
         self.detalhes_button1 = tk.Button(self.frame1, text="Ver mais detalhes", font=('Arial', 14), fg='white', bg='#6d7575')
@@ -95,6 +96,10 @@ class View:
         self.orcamento_button1.pack(pady=10, ipadx=20, ipady=5)
 
     def frame_registar_despesas(self):
+        #message = messagebox.askquestion('Pergunta.', 'O utilizador ainda não definiu um orçamento mensal. Deseja definir?')
+        #if message == "yes":
+        #    pass
+
         #frame do registo de despesas
         self.registo_despesa = tk.Toplevel(self.master)
         self.registo_despesa.configure(bg= '#CF0000')
