@@ -90,8 +90,6 @@ class View:
         self.registo_despesas_button1 = tk.Button(self.frame1, text="Registar despesas", font=('Arial', 14), fg='white', bg='#6d7575', command= self.pergunta_orcamento)
         self.registo_despesas_button1.pack(pady=10, ipadx=20, ipady=5)
         
-        
-
         #botão de detalhes
         self.detalhes_button1 = tk.Button(self.frame1, text="Ver mais detalhes", font=('Arial', 14), fg='white', bg='#6d7575')
         self.detalhes_button1.pack(pady=10, ipadx=20, ipady=5)
