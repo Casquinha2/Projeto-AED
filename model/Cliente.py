@@ -1,4 +1,6 @@
 import string
+import datetime
+import re
 
 class Cliente:
     def __init__(self, nome, password, nif):
@@ -42,3 +44,45 @@ class Cliente:
         if nif[0] not in "125689":
             return False
         return self._valN(nif)
+
+
+    @staticmethod
+    def valor_despesa(valor):
+        try:
+            valorfloat = float(valor)
+        except ValueError:
+            return False
+        else:
+            return valorfloat
+
+    @staticmethod  
+    def  categoria_despesas(descricao):
+        try:
+            categoria1 = float(descricao)
+        except ValueError:
+            return descricao
+        else:
+            return False
+        
+    @staticmethod
+    def data_despesas(data):
+        formato_data =  r'^\d{2}/\d{2}/\d{2}$'
+        if  re.match(formato_data , data):
+            try:
+                dia, mes, ano = map(int, data.split('/'))
+                datetime.datetime(year=ano, month=mes, day=dia)
+            except ValueError:
+                return False
+            else:
+                return dia, mes, ano
+        else:
+            return False
+        
+    @staticmethod
+    def descrição_despesas(descricao):
+        try:
+            descricao1 = float(descricao)
+        except ValueError:
+            return descricao
+        else:
+            return False

@@ -1,5 +1,5 @@
 class BinaryTreeNode:
-    def __innit__(self):
+    def __init__(self):
         self.element = None
         self.left_child = None
         self.right_child = None

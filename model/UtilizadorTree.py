@@ -1,4 +1,5 @@
 from model.Tree.Tree import*
+from model.Tree.BinaryTreeNode import *
 
 class UtilizadorTree(Tree):
     def __init__(self, root):
@@ -20,6 +21,6 @@ class UtilizadorTree(Tree):
     def node_height(self, node):
         if node is None:
             return 0
-        return 1 + max(self.node_height(node.get_left_child()), self.node_height(node.get_rigth_child()))
+        return 1 + max(self.node_height(node.get_left_child()), self.node_height(node.get_right_child()))
     
     

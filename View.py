@@ -6,19 +6,19 @@ from model.UtilizadorTree import *
 from tkinter import messagebox
 from datetime import datetime
 import os
-import re
-import datetime
 
 
 class View:
     def __init__(self, master):
-        self.orcamento = 0
+        self.orcamento = 0  #depois sai daqui
         self.master = master
         self.frame = self.frame_login()
+#        self.despesas = 
         self.clientes = ClientLinkedList() #Criação da lista de clientes
-        self.utilizador = UtilizadorTree(os.chdir("./utilizador"))
+        node = BinaryTreeNode()
+        node.set_element("./utilizador")   #Estamos a trabalhar com o nome das pastas e nao com as pastas em si!!!
+        self.utilizador = UtilizadorTree(node)
         self.root = self.utilizador.get_root()
-        #print(self.root.get_left_child())
 
         #opcao = Controller().ler_ficheiro_json("utilizador")
         #for i in range (0,len(opcao)):    
@@ -240,59 +240,21 @@ class View:
         
         self.registo_button1 = tk.Button(self.registo_utilizador, text="Registo de Utilizador", font=('Arial', 14),fg='white', bg='#6d7575', command=self.registar)
         self.registo_button1.pack(pady=10, ipadx=20, ipady=5)
-
-    def valor_despesa(self):
-        try:
-            self.valor_despesa = float(self.valor_despesas_entry2.get())
-        except ValueError:
-            messagebox.showerror("Erro","Caracter valor_despesa inválido")
-        else:
-            return True
-
     
-    def  categoria_despesas(self):
-        categoria_despesas = self.categoria_despesas_entry2.get()
-        if type (categoria_despesas) != str :
-            messagebox.showerror("Erro","Caracter categoria_despesas inválido")
-        else :
-            return True
-
-    def data_despesas(self):
-        formato_data =  r'^\d{2}/\d{2}/\d{2}$'
-
-        data = self.data_despesas_entry2.get()
-        if  re.match(formato_data , data):
-            try:
-                dia, mes, ano = map(int, data.split('/'))
-                datetime.datetime(year=ano, month=mes, day=dia)
-                return True
-            except ValueError:
-                messagebox.showerror('Erro', 'Data inválida')
-                return False
-        else:
-            messagebox.showerror('Erro','Formato de Data Inválido')
-            return False
-
-    def descrição_despesas(self):
-        descrição_despesa = self.descrição_despesas_entry2.get()
-        if type(descrição_despesa) != str:
-            messagebox.showerror("Erro","Caractere descrição_despesas inválido")
-        else :
-            return True
-        
     #caracteristicas das despesas
     def caracteristicas_despesas(self):
-        valor_despesas = self.categoria_despesas_entry2.get()
-        data_despesas = self.data_despesas_entry2.get()
-        categoria_despesas =  self.categoria_despesas_entry2.get()
-        descrição_despesa = self.descrição_despesas_entry2.get()
-        if self.descrição_despesas() == True and self.categoria_despesas()==True and self.valor_despesa()==True and self.data_despesas()== True:
+        valor_despesas = Cliente.valor_despesa(self.valor_despesas_entry2.get())
+        data_despesas = Cliente.data_despesas(self.data_despesas_entry2.get())
+        categoria_despesas =  Cliente.categoria_despesas(self.categoria_despesas_entry2.get())
+        descrição_despesa = Cliente.descrição_despesas(self.descrição_despesas_entry2.get())
+        if valor_despesas != False and data_despesas != False and categoria_despesas != False and descrição_despesa != False:
               messagebox.showinfo("Sucesso","Despesa registada ")
-        else :
+        else:
             self.descrição_despesas_entry2.delete(0,'end')
             self.categoria_despesas_entry2.delete(0,'end')
             self.valor_despesas_entry2.delete(0,"end")
             self.data_despesas_entry2.delete(0,'end')
+            messagebox.showerror("Erro", "Um dos campos foi mal preenchido.\nPor favor introduza novamente.")
 
     # pagina de ajuda ao utilizador
     def frame_ajuda(self):
