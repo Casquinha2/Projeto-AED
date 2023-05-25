@@ -40,32 +40,32 @@ class View:
         self.canvas_test.create_image(0, 0, image= self.bg, anchor= 'nw')
         
         #Label + Entry para username
-        self.canvas_test.create_text(400, 200, text="Nome: ", font=('Arial', 14), fill='black')
+        self.canvas_test.create_text(400, 265, text="Nome: ", font=('Arial', 14), fill='black')
         self.nome_entry = tk.Entry(self.canvas_test, font=('Arial', 14))
-        self.canvas_test.create_window(400, 225, window= self.nome_entry)
+        self.canvas_test.create_window(400, 290, window= self.nome_entry)
 
-        self.canvas_test.create_text(400, 260, text="NIF:", font=('Arial', 14), fill='black')
+        self.canvas_test.create_text(400, 325, text="NIF:", font=('Arial', 14), fill='black')
         self.nif_entry = tk.Entry(self.canvas_test, font=('Arial', 14))
-        self.canvas_test.create_window(400, 285, window= self.nif_entry)     
+        self.canvas_test.create_window(400, 350, window= self.nif_entry)     
 
         #Label + Entry para password
-        self.canvas_test.create_text(400, 320, text="Password:", font=('Arial', 14), fill='black')
+        self.canvas_test.create_text(400, 385, text="Password:", font=('Arial', 14), fill='black')
         self.password_entry = tk.Entry(self.canvas_test, show="*", font=('Arial', 14))
-        self.canvas_test.create_window(400, 345, window= self.password_entry)
+        self.canvas_test.create_window(400, 410, window= self.password_entry)
 
         #Botões de Login + registo
         self.login_button = tk.Button(self.canvas_test, text="Login", font=('Arial', 14), command=self.login)
-        self.canvas_test.create_window(450, 400, anchor='center', window= self.login_button)
+        self.canvas_test.create_window(450, 480, anchor='center', window= self.login_button)
 
         self.registo2_button = tk.Button(self.canvas_test, text="Registo", font=('Arial', 14), command=self.frame_registar)
-        self.canvas_test.create_window(350, 400, anchor='center', window= self.registo2_button)
+        self.canvas_test.create_window(350, 480, anchor='center', window= self.registo2_button)
 
         self.registo_button = tk.Button(self.canvas_test, text="Registo  ahaha", font=('Arial', 14), fg='white', bg='#6d7575', command=self.frame_principal)
         self.canvas_test.create_window(1280, 150, anchor='center', window= self.registo_button)
 
         #botão de fecho do programa
         self.shutdown_button = tk.Button(self.canvas_test, text="Sair", font=('Arial', 14), command= self.master.destroy)
-        self.canvas_test.create_window(400, 470, anchor='center', window= self.shutdown_button)
+        self.canvas_test.create_window(400, 550, anchor='center', window= self.shutdown_button)
         
         # botão ajuda
         self.ajuda_btt = tk.Button(self.canvas_test, text="Ajuda", font=('Arial', 14), command=self.frame_ajuda)
