@@ -210,8 +210,6 @@ class View:
         self.master.deiconify()
         self.frame1.destroy()
 
-
-        
     #frame de registar utilizador janela pequena
     def frame_registar(self):        
        
@@ -247,7 +245,6 @@ class View:
         else:
             return True
 
-    
     def  categoria_despesas(self):
         categoria_despesas = self.categoria_despesas_entry2.get()
         if type (categoria_despesas) != str :
@@ -351,7 +348,3 @@ class View:
 #[{nome:..., se, despesas, grafico,...]
 
 #[{nome:..., senha:..., nif:...}, {nome:..., senha:..., nif:...}, {nome:..., senha:..., nif:...}
-
-        
-   
-        
