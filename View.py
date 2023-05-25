@@ -133,10 +133,19 @@ class View:
 #        self.formato1 = self.data.strftime("%d/%m/%Y")
         
         #categoria de despesa
+        #self.categoria_despesas_label2 = tk.Label(self.registo_despesa, text="Categoria da despesa: ", font=('Arial', 14), bg='#CF0000')
+        #self.categoria_despesas_label2.pack()
+        #self.categoria_despesas_entry2 = tk.Entry(self.registo_despesa, font=('Arial', 14),)
+        #self.categoria_despesas_entry2.pack(pady=5)
+
         self.categoria_despesas_label2 = tk.Label(self.registo_despesa, text="Categoria da despesa: ", font=('Arial', 14), bg='#CF0000')
         self.categoria_despesas_label2.pack()
-        self.categoria_despesas_entry2 = tk.Entry(self.registo_despesa, font=('Arial', 14),)
-        self.categoria_despesas_entry2.pack(pady=5)
+        categoria_despesas_options = ['Selecione uma opção', 'Alimentação', 'Transporte', 'Moradia', 'Lazer', 'Outro'] 
+        self.categoria_despesas_var = tk.StringVar(self.registo_despesa)
+        self.categoria_despesas_var.set(categoria_despesas_options[0])
+        self.categoria_despesas_menu = tk.OptionMenu(self.registo_despesa, self.categoria_despesas_var, *categoria_despesas_options)
+        self.categoria_despesas_menu.config(font=('Arial', 10))
+        self.categoria_despesas_menu.pack(pady=5)
         
         #descrição de despesa
         self.descrição_despesas_label2 = tk.Label(self.registo_despesa, text="Descrição da despesa (Almoço em restaurante): ", font=('Arial', 14), bg='#CF0000')
