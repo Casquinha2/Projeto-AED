@@ -33,15 +33,15 @@ class View:
         self.master.iconphoto(True, self.logo3)
         
         #teste de bg
-        self.bg = tk.PhotoImage(file='teste.png')
+        self.bg = tk.PhotoImage(file='fundo5.png')
         self.canvas_test = tk.Canvas(self.master, width= 1920, height= 1080, highlightbackground= 'black')
         self.canvas_test.pack(fill='both', expand=True)
         self.canvas_test.create_image(0, 0, image= self.bg, anchor= 'nw')
         
         #Label + Entry para username
-        self.canvas_test.create_text(775, 70, text="Nome: ", font=('Arial', 14), fill='white')
+        self.canvas_test.create_text(400, 200, text="Nome: ", font=('Arial', 14), fill='black')
         self.nome_entry = tk.Entry(self.canvas_test, font=('Arial', 14))
-        self.canvas_test.create_window(775, 95, window= self.nome_entry)
+        self.canvas_test.create_window(400, 225, window= self.nome_entry)
 
         self.canvas_test.create_text(775, 125, text="NIF:", font=('Arial', 14), fill='white')
         self.nif_entry = tk.Entry(self.canvas_test, font=('Arial', 14))
