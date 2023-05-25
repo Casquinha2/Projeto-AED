@@ -219,28 +219,28 @@ class View:
     #frame de registar utilizador janela pequena
     def frame_registar(self):        
        
-        self.registo_utilizador = tk.Toplevel(self.master, bg='#C90000')
+        self.registo_utilizador = tk.Toplevel(self.master, bg='#3784e7')
         self.registo_utilizador.geometry('450x300')
         self.registo_utilizador.resizable(False, False)
 
         #Label + Entry para username
-        self.nome_label3 = tk.Label(self.registo_utilizador, text="Nome:", font=('Arial', 14), bg='#C90000')
+        self.nome_label3 = tk.Label(self.registo_utilizador, text="Nome:", font=('Arial', 14), bg='#3784e7')
         self.nome_label3.pack()
         self.nome_entry3 = tk.Entry(self.registo_utilizador, font=('Arial', 14))
         self.nome_entry3.pack(pady=5)
 
-        self.nif_label3 = tk.Label(self.registo_utilizador, text="NIF:", font=('Arial', 14), bg='#C90000')
+        self.nif_label3 = tk.Label(self.registo_utilizador, text="NIF:", font=('Arial', 14), bg='#3784e7')
         self.nif_label3.pack()
         self.nif_entry3 = tk.Entry(self.registo_utilizador, font=('Arial', 14))
         self.nif_entry3.pack(pady=5)     
 
         #Label + Entry para password
-        self.password_label3 = tk.Label(self.registo_utilizador, text="Password:", font=('Arial', 14), bg='#C90000')
+        self.password_label3 = tk.Label(self.registo_utilizador, text="Password:", font=('Arial', 14), bg='#3784e7')
         self.password_label3.pack()
         self.password_entry3 = tk.Entry(self.registo_utilizador, show="*", font=('Arial', 14))
         self.password_entry3.pack(pady=5)
         
-        self.registo_button1 = tk.Button(self.registo_utilizador, text="Registo de Utilizador", font=('Arial', 14),fg='white', bg='#6d7575', command=self.registar)
+        self.registo_button1 = tk.Button(self.registo_utilizador, text="Registo de Utilizador", font=('Arial', 14),fg='black', bg='#d8e6f4', command=self.registar)
         self.registo_button1.pack(pady=10, ipadx=20, ipady=5)
 
         
