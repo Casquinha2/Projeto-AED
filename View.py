@@ -263,7 +263,7 @@ class View:
             messagebox.showerror('Erro','Formato de Data Inválido')
             return False
 
-    def  descrição_despesas(self):
+    def descrição_despesas(self):
         descrição_despesa = self.descrição_despesas_entry2.get()
         if type(descrição_despesa) != str:
             messagebox.showerror("Erro","Caractere descrição_despesas inválido")
