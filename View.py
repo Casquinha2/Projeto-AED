@@ -12,6 +12,7 @@ import datetime
 
 class View:
     def __init__(self, master):
+        self.orcamento = 0
         self.master = master
         self.frame = self.frame_login()
         self.clientes = ClientLinkedList() #Criação da lista de clientes
@@ -82,7 +83,7 @@ class View:
         self.exit_button1.pack(pady=10, ipadx=20, ipady=5)
         
         #botão de registo de despesas 
-        self.registo_despesas_button1 = tk.Button(self.frame1, text="Registar despesas", font=('Arial', 14), fg='white', bg='#6d7575', command= self.frame_registar_despesas)
+        self.registo_despesas_button1 = tk.Button(self.frame1, text="Registar despesas", font=('Arial', 14), fg='white', bg='#6d7575', command= self.pergunta_orcamento)
         self.registo_despesas_button1.pack(pady=10, ipadx=20, ipady=5)
         
         
@@ -92,14 +93,20 @@ class View:
         self.detalhes_button1.pack(pady=10, ipadx=20, ipady=5)
 
         #botão de defição de orçamento mensal
-        self.orcamento_button1 = tk.Button(self.frame1, text="Definir orçamento mensal", font=('Arial', 14), fg='white', bg='#6d7575')
+        self.orcamento_button1 = tk.Button(self.frame1, text="Definir orçamento mensal", font=('Arial', 14), fg='white', bg='#6d7575', command=self.orcamento_mensal)
         self.orcamento_button1.pack(pady=10, ipadx=20, ipady=5)
 
-    def frame_registar_despesas(self):
-        #message = messagebox.askquestion('Pergunta.', 'O utilizador ainda não definiu um orçamento mensal. Deseja definir?')
-        #if message == "yes":
-        #    pass
+    def pergunta_orcamento(self):
+        if self.orcamento == 0:
+            message = messagebox.askquestion('Pergunta.', 'O utilizador ainda não definiu um orçamento mensal. Deseja definir?')
+            if message == "yes":
+                self.orcamento_mensal()
+            else:
+                self.frame_registar_despesa()
+        else:
+            self.frame_registar_despesa()
 
+    def frame_registar_despesa(self):        
         #frame do registo de despesas
         self.registo_despesa = tk.Toplevel(self.master)
         self.registo_despesa.configure(bg= '#CF0000')
@@ -323,6 +330,32 @@ class View:
     def quit_ajuda(self):
         self.ajuda.destroy()
         self.master.deiconify()
+
+    def orcamento_mensal(self):
+
+        #frame do orcamento mensal
+        self.frame_orc = tk.Toplevel(self.master)
+        self.frame_orc.configure(bg= '#CF0000')
+
+        #orcamento mensal
+        self.orcamento_label=tk.Label(self.frame_orc, text="Indique o seu orçamento mensal.", font=("Arial", 14), bg="#CF0000")
+        self.orcamento_label.pack()
+        self.orcamento_entry = tk.Entry(self.frame_orc, font=("Arial", 14))
+        self.orcamento_entry.pack(pady = 5)
+        self.orcamento_button = tk.Button(self.frame_orc, text = "Confirmar", font=("Arial", 14), bg="#6d7575", command = self.salvar_orcamento)
+        self.orcamento_button.pack(pady=5)
+
+    def salvar_orcamento(self):
+        try:
+            self.orcamento = float(self.orcamento_entry.get())
+        except ValueError:
+            messagebox.showerror("Erro", "Esse valor não é aceite para o orçamento mensal.\nPor favor tente introduzir um outro valor.")
+            self.orcamento_entry.delete("end", 0)
+        else:
+            messagebox.showinfo("Sucesso", f"O seu orçamento mensal está definido para {self.orcamento}€.")
+            self.frame_orc.destroy()
+
+        
 
 
 
