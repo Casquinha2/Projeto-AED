@@ -33,7 +33,7 @@ class View:
         self.logo3 = tk.PhotoImage(file='ual.png')
         self.master.iconphoto(True, self.logo3)
         
-        #teste de bg
+        #bg
         self.bg = tk.PhotoImage(file='fundo5.png')
         self.canvas_test = tk.Canvas(self.master, width= 1920, height= 1080, highlightbackground= 'black')
         self.canvas_test.pack(fill='both', expand= True)
@@ -55,49 +55,52 @@ class View:
 
         #Botões de Login + registo
         self.login_button = tk.Button(self.canvas_test, text="Login", font=('Arial', 14), command=self.login)
-        self.canvas_test.create_window(775, 255, anchor='center', window= self.login_button)
+        self.canvas_test.create_window(450, 400, anchor='center', window= self.login_button)
 
         self.registo2_button = tk.Button(self.canvas_test, text="Registo", font=('Arial', 14), command=self.frame_registar)
-        self.canvas_test.create_window(775, 300, anchor='center', window= self.registo2_button)
+        self.canvas_test.create_window(350, 400, anchor='center', window= self.registo2_button)
 
         self.registo_button = tk.Button(self.canvas_test, text="Registo  ahaha", font=('Arial', 14), fg='white', bg='#6d7575', command=self.frame_principal)
-        self.canvas_test.create_window(775, 345, anchor='center', window= self.registo_button)
+        self.canvas_test.create_window(1280, 150, anchor='center', window= self.registo_button)
 
         #botão de fecho do programa
         self.shutdown_button = tk.Button(self.canvas_test, text="Sair", font=('Arial', 14), command= self.master.destroy)
-        self.canvas_test.create_window(775, 390, anchor='center', window= self.shutdown_button)
+        self.canvas_test.create_window(400, 470, anchor='center', window= self.shutdown_button)
         
         # botão ajuda
         self.ajuda_btt = tk.Button(self.canvas_test, text="Ajuda", font=('Arial', 14), command=self.frame_ajuda)
-        self.canvas_test.create_window(775, 430, anchor='center', window= self.ajuda_btt)
+        self.canvas_test.create_window(550, 720, anchor='center', window= self.ajuda_btt)
 
     def frame_principal(self):
         #Frame de despesas
         self.master.withdraw()
         self.frame1 = tk.Toplevel(self.master)
         self.frame1.attributes('-fullscreen', True)
-        self.frame1.configure(bg= '#CF0000')
+
+        #bg
+        self.bg_2 = tk.PhotoImage(file='teste.png')
+        self.canvas_bg_principal = tk.Canvas(self.frame1, width= 1920, height= 1080, highlightbackground= 'black')
+        self.canvas_bg_principal.pack(fill='both', expand= True)
+        self.canvas_bg_principal.create_image(0, 0, image= self.bg_2, anchor= 'nw')
         
         #botão de voltar ==> ok
-        self.shutdown_button1 = tk.Button(self.frame1, text="Log out", font=('Arial', 14), fg='white', bg='#6d7575', command=self.quit)
-        self.shutdown_button1.pack(pady=10, ipadx=20, ipady=5)
+        self.shutdown_button1 = tk.Button(self.canvas_bg_principal, text="Log out", font=('Arial', 14), fg='white', bg='#6d7575', command=self.quit)
+        self.canvas_bg_principal.create_window(775, 345, anchor='center', window= self.shutdown_button1)
         
         #botão de shutdown ==> ok
-        self.exit_button1 = tk.Button(self.frame1, text="Sair para área de trabalho", font=('Arial', 14), fg='white', bg='#6d7575', command= self.master.destroy)
+        self.exit_button1 = tk.Button(self.canvas_bg_principal, text="Sair para área de trabalho", font=('Arial', 14), fg='white', bg='#6d7575', command= self.master.destroy)
         self.exit_button1.pack(pady=10, ipadx=20, ipady=5)
         
         #botão de registo de despesas 
-        self.registo_despesas_button1 = tk.Button(self.frame1, text="Registar despesas", font=('Arial', 14), fg='white', bg='#6d7575', command= self.pergunta_orcamento)
+        self.registo_despesas_button1 = tk.Button(self.canvas_bg_principal, text="Registar despesas", font=('Arial', 14), fg='white', bg='#6d7575', command= self.pergunta_orcamento)
         self.registo_despesas_button1.pack(pady=10, ipadx=20, ipady=5)
         
-        
-
         #botão de detalhes
-        self.detalhes_button1 = tk.Button(self.frame1, text="Ver mais detalhes", font=('Arial', 14), fg='white', bg='#6d7575')
+        self.detalhes_button1 = tk.Button(self.canvas_bg_principal, text="Ver mais detalhes", font=('Arial', 14), fg='white', bg='#6d7575')
         self.detalhes_button1.pack(pady=10, ipadx=20, ipady=5)
 
         #botão de defição de orçamento mensal
-        self.orcamento_button1 = tk.Button(self.frame1, text="Definir orçamento mensal", font=('Arial', 14), fg='white', bg='#6d7575', command=self.orcamento_mensal)
+        self.orcamento_button1 = tk.Button(self.canvas_bg_principal, text="Definir orçamento mensal", font=('Arial', 14), fg='white', bg='#6d7575', command=self.orcamento_mensal)
         self.orcamento_button1.pack(pady=10, ipadx=20, ipady=5)
 
     def pergunta_orcamento(self):
@@ -210,10 +213,9 @@ class View:
     
     def quit(self):
         self.master.deiconify()
-        self.frame1.destroy()
+        self.canvas_bg_principal.destroy()
 
 
-        
     #frame de registar utilizador janela pequena
     def frame_registar(self):        
        
@@ -240,7 +242,8 @@ class View:
         
         self.registo_button1 = tk.Button(self.registo_utilizador, text="Registo de Utilizador", font=('Arial', 14),fg='white', bg='#6d7575', command=self.registar)
         self.registo_button1.pack(pady=10, ipadx=20, ipady=5)
-    
+
+        
     #caracteristicas das despesas
     def caracteristicas_despesas(self):
         valor_despesas = Cliente.valor_despesa(self.valor_despesas_entry2.get())
@@ -315,7 +318,3 @@ class View:
 #[{nome:..., se, despesas, grafico,...]
 
 #[{nome:..., senha:..., nif:...}, {nome:..., senha:..., nif:...}, {nome:..., senha:..., nif:...}
-
-        
-   
-        
