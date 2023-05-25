@@ -43,14 +43,14 @@ class View:
         self.nome_entry = tk.Entry(self.canvas_test, font=('Arial', 14))
         self.canvas_test.create_window(400, 225, window= self.nome_entry)
 
-        self.canvas_test.create_text(775, 125, text="NIF:", font=('Arial', 14), fill='white')
+        self.canvas_test.create_text(400, 260, text="NIF:", font=('Arial', 14), fill='black')
         self.nif_entry = tk.Entry(self.canvas_test, font=('Arial', 14))
-        self.canvas_test.create_window(775, 150, window= self.nif_entry)     
+        self.canvas_test.create_window(400, 285, window= self.nif_entry)     
 
         #Label + Entry para password
-        self.canvas_test.create_text(775, 175, text="Password:", font=('Arial', 14), fill='white')
+        self.canvas_test.create_text(400, 320, text="Password:", font=('Arial', 14), fill='black')
         self.password_entry = tk.Entry(self.canvas_test, show="*", font=('Arial', 14))
-        self.canvas_test.create_window(775, 200, window= self.password_entry)
+        self.canvas_test.create_window(400, 345, window= self.password_entry)
 
         #Botões de Login + registo
         self.login_button = tk.Button(self.canvas_test, text="Login", font=('Arial', 14), command=self.login)
