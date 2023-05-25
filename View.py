@@ -6,6 +6,8 @@ from model.UtilizadorTree import *
 from tkinter import messagebox
 from datetime import datetime
 import os
+import re
+import datetime
 
 
 class View:
@@ -249,8 +251,73 @@ class View:
         self.password_label3.pack()
         self.password_entry3 = tk.Entry(self.registo_utilizador, show="*", font=('Arial', 14))
         self.password_entry3.pack(pady=5)
+        
+        self.registo_button1 = tk.Button(self.registo_utilizador, text="Registo de Utilizador", font=('Arial', 14),fg='white', bg='#6d7575', command=self.registar)
+        self.registo_button1.pack(pady=10, ipadx=20, ipady=5)
 
+    def data_despesas(self):
+        formato_data =  r'^\d{2}/\d{2}/\d{2}$'
 
+        data = self.data_despesas_entry2.get()
+        if  re.match(formato_data , data):
+            try:
+                dia, mes, ano = map(int, data.split('/'))
+                datetime.datetime(year=ano, month=mes, day=dia)
+                return True
+            except ValueError:
+                messagebox.showerror('Erro', 'Data inválida')
+                return False
+        else:
+            messagebox.showerror('Erro','Formato de Data Inválido')
+            return False
+
+    def  descrição_despesas(self):
+        descrição_despesa = self.descrição_despesas_entry2.get()
+        if descrição_despesa != str:
+            messagebox.showerror("Erro","Caractere descrição_despesas inválido")
+        else :
+            return True
+        
+    #caracteristicas das despesas
+    def caracteristicas_despesas(self):
+        valor_despesas = self.categoria_despesas_entry2.get()
+        data_despesas = self.data_despesas_entry2.get()
+        categoria_despesas =  self.categoria_despesas_entry2.get()
+        descrição_despesa = self.descrição_despesas_entry2.get()
+        if self.descrição_despesas == True and self.categoria_despesas()==True and self.valor_despesa()==True and self.data_despesas== True:
+              messagebox.showinfo("Sucesso","Despesa registada ")
+        else :
+            self.descrição_despesas_entry2.delete(0,'end')
+            self.categoria_despesas_entry2.delete(0,'end')
+            self.valor_despesas_entry2.delete(0,"end")
+            self.data_despesas_entry2.delete(0,'end')
+    
+    # pagina de ajuda ao utilizador
+    def frame_ajuda(self):
+        self.master.withdraw()
+        self.ajuda= tk.Toplevel(self.master)
+        self.ajuda.attributes('-fullscreen', True)
+        self.ajuda.configure(bg= '#CF0000')
+
+        #label para ajudar com os valores de despesa       
+        self.valor_despesas_ajuda = tk.Label(self.ajuda, text=" 1- Insira valores do tipo inteiro ou float quando for registar os valores da despesa.", font=('Arial Black', 20), bg='#CF0000', fg='white')
+        self.valor_despesas_ajuda.pack()
+
+        # label para ajudar com a data
+        self.data_ajuda = tk.Label(self.ajuda, text=" 2- Insira este formato data, (dia/mês/ano), exemplo 25/05/23.", font=('Arial Black', 20), bg='#CF0000', fg='white')
+        self.data_ajuda.pack()
+
+        #label para ajudar com as categoria despesas
+        self.data_ajuda = tk.Label(self.ajuda, text=" 3- Escolha ou insira a categoria pretendida, caso for inserir a categoria utilize apenas caracteres do tipo str.Exemplo (Alimentacao) .", font=('Arial Black', 20), bg='#CF0000', fg='white')
+        self.data_ajuda.pack()
+         
+    # Botão para voltar para a pagina anteriror
+        self.shutdown_ajuda = tk.Button(self.ajuda, text="Voltar", font=('Arial', 14), fg='white', bg='#6d7575', command=self.quit_ajuda)
+        self.shutdown_ajuda.pack(pady=10, ipadx=20, ipady=5)
+
+    def quit_ajuda(self):
+        self.ajuda.destroy()
+        self.master.deiconify()
 
 
 
