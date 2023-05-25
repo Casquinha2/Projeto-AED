@@ -100,7 +100,17 @@ class View:
         self.orcamento_button1 = tk.Button(self.frame1, text="Definir orçamento mensal", font=('Arial', 14), fg='white', bg='#6d7575', command=self.orcamento_mensal)
         self.orcamento_button1.pack(pady=10, ipadx=20, ipady=5)
 
-    def frame_registar_despesas(self):
+    def pergunta_orcamento(self):
+        if self.orcamento == 0:
+            message = messagebox.askquestion('Pergunta.', 'O utilizador ainda não definiu um orçamento mensal. Deseja definir?')
+            if message == "yes":
+                self.orcamento_mensal()
+            else:
+                self.frame_registar_despesa()
+        else:
+            self.frame_registar_despesa()
+
+    def frame_registar_despesa(self):        
         #frame do registo de despesas
         self.registo_despesa = tk.Toplevel(self.master)
         self.registo_despesa.configure(bg= '#CF0000')
