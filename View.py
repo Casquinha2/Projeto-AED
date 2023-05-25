@@ -55,21 +55,21 @@ class View:
 
         #Botões de Login + registo
         self.login_button = tk.Button(self.canvas_test, text="Login", font=('Arial', 14), command=self.login)
-        self.canvas_test.create_window(775, 255, anchor='center', window= self.login_button)
+        self.canvas_test.create_window(450, 400, anchor='center', window= self.login_button)
 
         self.registo2_button = tk.Button(self.canvas_test, text="Registo", font=('Arial', 14), command=self.frame_registar)
-        self.canvas_test.create_window(775, 300, anchor='center', window= self.registo2_button)
+        self.canvas_test.create_window(350, 400, anchor='center', window= self.registo2_button)
 
         self.registo_button = tk.Button(self.canvas_test, text="Registo  ahaha", font=('Arial', 14), fg='white', bg='#6d7575', command=self.frame_principal)
-        self.canvas_test.create_window(775, 345, anchor='center', window= self.registo_button)
+        self.canvas_test.create_window(1280, 150, anchor='center', window= self.registo_button)
 
         #botão de fecho do programa
         self.shutdown_button = tk.Button(self.canvas_test, text="Sair", font=('Arial', 14), command= self.master.destroy)
-        self.canvas_test.create_window(775, 390, anchor='center', window= self.shutdown_button)
+        self.canvas_test.create_window(400, 470, anchor='center', window= self.shutdown_button)
         
         # botão ajuda
         self.ajuda_btt = tk.Button(self.canvas_test, text="Ajuda", font=('Arial', 14), command=self.frame_ajuda)
-        self.canvas_test.create_window(775, 430, anchor='center', window= self.ajuda_btt)
+        self.canvas_test.create_window(550, 720, anchor='center', window= self.ajuda_btt)
 
     def frame_principal(self):
         #Frame de despesas
