@@ -20,58 +20,49 @@ class View:
         #opcao = Controller().ler_ficheiro_json("utilizador")
         #for i in range (0,len(opcao)):    
         #    self.clientes.insert_last(opcao[i])
-
-
-
         
     def frame_login(self):        
         #Frame
         self.master.attributes('-fullscreen', True)
         self.master.title('Spending Control')
-        self.logo = tk.PhotoImage(file='ual.png')
-        self.master.iconphoto(True, self.logo)
         
-        #Imagem de fundo
-        self.logo2 = tk.PhotoImage(file='teste.png')
-        #self.logo = self.logo.subsample(5)
-        self.logo_label_desktop = tk.Label(self.master, image=self.logo2)
-        #self.logo_label.place(relx=1.0, anchor='ne')
-        self.logo_label_desktop.place(relx=.5, rely=.5, anchor= 'center')
-        self.logo_label_desktop.lower()
+        #Imagem de icone
+        self.logo3 = tk.PhotoImage(file='ual.png')
+        self.master.iconphoto(True, self.logo3)
         
-        self.frame = tk.Frame(self.master)
-        self.frame.pack()
+        #teste de bg
+        self.bg = tk.PhotoImage(file='teste.png')
+        self.canvas_test = tk.Canvas(self.master, width= 1920, height= 1080, highlightbackground= 'black')
+        self.canvas_test.pack(fill='both', expand=True)
+        self.canvas_test.create_image(0, 0, image= self.bg, anchor= 'nw')
         
         #Label + Entry para username
-        self.nome_label = tk.Label(self.frame, text="Nome:", font=('Arial', 14))
-        self.nome_label.pack()
-        self.nome_entry = tk.Entry(self.frame, font=('Arial', 14))
-        self.nome_entry.pack(pady=5)
+        self.canvas_test.create_text(775, 70, text="Nome: ", font=('Arial', 14), fill='white')
+        self.nome_entry = tk.Entry(self.canvas_test, font=('Arial', 14))
+        self.canvas_test.create_window(775, 95, window= self.nome_entry)
 
-        self.nif_label = tk.Label(self.frame, text="NIF:", font=('Arial', 14))
-        self.nif_label.pack()
-        self.nif_entry = tk.Entry(self.frame, font=('Arial', 14))
-        self.nif_entry.pack(pady=5)     
+        self.canvas_test.create_text(775, 125, text="NIF:", font=('Arial', 14), fill='white')
+        self.nif_entry = tk.Entry(self.canvas_test, font=('Arial', 14))
+        self.canvas_test.create_window(775, 150, window= self.nif_entry)     
 
         #Label + Entry para password
-        self.password_label = tk.Label(self.frame, text="Password:", font=('Arial', 14))
-        self.password_label.pack()
-        self.password_entry = tk.Entry(self.frame, show="*", font=('Arial', 14))
-        self.password_entry.pack(pady=5)
+        self.canvas_test.create_text(775, 175, text="Password:", font=('Arial', 14), fill='white')
+        self.password_entry = tk.Entry(self.canvas_test, show="*", font=('Arial', 14))
+        self.canvas_test.create_window(775, 200, window= self.password_entry)
 
         #Botões de Login + registo
-        self.login_button = tk.Button(self.frame, text="Login", font=('Arial', 14), command=self.login)
-        self.login_button.pack(pady=10, ipadx=20, ipady=5)
+        self.login_button = tk.Button(self.canvas_test, text="Login", font=('Arial', 14), command=self.login)
+        self.canvas_test.create_window(775, 255, anchor='center', window= self.login_button)
 
-        self.registo_button = tk.Button(self.frame, text="Registo", font=('Arial', 14), command=self.frame_registar)
-        self.registo_button.pack(pady=10, ipadx=20, ipady=5)
+        self.registo2_button = tk.Button(self.canvas_test, text="Registo", font=('Arial', 14), command=self.frame_registar)
+        self.canvas_test.create_window(775, 300, anchor='center', window= self.registo2_button)
 
-        self.registo_button = tk.Button(self.frame, text="Registo  ahaha", font=('Arial', 14), fg='white', bg='#6d7575', command=self.frame_principal)
-        self.registo_button.pack(pady=10, ipadx=20, ipady=5)
+        self.registo_button = tk.Button(self.canvas_test, text="Registo  ahaha", font=('Arial', 14), fg='white', bg='#6d7575', command=self.frame_principal)
+        self.canvas_test.create_window(775, 345, anchor='center', window= self.registo_button)
 
         #botão de fecho do programa
-        self.shutdown_button = tk.Button(self.frame, text="Sair", font=('Arial', 14), command= self.master.destroy)
-        self.shutdown_button.pack(pady=10, ipadx=20, ipady=5)
+        self.shutdown_button = tk.Button(self.canvas_test, text="Sair", font=('Arial', 14), command= self.master.destroy)
+        self.canvas_test.create_window(775, 390, anchor='center', window= self.shutdown_button)
 
     def frame_principal(self):
         #Frame de despesas
@@ -101,9 +92,40 @@ class View:
         self.orcamento_button1 = tk.Button(self.frame1, text="Definir orçamento mensal", font=('Arial', 14), fg='white', bg='#6d7575')
         self.orcamento_button1.pack(pady=10, ipadx=20, ipady=5)
 
-    def quit(self):
-        self.master.deiconify()
-        self.frame1.destroy()
+    def frame_registar_despesas(self):
+        #frame do registo de despesas
+        self.registo_despesa = tk.Toplevel(self.master)
+        self.registo_despesa.configure(bg= '#CF0000')
+        
+        #valor de despesa
+        self.valor_despesas_label2 = tk.Label(self.registo_despesa, text="Valor da despesa: ", font=('Arial', 14), bg='#CF0000')
+        self.valor_despesas_label2.pack()
+        self.valor_despesas_entry2 = tk.Entry(self.registo_despesa, font=('Arial', 14),)
+        self.valor_despesas_entry2.pack(pady=5)
+
+        #data de despesa
+        self.data_despesas_label2 = tk.Label(self.registo_despesa, text="Data da despesa: ", font=('Arial', 14), bg='#CF0000')
+        self.data_despesas_label2.pack()
+        self.data_despesas_entry2 = tk.Entry(self.registo_despesa, font=('Arial', 14))
+        self.data_despesas_entry2.pack(pady=5)
+#        self.data = datetime.now()
+#        self.formato1 = self.data.strftime("%d/%m/%Y")
+        
+        #categoria de despesa
+        self.categoria_despesas_label2 = tk.Label(self.registo_despesa, text="Categoria da despesa: ", font=('Arial', 14), bg='#CF0000')
+        self.categoria_despesas_label2.pack()
+        self.categoria_despesas_entry2 = tk.Entry(self.registo_despesa, font=('Arial', 14),)
+        self.categoria_despesas_entry2.pack(pady=5)
+        
+        #descrição de despesa
+        self.descrição_despesas_label2 = tk.Label(self.registo_despesa, text="Descrição da despesa (Almoço em restaurante): ", font=('Arial', 14), bg='#CF0000')
+        self.descrição_despesas_label2.pack()
+        self.descrição_despesas_entry2 = tk.Entry(self.registo_despesa, font=('Arial', 14))
+        self.descrição_despesas_entry2.pack(pady=5)
+
+        #Botão de registar despesa
+        self.registo_button2 = tk.Button(self.registo_despesa, text="Registo de Despesas", font=('Arial', 14), bg='#6d7575', command=self.caracteristicas_despesas)
+        self.registo_button2.pack(pady=10, ipadx=20, ipady=5)
 
     def registar(self):
         nome = self.nome_entry3.get()
@@ -168,40 +190,9 @@ class View:
                     else:
                         self.frame_principal()                    
     
-    def frame_registar_despesas(self):
-        #frame do registo de despesas
-        self.registo_despesa = tk.Toplevel(self.master)
-        self.registo_despesa.configure(bg= '#CF0000')
-        
-        #valor de despesa
-        self.valor_despesas_label2 = tk.Label(self.registo_despesa, text="Valor da despesa: ", font=('Arial', 14), bg='#CF0000')
-        self.valor_despesas_label2.pack()
-        self.valor_despesas_entry2 = tk.Entry(self.registo_despesa, font=('Arial', 14),)
-        self.valor_despesas_entry2.pack(pady=5)
-
-        #data de despesa
-        self.data_despesas_label2 = tk.Label(self.registo_despesa, text="Data da despesa: ", font=('Arial', 14), bg='#CF0000')
-        self.data_despesas_label2.pack()
-        self.data_despesas_entry2 = tk.Entry(self.registo_despesa, font=('Arial', 14))
-        self.data_despesas_entry2.pack(pady=5)
-#        self.data = datetime.now()
-#        self.formato1 = self.data.strftime("%d/%m/%Y")
-        
-        #categoria de despesa
-        self.categoria_despesas_label2 = tk.Label(self.registo_despesa, text="Categoria da despesa: ", font=('Arial', 14), bg='#CF0000')
-        self.categoria_despesas_label2.pack()
-        self.categoria_despesas_entry2 = tk.Entry(self.registo_despesa, font=('Arial', 14),)
-        self.categoria_despesas_entry2.pack(pady=5)
-        
-        #descrição de despesa
-        self.descrição_despesas_label2 = tk.Label(self.registo_despesa, text="Descrição da despesa (Almoço em restaurante): ", font=('Arial', 14), bg='#CF0000')
-        self.descrição_despesas_label2.pack()
-        self.descrição_despesas_entry2 = tk.Entry(self.registo_despesa, font=('Arial', 14))
-        self.descrição_despesas_entry2.pack(pady=5)
-
-        #Botão de registar despesa
-        self.registo_button2 = tk.Button(self.registo_despesa, text="Registo de Despesas", font=('Arial', 14), bg='#6d7575', command=self.caracteristicas_despesas)
-        self.registo_button2.pack(pady=10, ipadx=20, ipady=5)
+    def quit(self):
+        self.master.deiconify()
+        self.frame1.destroy()
 
     def valor_despesa(self):
         valor_despesa = self.valor_despesas_entry2.get()
