@@ -65,6 +65,10 @@ class View:
         #botão de fecho do programa
         self.shutdown_button = tk.Button(self.canvas_test, text="Sair", font=('Arial', 14), command= self.master.destroy)
         self.canvas_test.create_window(775, 390, anchor='center', window= self.shutdown_button)
+        
+        # botão ajuda
+        self.ajuda_btt = tk.Button(self.canvas_test, text="Ajuda", font=('Arial', 14), command=self.frame_ajuda)
+        self.canvas_test.create_window(775, 430, anchor='center', window= self.ajuda_btt)
 
     def frame_principal(self):
         #Frame de despesas
@@ -93,6 +97,10 @@ class View:
         #botão de defição de orçamento mensal
         self.orcamento_button1 = tk.Button(self.frame1, text="Definir orçamento mensal", font=('Arial', 14), fg='white', bg='#6d7575')
         self.orcamento_button1.pack(pady=10, ipadx=20, ipady=5)
+
+        # botão de ajuda 
+        self.ajuda_btt = tk.Button(self.frame1, text="Ajuda", font=('Arial', 14), command=self.frame_ajuda)
+        self.ajuda_btt.pack()
 
     def frame_registar_despesas(self):
         #frame do registo de despesas
@@ -196,41 +204,11 @@ class View:
         self.master.deiconify()
         self.frame1.destroy()
 
-    def valor_despesa(self):
-        valor_despesa = self.valor_despesas_entry2.get()
-        if valor_despesa != float :
-            messagebox.showerror("Erro","Caracter inválido")
-            self.valor_despesas_entry2.delete(0,"end")
 
-        else :
-            return True
         
-    def  categoria_despesas(self):
-        categoria_despesas = self.categoria_despesas_entry2.get()
-        if categoria_despesas != str :
-            messagebox.showerror("Erro","Caracter inválido")
-            self.categoria_despesas_entry2.delete(0,'end')
-        else :
-            return True
-        
-    def  descrição_despesas(self):
-        descrição_despesa = self.descrição_despesas_entry2.get()
-        if descrição_despesa != str:
-            messagebox.showerror("Erro","Caracter inválido")
-            self.descrição_despesas_entry2.delete(0,'end')
-
-        else :
-            return True
-        
-    #caracteristicas das despesas
-    def caracteristicas_despesas(self):
-        valor_despesas = self.categoria_despesas_entry2.get()
-        data_despesas = self.data_despesas_entry2.get()
-        categoria_despesas =  self.categoria_despesas_entry2.get()
-        descrição_despesa = self.descrição_despesas_entry2.get()
-
+    #frame de registar utilizador janela pequena
     def frame_registar(self):        
-        #Frame
+       
         self.registo_utilizador = tk.Toplevel(self.master, bg='#C90000')
         self.registo_utilizador.geometry('450x300')
         self.registo_utilizador.resizable(False, False)
@@ -255,6 +233,22 @@ class View:
         self.registo_button1 = tk.Button(self.registo_utilizador, text="Registo de Utilizador", font=('Arial', 14),fg='white', bg='#6d7575', command=self.registar)
         self.registo_button1.pack(pady=10, ipadx=20, ipady=5)
 
+    def valor_despesa(self):
+        try:
+            self.valor_despesa = float(self.valor_despesas_entry2.get())
+        except ValueError:
+            messagebox.showerror("Erro","Caracter valor_despesa inválido")
+        else:
+            return True
+
+    
+    def  categoria_despesas(self):
+        categoria_despesas = self.categoria_despesas_entry2.get()
+        if type (categoria_despesas) != str :
+            messagebox.showerror("Erro","Caracter categoria_despesas inválido")
+        else :
+            return True
+
     def data_despesas(self):
         formato_data =  r'^\d{2}/\d{2}/\d{2}$'
 
@@ -273,7 +267,7 @@ class View:
 
     def  descrição_despesas(self):
         descrição_despesa = self.descrição_despesas_entry2.get()
-        if descrição_despesa != str:
+        if type(descrição_despesa) != str:
             messagebox.showerror("Erro","Caractere descrição_despesas inválido")
         else :
             return True
@@ -284,14 +278,14 @@ class View:
         data_despesas = self.data_despesas_entry2.get()
         categoria_despesas =  self.categoria_despesas_entry2.get()
         descrição_despesa = self.descrição_despesas_entry2.get()
-        if self.descrição_despesas == True and self.categoria_despesas()==True and self.valor_despesa()==True and self.data_despesas== True:
+        if self.descrição_despesas() == True and self.categoria_despesas()==True and self.valor_despesa()==True and self.data_despesas()== True:
               messagebox.showinfo("Sucesso","Despesa registada ")
         else :
             self.descrição_despesas_entry2.delete(0,'end')
             self.categoria_despesas_entry2.delete(0,'end')
             self.valor_despesas_entry2.delete(0,"end")
             self.data_despesas_entry2.delete(0,'end')
-    
+
     # pagina de ajuda ao utilizador
     def frame_ajuda(self):
         self.master.withdraw()
@@ -325,3 +319,7 @@ class View:
 #[{nome:..., se, despesas, grafico,...]
 
 #[{nome:..., senha:..., nif:...}, {nome:..., senha:..., nif:...}, {nome:..., senha:..., nif:...}
+
+        
+   
+        
