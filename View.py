@@ -34,24 +34,24 @@ class View:
         self.master.iconphoto(True, self.logo3)
         
         #teste de bg
-        self.bg = tk.PhotoImage(file='teste.png')
+        self.bg = tk.PhotoImage(file='fundo5.png')
         self.canvas_test = tk.Canvas(self.master, width= 1920, height= 1080, highlightbackground= 'black')
         self.canvas_test.pack(fill='both', expand= True)
         self.canvas_test.create_image(0, 0, image= self.bg, anchor= 'nw')
         
         #Label + Entry para username
-        self.canvas_test.create_text(775, 70, text="Nome: ", font=('Arial', 14), fill='white')
+        self.canvas_test.create_text(400, 200, text="Nome: ", font=('Arial', 14), fill='black')
         self.nome_entry = tk.Entry(self.canvas_test, font=('Arial', 14))
-        self.canvas_test.create_window(775, 95, window= self.nome_entry)
+        self.canvas_test.create_window(400, 225, window= self.nome_entry)
 
-        self.canvas_test.create_text(775, 125, text="NIF:", font=('Arial', 14), fill='white')
+        self.canvas_test.create_text(400, 260, text="NIF:", font=('Arial', 14), fill='black')
         self.nif_entry = tk.Entry(self.canvas_test, font=('Arial', 14))
-        self.canvas_test.create_window(775, 150, window= self.nif_entry)     
+        self.canvas_test.create_window(400, 285, window= self.nif_entry)     
 
         #Label + Entry para password
-        self.canvas_test.create_text(775, 175, text="Password:", font=('Arial', 14), fill='white')
+        self.canvas_test.create_text(400, 320, text="Password:", font=('Arial', 14), fill='black')
         self.password_entry = tk.Entry(self.canvas_test, show="*", font=('Arial', 14))
-        self.canvas_test.create_window(775, 200, window= self.password_entry)
+        self.canvas_test.create_window(400, 345, window= self.password_entry)
 
         #Botões de Login + registo
         self.login_button = tk.Button(self.canvas_test, text="Login", font=('Arial', 14), command=self.login)
