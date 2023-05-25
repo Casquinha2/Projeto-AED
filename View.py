@@ -35,7 +35,7 @@ class View:
         #teste de bg
         self.bg = tk.PhotoImage(file='teste.png')
         self.canvas_test = tk.Canvas(self.master, width= 1920, height= 1080, highlightbackground= 'black')
-        self.canvas_test.pack(fill='both', expand=True)
+        self.canvas_test.pack(fill='both', expand= True)
         self.canvas_test.create_image(0, 0, image= self.bg, anchor= 'nw')
         
         #Label + Entry para username
