@@ -140,10 +140,10 @@ class View:
 
         self.categoria_despesas_label2 = tk.Label(self.registo_despesa, text="Categoria da despesa: ", font=('Arial', 14), bg='#CF0000')
         self.categoria_despesas_label2.pack()
-        categoria_despesas_options = ['Selecione uma opção', 'Alimentação', 'Transporte', 'Moradia', 'Lazer', 'Outro'] 
+        self.categoria_despesas_options = ['Selecione uma opção', 'Alimentação', 'Transporte', 'Moradia', 'Lazer', 'Outro'] 
         self.categoria_despesas_var = tk.StringVar(self.registo_despesa)
-        self.categoria_despesas_var.set(categoria_despesas_options[0])
-        self.categoria_despesas_menu = tk.OptionMenu(self.registo_despesa, self.categoria_despesas_var, *categoria_despesas_options)
+        self.categoria_despesas_var.set(self.categoria_despesas_options[0])
+        self.categoria_despesas_menu = tk.OptionMenu(self.registo_despesa, self.categoria_despesas_var, *self.categoria_despesas_options)
         self.categoria_despesas_menu.config(font=('Arial', 10))
         self.categoria_despesas_menu.pack(pady=5)
         
@@ -204,7 +204,6 @@ class View:
                 self.nome_entry.delete(0, 'end')
                 self.password_entry.delete(0, 'end')
                 self.nif_entry.delete(0, 'end')
-
             else:
                 if self.clientes.get(posicao).get_password() != password:
                     messagebox.showerror('Erro.', 'Credênciais inválidas.')
@@ -255,18 +254,27 @@ class View:
         
     #caracteristicas das despesas
     def caracteristicas_despesas(self):
-        valor_despesas = Cliente.valor_despesa(self.valor_despesas_entry2.get())
-        data_despesas = Cliente.data_despesas(self.data_despesas_entry2.get())
-        categoria_despesas =  Cliente.categoria_despesas(self.categoria_despesas_entry2.get())
-        descrição_despesa = Cliente.descrição_despesas(self.descrição_despesas_entry2.get())
-        if valor_despesas != False and data_despesas != False and categoria_despesas != False and descrição_despesa != False:
-              messagebox.showinfo("Sucesso","Despesa registada ")
+        if self.categoria_despesas_var.get() == "outro":
+            pass
+            self.outro_categoria()
+        elif self.categoria_despesas_var.get() == "Selecione uma opção":
+            messagebox.showerror("Erro", "Por favor selecione uma despesa para conseguir prosseguir.")
+            return None
         else:
-            self.descrição_despesas_entry2.delete(0,'end')
-            self.categoria_despesas_entry2.delete(0,'end')
-            self.valor_despesas_entry2.delete(0,"end")
-            self.data_despesas_entry2.delete(0,'end')
-            messagebox.showerror("Erro", "Um dos campos foi mal preenchido.\nPor favor introduza novamente.")
+            valor_despesas = Cliente.valor_despesa(self.valor_despesas_entry2.get())
+            data_despesas = Cliente.data_despesas(self.data_despesas_entry2.get())
+            descrição_despesa = Cliente.descrição_despesas(self.descrição_despesas_entry2.get())
+            categoria_despesa = self.categoria_despesas_var.get()
+            print(categoria_despesa)
+            if valor_despesas != False and data_despesas != False and descrição_despesa != False:
+                messagebox.showinfo("Sucesso","Despesa registada ")
+                self.registo_despesa.destroy()
+            else:
+                self.descrição_despesas_entry2.delete(0,'end')
+                self.categoria_despesas_var.set(self.categoria_despesas_options[0])
+                self.valor_despesas_entry2.delete(0,"end")
+                self.data_despesas_entry2.delete(0,'end')
+                messagebox.showerror("Erro", "Um dos campos foi mal preenchido.\nPor favor introduza novamente.")
 
     # pagina de ajuda ao utilizador
     def frame_ajuda(self):
