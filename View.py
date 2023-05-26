@@ -204,7 +204,6 @@ class View:
                 self.nome_entry.delete(0, 'end')
                 self.password_entry.delete(0, 'end')
                 self.nif_entry.delete(0, 'end')
-
             else:
                 if self.clientes.get(posicao).get_password() != password:
                     messagebox.showerror('Erro.', 'Credênciais inválidas.')
