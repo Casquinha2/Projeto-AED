@@ -129,18 +129,11 @@ class View:
         self.data_despesas_label2.pack()
         self.data_despesas_entry2 = tk.Entry(self.registo_despesa, font=('Arial', 14))
         self.data_despesas_entry2.pack(pady=5)
-#        self.data = datetime.now()
-#        self.formato1 = self.data.strftime("%d/%m/%Y")
         
-        #categoria de despesa
-        #self.categoria_despesas_label2 = tk.Label(self.registo_despesa, text="Categoria da despesa: ", font=('Arial', 14), bg='#CF0000')
-        #self.categoria_despesas_label2.pack()
-        #self.categoria_despesas_entry2 = tk.Entry(self.registo_despesa, font=('Arial', 14),)
-        #self.categoria_despesas_entry2.pack(pady=5)
-
+        #categoria da despesa
         self.categoria_despesas_label2 = tk.Label(self.registo_despesa, text="Categoria da despesa: ", font=('Arial', 14), bg='#CF0000')
         self.categoria_despesas_label2.pack()
-        self.categoria_despesas_options = ['Selecione uma opção', 'Alimentação', 'Transporte', 'Moradia', 'Lazer', 'Outro'] 
+        self.categoria_despesas_options = ['Selecione uma opção', 'Alimentação', 'Transporte', 'Moradia', 'Lazer', 'Outra'] 
         self.categoria_despesas_var = tk.StringVar(self.registo_despesa)
         self.categoria_despesas_var.set(self.categoria_despesas_options[0])
         self.categoria_despesas_menu = tk.OptionMenu(self.registo_despesa, self.categoria_despesas_var, *self.categoria_despesas_options)
@@ -166,7 +159,7 @@ class View:
             if cliente.controlNIF(nif) == False:
                 raise ValueError
         except ValueError:
-            messagebox.showerror('Erro.', 'NIF inválido.')
+            messagebox.showerror('Erro.', 'Credênciais inválidas.')
             self.nome_entry3.delete(0, 'end')
             self.password_entry3.delete(0, 'end')
             self.nif_entry3.delete(0, 'end')
@@ -181,11 +174,11 @@ class View:
             else:
                 if self.clientes.find_username(nome) == -1:
                     self.clientes.insert_last(cliente)
-                    messagebox.showinfo('Sucesso!', 'Usuário registado com sucesso. Já pode fazer o login em sua conta.')
+                    messagebox.showinfo('Sucesso!', 'Usuário registado com sucesso.\nJá pode fazer o login em sua conta.')
                     self.registo_utilizador.destroy()
                     
                 else:
-                    messagebox.showerror('Usuário existente.', 'Por favor, digite um nome de usuário que ainda não foi registado.')
+                    messagebox.showerror('Erro.', 'Usuário existente.\nPor favor, digite um nome de usuário que ainda não foi registado.')
                     self.nome_entry3.delete(0, 'end')
                     self.password_entry3.delete(0, 'end')
                     self.nif_entry3.delete(0, 'end')
@@ -193,7 +186,7 @@ class View:
 
     def login(self):
         if self.clientes.is_empty == True:
-            messagebox.showerror('Nenhum usuário registado', 'Por favor, registe um usuário antes de fazer login.')
+            messagebox.showerror('Erro', 'Nenhum usuário registado.\nPor favor, registe um usuário antes de fazer login.')
         else:
             nome = self.nome_entry.get()
             password = self.password_entry.get()
@@ -254,18 +247,16 @@ class View:
         
     #caracteristicas das despesas
     def caracteristicas_despesas(self):
-        if self.categoria_despesas_var.get() == "outro":
-            pass
-            self.outro_categoria()
+        if self.categoria_despesas_var.get() == "Outra":
+            self.outra_categoria()
         elif self.categoria_despesas_var.get() == "Selecione uma opção":
             messagebox.showerror("Erro", "Por favor selecione uma despesa para conseguir prosseguir.")
-            return None
+            self.categoria_despesas_var.set(self.categoria_despesas_options[0])
         else:
             valor_despesas = Cliente.valor_despesa(self.valor_despesas_entry2.get())
             data_despesas = Cliente.data_despesas(self.data_despesas_entry2.get())
             descrição_despesa = Cliente.descrição_despesas(self.descrição_despesas_entry2.get())
             categoria_despesa = self.categoria_despesas_var.get()
-            print(categoria_despesa)
             if valor_despesas != False and data_despesas != False and descrição_despesa != False:
                 messagebox.showinfo("Sucesso","Despesa registada ")
                 self.registo_despesa.destroy()
@@ -304,7 +295,6 @@ class View:
         self.master.deiconify()
 
     def orcamento_mensal(self):
-
         #frame do orcamento mensal
         self.frame_orc = tk.Toplevel(self.master)
         self.frame_orc.configure(bg= '#CF0000')
@@ -326,6 +316,30 @@ class View:
         else:
             messagebox.showinfo("Sucesso", f"O seu orçamento mensal está definido para {self.orcamento}€.")
             self.frame_orc.destroy()
+
+    def outra_categoria(self):
+        #frame do outra categoria
+        self.frame_out_cat = tk.Toplevel(self.master)
+        self.frame_out_cat.configure(bg= '#CF0000')
+
+        #outra categoria
+        self.outracat_label=tk.Label(self.frame_out_cat, text="Indique qual é a categoria que deseja.", font=("Arial", 14), bg="#CF0000")
+        self.outracat_label.pack()
+        self.outracat_entry = tk.Entry(self.frame_out_cat, font=("Arial", 14))
+        self.outracat_entry.pack(pady = 5)
+        self.outracat_button = tk.Button(self.frame_out_cat, text = "Confirmar", font=("Arial", 14), bg="#6d7575", command = self.outra_cat_confirmar)
+        self.outracat_button.pack(pady=5)
+        self.outracat_button1 = tk.Button(self.frame_out_cat, text = "Voltar", font=("Arial", 14), bg="#6d7575", command = self.frame_out_cat.destroy)
+        self.outracat_button1.pack(pady = 5)
+
+    def outra_cat_confirmar(self):
+        try:
+            categoria1 = float(self.outracat_entry.get())
+        except ValueError:
+            return self.outracat_entry.get()
+        else:
+            messagebox.showerror("Erro", "Essa categoria não existe.\nPor favor tente introduzir outra.")
+
 
         
 
