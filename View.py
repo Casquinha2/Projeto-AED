@@ -78,10 +78,10 @@ class View:
         self.frame1.attributes('-fullscreen', True)
 
         #bg
-        self.bg_2 = tk.PhotoImage(file='teste.png')
         self.canvas_bg_principal = tk.Canvas(self.frame1, width= 1920, height= 1080, highlightbackground= 'black')
+        self.bg_2 = tk.PhotoImage(file='teste47.png')
+        self.canvas_bg_principal.create_image(0, 0, anchor= 'nw', image= self.bg_2)
         self.canvas_bg_principal.pack(fill='both', expand= True)
-        self.canvas_bg_principal.create_image(0, 0, image= self.bg_2, anchor= 'nw')
         
         #botão de voltar ==> ok
         self.shutdown_button1 = tk.Button(self.canvas_bg_principal, text="Log out", font=('Arial', 14), fg='white', bg='#6d7575', command=self.quit)
