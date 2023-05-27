@@ -74,34 +74,36 @@ class View:
     def frame_principal(self):
         #Frame de despesas
         self.master.withdraw()
-        self.frame1 = tk.Toplevel(self.master)
+        
+        self.frame1 = tk.Toplevel(self.master, bg= 'black')
         self.frame1.attributes('-fullscreen', True)
-
+        
         #bg
-        self.canvas_bg_principal = tk.Canvas(self.frame1, width= 1920, height= 1080, highlightbackground= 'black')
-        self.bg_2 = tk.PhotoImage(file='teste47.png')
-        self.canvas_bg_principal.create_image(0, 0, anchor= 'nw', image= self.bg_2)
+        self.canvas_bg_principal= tk.Canvas(self.frame1, width= 500, height= 350, background= '#4DB6E5', highlightbackground='#4DB6E5')
         self.canvas_bg_principal.pack(fill='both', expand= True)
+        self.canvas_bg_principal.create_rectangle(900, 500, 1475, 825, fill= '#92C3EC')
+        self.canvas_bg_principal.create_rectangle(50, 50, 1500, 450, fill= 'white')
         
         #botão de voltar ==> ok
-        self.shutdown_button1 = tk.Button(self.canvas_bg_principal, text="Log out", font=('Arial', 14), fg='white', bg='#6d7575', command=self.quit)
-        self.canvas_bg_principal.create_window(775, 345, anchor='center', window= self.shutdown_button1)
+        self.shutdown_button1 = tk.Button(self.canvas_bg_principal, text="Log out", font=('Arial', 16), fg='black', bg='#92C3EC', command=self.quit)
+        self.canvas_bg_principal.create_window(1050, 750, anchor='center', window= self.shutdown_button1)
         
         #botão de shutdown ==> ok
-        self.exit_button1 = tk.Button(self.canvas_bg_principal, text="Sair para área de trabalho", font=('Arial', 14), fg='white', bg='#6d7575', command= self.master.destroy)
-        self.exit_button1.pack(pady=10, ipadx=20, ipady=5)
+        self.exit_button1 = tk.Button(self.canvas_bg_principal, text="Sair para área de trabalho", font=('Arial', 16), fg='black', bg='#92C3EC', command= self.master.destroy)
+        self.canvas_bg_principal.create_window(1305, 750, anchor='center', window= self.exit_button1)
         
         #botão de registo de despesas 
-        self.registo_despesas_button1 = tk.Button(self.canvas_bg_principal, text="Registar despesas", font=('Arial', 14), fg='white', bg='#6d7575', command= self.pergunta_orcamento)
-        self.registo_despesas_button1.pack(pady=10, ipadx=20, ipady=5)
+        self.registo_despesas_button1 = tk.Button(self.canvas_bg_principal, text="Registar despesas", font=('Arial', 16), fg='black', bg='#92C3EC', command= self.pergunta_orcamento)
+        self.canvas_bg_principal.create_window(1050, 670, anchor='center', window= self.registo_despesas_button1)
         
         #botão de detalhes
-        self.detalhes_button1 = tk.Button(self.canvas_bg_principal, text="Ver mais detalhes", font=('Arial', 14), fg='white', bg='#6d7575')
-        self.detalhes_button1.pack(pady=10, ipadx=20, ipady=5)
+        self.detalhes_button1 = tk.Button(self.canvas_bg_principal, text="Ver mais detalhes", font=('Arial', 16), fg='black', bg='#92C3EC')
+        self.canvas_bg_principal.create_window(1305, 670, anchor='center', window= self.detalhes_button1)
 
         #botão de defição de orçamento mensal
-        self.orcamento_button1 = tk.Button(self.canvas_bg_principal, text="Definir orçamento mensal", font=('Arial', 14), fg='white', bg='#6d7575', command=self.orcamento_mensal)
-        self.orcamento_button1.pack(pady=10, ipadx=20, ipady=5)
+        self.orcamento_button1 = tk.Button(self.canvas_bg_principal, text="Definir orçamento mensal", font=('Arial', 16), fg='black', bg='#92C3EC', command=self.orcamento_mensal)
+        self.canvas_bg_principal.create_window(1190, 580, anchor='center', window= self.orcamento_button1)
+
 
     def pergunta_orcamento(self):
         if self.orcamento == 0:
