@@ -28,11 +28,11 @@ class View:
         self.master.title('Spending Control')
         
         #Imagem de icone
-        self.logo3 = tk.PhotoImage(file='ual.png')
+        self.logo3 = tk.PhotoImage(file='imagens/ual.png')
         self.master.iconphoto(True, self.logo3)
         
         #bg
-        self.bg = tk.PhotoImage(file='fundo5.png')
+        self.bg = tk.PhotoImage(file='imagens/fundo5.png')
         self.canvas_test = tk.Canvas(self.master, width= 1920, height= 1080, highlightbackground= 'black')
         self.canvas_test.pack(fill='both', expand= True)
         self.canvas_test.create_image(0, 0, image= self.bg, anchor= 'nw')
@@ -215,13 +215,13 @@ class View:
                         self.password_entry.delete(0, 'end')
                         self.nif_entry.delete(0, 'end')
                     else:
-                        self.orcamento, self.despesas = self.ficheiro.json_para_linkedlist_despesa(self.nome)
+                        self.orcamento, self.despesas = self.ficheiro.json_para_linkedlist_despesa(f"{self.nome}")
                         print(self.orcamento)
                         self.frame_principal()
 
     
     def quit(self):
-        #self.ficheiro.linkedlist_para_json_despesa(self.nome, self.orcamento, self.despesas)
+        self.ficheiro.linkedlist_para_json_despesa(self.nome, self.orcamento, self.despesas)
         self.master.deiconify()
         self.canvas_bg_principal.destroy()
     
