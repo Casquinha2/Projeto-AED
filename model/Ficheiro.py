@@ -57,13 +57,10 @@ class Ficheiro:
             despesas = [valor, data, categoria, descricao]
             self.escrever_ficheiro_json(nome, despesas)
 
-    def linkedlist_para_json_cliente(self, linkedlist):
+    def linkedlist_para_json_cliente(self, linkedlist): 
         for i in range(linkedlist.size()):
             nome = i.get_nome()
             senha = i.get_password()
             nif = i.get_nif()
             lista = [nome, senha, nif]
             self.escrever_ficheiro_json("Utilizadores.json", lista)
-    
-    
-
