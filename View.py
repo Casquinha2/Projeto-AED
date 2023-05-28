@@ -1,10 +1,13 @@
 import tkinter as tk
 from model.ClientLinkedList import*
 from model.Cliente import *
+from model.Despesas import *
 from model.DespesasLinkedList import *
 from tkinter import messagebox
 from datetime import datetime
 from model.Ficheiro import *
+from model.Categoria import*
+from model.CategoriaLinkedList import*
 
 
 class View:
@@ -347,9 +350,7 @@ class View:
             messagebox.showerror("Erro", "Essa categoria não existe.\nPor favor tente introduzir outra.")
 
     def sugestoes(self):
-        self.frame_sugestoes = tk.Toplevel(self.master)
-        self.frame_sugestoes.configure(bg ='#CF0000')
-
+        listacategoria = CategorialinkedList()
         for i in range(self.despesas.size):
             quantidade = 1
             categoria = self.despesas.get(i).get_categoria()
@@ -360,7 +361,10 @@ class View:
                     valor += self.despesas.get(j+1).get_valor()
                     quantidade += 1
             media = valor/quantidade
-            
+            categoriaobj = Categoria(media, categoria)
+            listacategoria.insert_last(categoriaobj)
+        listacategoria.bubble_sort()
+        messagebox.showinfo("",f"o maior e:{listacategoria.get_last().get_categoria()}")
                 
                 
                 

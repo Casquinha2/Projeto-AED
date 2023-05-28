@@ -118,3 +118,11 @@ class CategorialinkedList(List):
         while node is not None:
             yield node.get_element()
             node = node.get_next_node()
+
+    def bubble_sort(self):
+        node = self.head
+        while node.get_next_node() != None:
+            if node.get_element() > node.get_next_node():
+                temp = node.get_element
+                node.set_element(node.get_next_node())
+                node.set_next_node(temp)
