@@ -61,7 +61,7 @@ class View:
         self.canvas_test.create_window(400, 550, anchor='center', window= self.shutdown_button)
         
         # botão ajuda
-        self.ajuda_btt = tk.Button(self.canvas_test, text="Ajuda", font=('Arial', 14), command=self.frame_ajuda, bg='#d8e6f4')
+        self.ajuda_btt = tk.Button(self.canvas_test, text="Ajuda", font=('Arial', 14), command=self.messagebox_ajuda_login, bg='#d8e6f4')
         self.canvas_test.create_window(550, 720, anchor='center', window= self.ajuda_btt)
 
     def frame_principal(self):
@@ -79,24 +79,27 @@ class View:
         
         #botão de voltar ==> ok
         self.shutdown_button1 = tk.Button(self.canvas_bg_principal, text="Log out", font=('Arial', 16), fg='black', bg='#92C3EC', command=self.quit)
-        self.canvas_bg_principal.create_window(1050, 750, anchor='center', window= self.shutdown_button1)
+        self.canvas_bg_principal.create_window(1070, 715, anchor='center', window= self.shutdown_button1)
         
         #botão de shutdown ==> ok
         self.exit_button1 = tk.Button(self.canvas_bg_principal, text="Sair para área de trabalho", font=('Arial', 16), fg='black', bg='#92C3EC', command= self.master.destroy)
-        self.canvas_bg_principal.create_window(1305, 750, anchor='center', window= self.exit_button1)
+        self.canvas_bg_principal.create_window(1190, 780, anchor='center', window= self.exit_button1)
         
         #botão de registo de despesas 
         self.registo_despesas_button1 = tk.Button(self.canvas_bg_principal, text="Registar despesas", font=('Arial', 16), fg='black', bg='#92C3EC', command= self.pergunta_orcamento)
-        self.canvas_bg_principal.create_window(1050, 670, anchor='center', window= self.registo_despesas_button1)
+        self.canvas_bg_principal.create_window(1075, 635, anchor='center', window= self.registo_despesas_button1)
         
         #botão de detalhes
         self.detalhes_button1 = tk.Button(self.canvas_bg_principal, text="Ver mais detalhes", font=('Arial', 16), fg='black', bg='#92C3EC')
-        self.canvas_bg_principal.create_window(1305, 670, anchor='center', window= self.detalhes_button1)
+        self.canvas_bg_principal.create_window(1330, 635, anchor='center', window= self.detalhes_button1)
 
         #botão de defição de orçamento mensal
         self.orcamento_button1 = tk.Button(self.canvas_bg_principal, text="Definir orçamento mensal", font=('Arial', 16), fg='black', bg='#92C3EC', command=self.orcamento_mensal)
-        self.canvas_bg_principal.create_window(1190, 580, anchor='center', window= self.orcamento_button1)
-
+        self.canvas_bg_principal.create_window(1190, 560, anchor='center', window= self.orcamento_button1)
+        
+        #botão de ajuda ==> ok
+        self.exit_button1 = tk.Button(self.canvas_bg_principal, text="Ajuda", font=('Arial', 16), fg='black', bg='#92C3EC', command= self.messagebox_ajuda_despesas)
+        self.canvas_bg_principal.create_window(1310, 715, anchor='center', window= self.exit_button1)
 
     def pergunta_orcamento(self):
         if self.orcamento == 0:
@@ -266,24 +269,17 @@ class View:
                 messagebox.showerror("Erro", "Um dos campos foi mal preenchido.\nPor favor introduza novamente.")
 
     # pagina de ajuda ao utilizador
-    def frame_ajuda(self):
-        self.master.withdraw()
-        self.ajuda= tk.Toplevel(self.master)
-        self.ajuda.attributes('-fullscreen', True)
-        self.ajuda.configure(bg= '#CF0000')
-
-        #label para ajudar com os valores de despesa       
-        self.valor_despesas_ajuda = tk.Label(self.ajuda, text=" 1- Insira valores do tipo inteiro ou float quando for registar os valores da despesa.", font=('Arial Black', 20), bg='#CF0000', fg='white')
-        self.valor_despesas_ajuda.pack()
-
-        # label para ajudar com a data
-        self.data_ajuda = tk.Label(self.ajuda, text=" 2- Insira este formato data, (dia/mês/ano), exemplo 25/05/23.", font=('Arial Black', 20), bg='#CF0000', fg='white')
-        self.data_ajuda.pack()
-
-        #label para ajudar com as categoria despesas
-        self.data_ajuda = tk.Label(self.ajuda, text=" 3- Escolha ou insira a categoria pretendida, caso for inserir a categoria utilize apenas caracteres do tipo str.Exemplo (Alimentacao) .", font=('Arial Black', 20), bg='#CF0000', fg='white')
-        self.data_ajuda.pack()
-         
+    def messagebox_ajuda_login(self):
+        messagebox.showinfo('Como faço o login?', '''    Caso não efetuou registo, carregue no botão escrito "registo" e preencha os dados, note que o nif tem de ser igual ao do seu cartão de cidadão.
+    Após ter feito o registo, preencha os dados do login com os mesmos dados que preencheu quando fez registo.''')
+    
+    #pagina de ajuda no registo de despesas
+    def messagebox_ajuda_despesas(self):
+        messagebox.showinfo('Como registar seus gastos?','''Para registar as suas despesas deve seguir os seguintes passos:
+    1º passo: Carregue no botão de registar despesas;
+    2º passo: Preencha os dados descritos na nova janela aberta, note que, na "data da despesa" é necessário escrever a data no seguinte formato (dia/mês/ano);
+    3º passo: após tudo preenchido, carregue em registar despesa e pronto! Seu registo de despesa terá sido feito com sucesso''')
+             
     # Botão para voltar para a pagina anteriror
         self.shutdown_ajuda = tk.Button(self.ajuda, text="Voltar", font=('Arial', 14), fg='white', bg='#6d7575', command=self.quit_ajuda)
         self.shutdown_ajuda.pack(pady=10, ipadx=20, ipady=5)
