@@ -2,10 +2,9 @@ from Controller import *
 import tkinter as tk
 from model.ClientLinkedList import*
 from model.Cliente import *
-from model.UtilizadorTree import *
+from model.DespesasLinkedList import *
 from tkinter import messagebox
 from datetime import datetime
-import os
 
 
 class View:
@@ -13,16 +12,13 @@ class View:
         self.orcamento = 0  #depois sai daqui
         self.master = master
         self.frame = self.frame_login()
-#        self.despesas = 
+        self.despesas = DespesaslinkedList() #Desdesas do clliente a ser tratado
         self.clientes = ClientLinkedList() #Criação da lista de clientes
-        node = BinaryTreeNode()
-        node.set_element("./utilizador")   #Estamos a trabalhar com o nome das pastas e nao com as pastas em si!!!
-        self.utilizador = UtilizadorTree(node)
-        self.root = self.utilizador.get_root()
+        data = Controller.ler_ficheiro_json("Utilizadores")
+        for i in data:
+            self.clientes.insert_last(i)
+        
 
-        #opcao = Controller().ler_ficheiro_json("utilizador")
-        #for i in range (0,len(opcao)):    
-        #    self.clientes.insert_last(opcao[i])
         
     def frame_login(self):        
         #Frame
@@ -176,6 +172,7 @@ class View:
             else:
                 if self.clientes.find_username(nome) == -1:
                     self.clientes.insert_last(cliente)
+                    Controller.escrever_ficheiro_json("Utilizadores", cliente)
                     messagebox.showinfo('Sucesso!', 'Usuário registado com sucesso.\nJá pode fazer o login em sua conta.')
                     self.registo_utilizador.destroy()
                     
