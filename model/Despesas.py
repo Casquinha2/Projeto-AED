@@ -22,4 +22,15 @@ class Despesa:
     def set_descricao(self, descricao):
         self.descricao = descricao
 
+    @staticmethod
+    def despesa_valida(valor, linkedlist, orcamento):
+        despesa = 0
+        for i in range(linkedlist.size):
+            despesa += linkedlist.get(i).get_valor()
+        if orcamento == 0:
+            return True
+        elif despesa + valor <= orcamento:
+            return True
+        else:
+            return False
     
