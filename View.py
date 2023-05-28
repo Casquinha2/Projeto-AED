@@ -173,7 +173,7 @@ class View:
                 if self.clientes.find_username(nome) == -1:
                     self.clientes.insert_last(cliente)
                     self.ficheiro.linkedlist_para_json_cliente(cliente)
-                    messagebox.showinfo('Sucesso!', 'Usuário registado com sucesso.\nJá pode fazer o login em sua conta.')
+                    messagebox.showinfo('Sucesso!', ' Usuário registado com sucesso.\nJá pode fazer o login em sua conta.')
                     self.registo_utilizador.destroy()
                     
                 else:
