@@ -1,4 +1,3 @@
-from Controller import *
 import tkinter as tk
 from model.ClientLinkedList import*
 from model.Cliente import *
@@ -11,9 +10,10 @@ from model.Ficheiro import *
 class View:
     def __init__(self, master):
         self.orcamento = 0
+        self.ficheiro = Ficheiro
         self.master = master
         self.frame = self.frame_login()
-        self.clientes = Ficheiro.json_para_linkedlist_cliente()
+        self.clientes = self.ficheiro.json_para_linkedlist_cliente()
 
 
         
@@ -172,7 +172,7 @@ class View:
             else:
                 if self.clientes.find_username(nome) == -1:
                     self.clientes.insert_last(cliente)
-                    Ficheiro.linkedlist_para_json_cliente(cliente)
+                    self.ficheiro.linkedlist_para_json_cliente(cliente)
                     messagebox.showinfo('Sucesso!', 'Usuário registado com sucesso.\nJá pode fazer o login em sua conta.')
                     self.registo_utilizador.destroy()
                     
