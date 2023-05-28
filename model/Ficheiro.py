@@ -32,8 +32,10 @@ class Ficheiro:
                 lista.insert_last(despesa)
         return orcamento, lista
     
-    def json_para_linkedlist_cliente(self):
-        ficheiro = self.ler_ficheiro_json("Utilizadores.json")
+    @staticmethod
+    def json_para_linkedlist_cliente():
+        with open("Utilizadores.json") as f:
+            ficheiro = json.load(f)
         lista = ClientLinkedList()
         for i in ficheiro:
             nome = i[0]
@@ -57,13 +59,17 @@ class Ficheiro:
             despesas = [valor, data, categoria, descricao]
             self.escrever_ficheiro_json(nome, despesas)
 
-    def linkedlist_para_json_cliente(self, linkedlist):
-        for i in range(linkedlist.size()):
-            nome = i.get_nome()
-            senha = i.get_password()
-            nif = i.get_nif()
-            lista = [nome, senha, nif]
-            self.escrever_ficheiro_json("Utilizadores.json", lista)
+    @staticmethod
+    def linkedlist_para_json_cliente(linkedlist):
+        i = linkedlist
+        nome = i.get_nome()
+        senha = i.get_password()
+        nif = i.get_nif()
+        lista = [nome, senha, nif]
+        json_string = json.dumps(lista)
+        json_file = open("Utilizadores.json", 'a')
+        json_file.write(json_string)
+        json_file.close()
     
     
 
