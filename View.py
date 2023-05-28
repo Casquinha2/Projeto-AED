@@ -5,19 +5,16 @@ from model.Cliente import *
 from model.DespesasLinkedList import *
 from tkinter import messagebox
 from datetime import datetime
+from model.Ficheiro import *
 
 
 class View:
     def __init__(self, master):
-        self.orcamento = 0  #depois sai daqui
+        self.orcamento = 0
         self.master = master
         self.frame = self.frame_login()
-        self.despesas = DespesaslinkedList() #Desdesas do clliente a ser tratado
-        self.clientes = ClientLinkedList() #Criação da lista de clientes
-        data = Controller.ler_ficheiro_json("Utilizadores")
-        for i in data:
-            self.clientes.insert_last(i)
-        
+        self.clientes = Ficheiro.json_para_linkedlist_cliente()
+
 
         
     def frame_login(self):        
@@ -172,7 +169,7 @@ class View:
             else:
                 if self.clientes.find_username(nome) == -1:
                     self.clientes.insert_last(cliente)
-                    Controller.escrever_ficheiro_json("Utilizadores", cliente)
+                    Ficheiro.linkedlist_para_json_cliente(cliente)
                     messagebox.showinfo('Sucesso!', 'Usuário registado com sucesso.\nJá pode fazer o login em sua conta.')
                     self.registo_utilizador.destroy()
                     
@@ -209,7 +206,9 @@ class View:
                         self.password_entry.delete(0, 'end')
                         self.nif_entry.delete(0, 'end')
                     else:
-                        self.frame_principal()                    
+                        self.frame_principal()
+                        self.utilizador = nome  
+                        self.orcamento, self.despesas = Ficheiro().json_para_linkedlist(nome)                  
     
     def quit(self):
         self.master.deiconify()
