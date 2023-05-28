@@ -1,7 +1,7 @@
 from model.List.List import *
 from model.List.Nodes import *
 
-class ClientLinkedList(List):
+class CategorialinkedList(List):
     def __init__(self):
         self.head = None
         self.size = 0
@@ -35,26 +35,6 @@ class ClientLinkedList(List):
         posicao = 0
         while node is not None:
             if node.get_element() == elemento:
-                return posicao
-            node = node.get_next_node()
-            posicao += 1
-        return -1
-     
-    def find_username(self, username):
-        node = self.head
-        posicao = 0
-        while node is not None:
-            if node.get_element().get_nome() == username:
-                return posicao
-            node = node.get_next_node()
-            posicao += 1
-        return -1
-    
-    def find_nif(self, nif):
-        node = self.head
-        posicao = 0
-        while node is not None:
-            if node.get_element().get_nif() == nif:
                 return posicao
             node = node.get_next_node()
             posicao += 1
@@ -138,3 +118,11 @@ class ClientLinkedList(List):
         while node is not None:
             yield node.get_element()
             node = node.get_next_node()
+
+    def bubble_sort(self):
+        node = self.head
+        while node.get_next_node() != None:
+            if node.get_element() > node.get_next_node():
+                temp = node.get_element
+                node.set_element(node.get_next_node())
+                node.set_next_node(temp)

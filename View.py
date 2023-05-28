@@ -1,10 +1,13 @@
 import tkinter as tk
 from model.ClientLinkedList import*
 from model.Cliente import *
+from model.Despesas import *
 from model.DespesasLinkedList import *
 from tkinter import messagebox
 from datetime import datetime
 from model.Ficheiro import *
+from model.Categoria import*
+from model.CategoriaLinkedList import*
 
 
 class View:
@@ -13,7 +16,9 @@ class View:
         self.ficheiro = Ficheiro
         self.master = master
         self.frame = self.frame_login()
-        self.clientes = self.ficheiro.json_para_linkedlist_cliente()
+        self.clientes = ClientLinkedList()
+        self.clientes = self.ficheiro.json_para_linkedlist_cliente(self.clientes)
+        self.despesas = DespesaslinkedList()
 
 
         
@@ -77,7 +82,7 @@ class View:
         self.canvas_bg_principal.create_rectangle(900, 500, 1475, 825, fill= '#92C3EC')
         self.canvas_bg_principal.create_rectangle(50, 50, 1500, 450, fill= 'white')
         
-        #botão de voltar ==> ok
+        #botão logout ==> ok
         self.shutdown_button1 = tk.Button(self.canvas_bg_principal, text="Log out", font=('Arial', 16), fg='black', bg='#92C3EC', command=self.quit)
         self.canvas_bg_principal.create_window(1070, 715, anchor='center', window= self.shutdown_button1)
         
@@ -89,8 +94,8 @@ class View:
         self.registo_despesas_button1 = tk.Button(self.canvas_bg_principal, text="Registar despesas", font=('Arial', 16), fg='black', bg='#92C3EC', command= self.pergunta_orcamento)
         self.canvas_bg_principal.create_window(1075, 635, anchor='center', window= self.registo_despesas_button1)
         
-        #botão de detalhes
-        self.detalhes_button1 = tk.Button(self.canvas_bg_principal, text="Ver mais detalhes", font=('Arial', 16), fg='black', bg='#92C3EC')
+        #botão de sugestoes
+        self.detalhes_button1 = tk.Button(self.canvas_bg_principal, text="Sugestões de cortes", font=('Arial', 16), fg='black', bg='#92C3EC', command=self.sugestoes)
         self.canvas_bg_principal.create_window(1330, 635, anchor='center', window= self.detalhes_button1)
 
         #botão de defição de orçamento mensal
@@ -170,14 +175,15 @@ class View:
                 self.nif_entry3.delete(0, 'end')
                 self.registo_utilizador.tkraise()
             else:
-                if self.clientes.find_username(nome) == -1:
+                if self.clientes.find_username(nome) == -1 and self.clientes.find_nif(nif) == -1:
                     self.clientes.insert_last(cliente)
-                    self.ficheiro.linkedlist_para_json_cliente(cliente)
-                    messagebox.showinfo('Sucesso!', ' Usuário registado com sucesso.\nJá pode fazer o login em sua conta.')
+                    self.ficheiro.linkedlist_para_json_cliente(self.clientes, self.clientes.size)
+                    self.ficheiro.linkedlist_para_json_despesa(nome, self.orcamento, self.despesas)
+                    messagebox.showinfo('Sucesso!', 'Usuário registado com sucesso.\nJá pode fazer o login em sua conta.')
                     self.registo_utilizador.destroy()
                     
                 else:
-                    messagebox.showerror('Erro.', 'Usuário existente.\nPor favor, digite um nome de usuário que ainda não foi registado.')
+                    messagebox.showerror('Erro.', 'Usuário ou NIF existente.\nPor favor, digite um nome de usuário ou um NIF que ainda não foi registado.')
                     self.nome_entry3.delete(0, 'end')
                     self.password_entry3.delete(0, 'end')
                     self.nif_entry3.delete(0, 'end')
@@ -187,10 +193,10 @@ class View:
         if self.clientes.is_empty == True:
             messagebox.showerror('Erro', 'Nenhum usuário registado.\nPor favor, registe um usuário antes de fazer login.')
         else:
-            nome = self.nome_entry.get()
+            self.nome = self.nome_entry.get()
             password = self.password_entry.get()
             nif = self.nif_entry.get()
-            posicao = self.clientes.find_username(nome)
+            posicao = self.clientes.find_username(self.nome)
             if posicao == -1:
                 messagebox.showerror('Erro.', 'Credênciais inválidas.')
                 self.nome_entry.delete(0, 'end')
@@ -209,14 +215,16 @@ class View:
                         self.password_entry.delete(0, 'end')
                         self.nif_entry.delete(0, 'end')
                     else:
+                        self.orcamento, self.despesas = self.ficheiro.json_para_linkedlist_despesa(self.nome)
+                        print(self.orcamento)
                         self.frame_principal()
-                        self.utilizador = nome  
-                        self.orcamento, self.despesas = Ficheiro().json_para_linkedlist(nome)                  
+
     
     def quit(self):
+        self.ficheiro.linkedlist_para_json_despesa(self.nome, self.orcamento, self.despesas)
         self.master.deiconify()
         self.canvas_bg_principal.destroy()
-
+    
 
     #frame de registar utilizador janela pequena
     def frame_registar(self):        
@@ -258,8 +266,11 @@ class View:
             data_despesas = Cliente.data_despesas(self.data_despesas_entry2.get())
             descrição_despesa = Cliente.descrição_despesas(self.descrição_despesas_entry2.get())
             categoria_despesa = self.categoria_despesas_var.get()
-            if valor_despesas != False and data_despesas != False and descrição_despesa != False:
+            if valor_despesas != False and data_despesas != False and descrição_despesa != False and Despesa.despesa_valida(valor_despesas, self.despesas, self.orcamento) ==True:
                 messagebox.showinfo("Sucesso","Despesa registada ")
+                despesa = Despesa(valor_despesas, data_despesas, descrição_despesa, categoria_despesa)
+                self.despesas.insert_last(despesa)
+                self.ficheiro.linkedlist_para_json_despesa(self.nome, self.orcamento, self.despesas)
                 self.registo_despesa.destroy()
             else:
                 self.descrição_despesas_entry2.delete(0,'end')
@@ -279,14 +290,6 @@ class View:
     1º passo: Carregue no botão de registar despesas;
     2º passo: Preencha os dados descritos na nova janela aberta, note que, na "data da despesa" é necessário escrever a data no seguinte formato (dia/mês/ano);
     3º passo: após tudo preenchido, carregue em registar despesa e pronto! Seu registo de despesa terá sido feito com sucesso''')
-             
-    # Botão para voltar para a pagina anteriror
-        self.shutdown_ajuda = tk.Button(self.ajuda, text="Voltar", font=('Arial', 14), fg='white', bg='#6d7575', command=self.quit_ajuda)
-        self.shutdown_ajuda.pack(pady=10, ipadx=20, ipady=5)
-
-    def quit_ajuda(self):
-        self.ajuda.destroy()
-        self.master.deiconify()
 
     def orcamento_mensal(self):
         #frame do orcamento mensal
@@ -298,17 +301,29 @@ class View:
         self.orcamento_label.pack()
         self.orcamento_entry = tk.Entry(self.frame_orc, font=("Arial", 14))
         self.orcamento_entry.pack(pady = 5)
+        
+        #limite mensal
+        self.limite_label = tk.Label(self.frame_orc, text="Qual é o limite mensal que pretende ser avisado?(Valor em percentagem)", font=("Arial", 14), bg="#CF0000")
+        self.limite_label.pack()
+        self.limite_entry = tk.Entry(self.frame_orc, font=("Arial", 14))
+        self.limite_entry.pack(pady= 5)
+
+        #Botao confirmar
         self.orcamento_button = tk.Button(self.frame_orc, text = "Confirmar", font=("Arial", 14), bg="#6d7575", command = self.salvar_orcamento)
         self.orcamento_button.pack(pady=5)
 
     def salvar_orcamento(self):
         try:
             self.orcamento = float(self.orcamento_entry.get())
+            self.limite = float(self.limite_entry.get())
+            if self.limite < 0 or self.limite > 100:
+                raise ValueError
         except ValueError:
-            messagebox.showerror("Erro", "Esse valor não é aceite para o orçamento mensal.\nPor favor tente introduzir um outro valor.")
+            messagebox.showerror("Erro", "Esse valor não é aceite para o orçamento mensal ou para o limite mensal.\nPor favor tente introduzir um outro valor.")
             self.orcamento_entry.delete("end", 0)
+            self.limite_entry.delete("end", 0)
         else:
-            messagebox.showinfo("Sucesso", f"O seu orçamento mensal está definido para {self.orcamento}€.")
+            messagebox.showinfo("Sucesso", f"O seu orçamento mensal está definido para {self.orcamento}€.\nE o seu limite mensal é de {self.limite}%.")
             self.frame_orc.destroy()
 
     def outra_categoria(self):
@@ -334,12 +349,23 @@ class View:
         else:
             messagebox.showerror("Erro", "Essa categoria não existe.\nPor favor tente introduzir outra.")
 
+    def sugestoes(self):
+        listacategoria = CategorialinkedList()
+        for i in range(self.despesas.size):
+            quantidade = 1
+            categoria = self.despesas.get(i).get_categoria()
+            valor = self.despesas.get(i).get_valor()
+            for j in range(i):
+                categoria2 = self.despesas.get(j+1).get_categoria()
+                if categoria == categoria2:
+                    valor += self.despesas.get(j+1).get_valor()
+                    quantidade += 1
+            media = valor/quantidade
+            categoriaobj = Categoria(media, categoria)
+            listacategoria.insert_last(categoriaobj)
+        listacategoria.bubble_sort()
+        messagebox.showinfo("",f"o maior e:{listacategoria.get_last().get_categoria()}")
+                
+                
+                
 
-        
-
-
-
-#[{nome:..., senha:..., nif:...}, despesas, grafico,....]
-#[{nome:..., se, despesas, grafico,...]
-
-#[{nome:..., senha:..., nif:...}, {nome:..., senha:..., nif:...}, {nome:..., senha:..., nif:...}
