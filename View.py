@@ -119,38 +119,38 @@ class View:
     def frame_registar_despesa(self):        
         #frame do registo de despesas
         self.registo_despesa = tk.Toplevel(self.master)
-        self.registo_despesa.configure(bg= '#CF0000')
+        self.registo_despesa.configure(bg= '#4db6e5')
         
         #valor de despesa
-        self.valor_despesas_label2 = tk.Label(self.registo_despesa, text="Valor da despesa: ", font=('Arial', 14), bg='#CF0000')
+        self.valor_despesas_label2 = tk.Label(self.registo_despesa, text="Valor da despesa: ", font=('Arial', 14), bg='#4db6e5')
         self.valor_despesas_label2.pack()
-        self.valor_despesas_entry2 = tk.Entry(self.registo_despesa, font=('Arial', 14),)
+        self.valor_despesas_entry2 = tk.Entry(self.registo_despesa, font=('Arial', 14),  bg='#d8e6f4')
         self.valor_despesas_entry2.pack(pady=5)
 
         #data de despesa
-        self.data_despesas_label2 = tk.Label(self.registo_despesa, text="Data da despesa: ", font=('Arial', 14), bg='#CF0000')
+        self.data_despesas_label2 = tk.Label(self.registo_despesa, text="Data da despesa: ", font=('Arial', 14), bg='#4db6e5')
         self.data_despesas_label2.pack()
-        self.data_despesas_entry2 = tk.Entry(self.registo_despesa, font=('Arial', 14))
+        self.data_despesas_entry2 = tk.Entry(self.registo_despesa, font=('Arial', 14),  bg='#d8e6f4')
         self.data_despesas_entry2.pack(pady=5)
         
         #categoria da despesa
-        self.categoria_despesas_label2 = tk.Label(self.registo_despesa, text="Categoria da despesa: ", font=('Arial', 14), bg='#CF0000')
+        self.categoria_despesas_label2 = tk.Label(self.registo_despesa, text="Categoria da despesa: ", font=('Arial', 14), bg='#4db6e5')
         self.categoria_despesas_label2.pack()
         self.categoria_despesas_options = ['Selecione uma opção', 'Alimentação', 'Transporte', 'Moradia', 'Lazer', 'Outra'] 
         self.categoria_despesas_var = tk.StringVar(self.registo_despesa)
         self.categoria_despesas_var.set(self.categoria_despesas_options[0])
         self.categoria_despesas_menu = tk.OptionMenu(self.registo_despesa, self.categoria_despesas_var, *self.categoria_despesas_options)
-        self.categoria_despesas_menu.config(font=('Arial', 10))
+        self.categoria_despesas_menu.config(font=('Arial', 10),  bg='#d8e6f4')
         self.categoria_despesas_menu.pack(pady=5)
         
         #descrição de despesa
-        self.descrição_despesas_label2 = tk.Label(self.registo_despesa, text="Descrição da despesa (Almoço em restaurante): ", font=('Arial', 14), bg='#CF0000')
+        self.descrição_despesas_label2 = tk.Label(self.registo_despesa, text="Descrição da despesa (ex.: Almoço em restaurante): ", font=('Arial', 14), bg='#4db6e5')
         self.descrição_despesas_label2.pack()
-        self.descrição_despesas_entry2 = tk.Entry(self.registo_despesa, font=('Arial', 14))
+        self.descrição_despesas_entry2 = tk.Entry(self.registo_despesa, font=('Arial', 14),  bg='#d8e6f4')
         self.descrição_despesas_entry2.pack(pady=5)
 
         #Botão de registar despesa
-        self.registo_button2 = tk.Button(self.registo_despesa, text="Registo de Despesas", font=('Arial', 14), bg='#6d7575', command=self.caracteristicas_despesas)
+        self.registo_button2 = tk.Button(self.registo_despesa, text="Registo de Despesas", font=('Arial', 14), bg='#d8e6f4', command=self.caracteristicas_despesas)
         self.registo_button2.pack(pady=10, ipadx=20, ipady=5)
 
     def registar(self):
@@ -294,22 +294,22 @@ class View:
     def orcamento_mensal(self):
         #frame do orcamento mensal
         self.frame_orc = tk.Toplevel(self.master)
-        self.frame_orc.configure(bg= '#CF0000')
+        self.frame_orc.configure(bg= '#4db6e5')
 
         #orcamento mensal
-        self.orcamento_label=tk.Label(self.frame_orc, text="Indique o seu orçamento mensal.", font=("Arial", 14), bg="#CF0000")
+        self.orcamento_label=tk.Label(self.frame_orc, text="Indique o seu orçamento mensal.", font=("Arial", 14), bg="#4db6e5")
         self.orcamento_label.pack()
-        self.orcamento_entry = tk.Entry(self.frame_orc, font=("Arial", 14))
+        self.orcamento_entry = tk.Entry(self.frame_orc, font=("Arial", 14),  bg='#d8e6f4')
         self.orcamento_entry.pack(pady = 5)
         
         #limite mensal
-        self.limite_label = tk.Label(self.frame_orc, text="Qual é o limite mensal que pretende ser avisado?(Valor em percentagem)", font=("Arial", 14), bg="#CF0000")
+        self.limite_label = tk.Label(self.frame_orc, text="Qual é o limite mensal que pretende ser avisado?(Valor em percentagem)", font=("Arial", 14), bg="#4db6e5")
         self.limite_label.pack()
-        self.limite_entry = tk.Entry(self.frame_orc, font=("Arial", 14))
+        self.limite_entry = tk.Entry(self.frame_orc, font=("Arial", 14),  bg='#d8e6f4')
         self.limite_entry.pack(pady= 5)
 
         #Botao confirmar
-        self.orcamento_button = tk.Button(self.frame_orc, text = "Confirmar", font=("Arial", 14), bg="#6d7575", command = self.salvar_orcamento)
+        self.orcamento_button = tk.Button(self.frame_orc, text = "Confirmar", font=("Arial", 14),  bg='#d8e6f4', command = self.salvar_orcamento)
         self.orcamento_button.pack(pady=5)
 
     def salvar_orcamento(self):
