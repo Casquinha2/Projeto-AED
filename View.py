@@ -178,7 +178,7 @@ class View:
                 if self.clientes.find_username(nome) == -1 and self.clientes.find_nif(nif) == -1:
                     self.clientes.insert_last(cliente)
                     self.ficheiro.linkedlist_para_json_cliente(self.clientes, self.clientes.size)
-                    self.ficheiro.linkedlist_para_json_despesa(nome, self.orcamento, self.despesas)
+                    self.ficheiro.linkedlist_para_json_despesa(nome, 0, self.despesas)
                     messagebox.showinfo('Sucesso!', 'Usuário registado com sucesso.\nJá pode fazer o login em sua conta.')
                     self.registo_utilizador.destroy()
                     
@@ -215,9 +215,8 @@ class View:
                         self.password_entry.delete(0, 'end')
                         self.nif_entry.delete(0, 'end')
                     else:
+                        self.orcamento, self.despesas = self.ficheiro.json_para_linkedlist_despesa(self.nome)
                         self.frame_principal()
-                        self.orcamento, self.despesas = self.ficheiro.json_para_linkedlist_despesa(f"{self.nome}")
-                        print(self.orcamento)
                         
 
     

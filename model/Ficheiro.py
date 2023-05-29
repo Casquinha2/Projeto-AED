@@ -57,7 +57,7 @@ class Ficheiro:
         lista_pai.append(utilizador)
         lista_pai.append(orcamento)
         for i in range(linkedlist.size):
-            elemento = linkedlist.remove_first()
+            elemento = linkedlist.get(i)
             valor = elemento.get_valor()
             data = elemento.get_data()
             categoria = elemento.get_categoria()
