@@ -327,22 +327,44 @@ class View:
 
     def sugestoes(self):
         listacategoria = CategorialinkedList()
+        alimentacao, transporte, moradia, lazer, outra = 0
+        alimentacaova, transporteva, moradiava, lazerva, outrava = 0
         for i in range(self.despesas.size):
-            quantidade = 1
             categoria = self.despesas.get(i).get_categoria()
-            valor = self.despesas.get(i).get_valor()
-            for j in range(i):
-                categoria2 = self.despesas.get(j+1).get_categoria()
-                if categoria == categoria2:
-                    valor += self.despesas.get(j+1).get_valor()
-                    quantidade += 1
-            media = valor/quantidade
-            print(media)
-            categoriaobj = Categoria(media, categoria)
-            listacategoria.insert_last(categoriaobj)
-        listacategoria.bubble_sort()
+            if categoria == "Alimenta\u00e7\u00e3o":
+                alimentacao += 1
+                alimentacaova += self.despesas.get(i).get_valor()
+            elif categoria == "Transporte":
+                transporte += 1
+                transporteva += self.despesas.get(i).get_valor()
+            elif categoria == "Moradia":
+                moradia += 1
+                moradiava += self.despesas.get(i).get_valor()
+            elif categoria == "Lazer":
+                lazer += 1
+                lazerva += self.despesas.get(i).get_valor()
+            else:
+                outra += 1
+                outrava += self.despesas.get(i).get_valor()
+        mediaal = alimentacaova/alimentacao
+        mediatra = transporteva/transporte
+        mediamo = moradiava/moradia
+        medialaz = lazerva/lazer
+        mediaou = outrava/outra
+        categoriaal = Categoria("Alimenta\u00e7\u00e3o", mediaal)
+        categoriatra = Categoria("Transporte",mediatra)
+        categoriamo = Categoria("Moradia", mediamo)
+        categorialaz = Categoria("Lazer", medialaz)
+        categoriaou = Categoria("Outro", mediaou)
+        listacategoria.insert_last(categoriaal)
+        listacategoria.insert_last(categoriatra)
+        listacategoria.insert_last(categoriamo)
+        listacategoria.insert_last(categorialaz)
+        listacategoria.insert_last(categoriaou)
+        
+        #sort lista
+
         messagebox.showinfo("",f"o maior e:{listacategoria.get_last().get_categoria()}")
                 
                 
                 
-
