@@ -8,6 +8,7 @@ from datetime import datetime
 from model.Ficheiro import *
 from model.Categoria import*
 from model.CategoriaLinkedList import*
+from tkcalendar import DateEntry
 
 
 class View:
@@ -130,8 +131,9 @@ class View:
         #data de despesa
         self.data_despesas_label2 = tk.Label(self.registo_despesa, text="Data da despesa: ", font=('Arial', 14), bg='#4db6e5')
         self.data_despesas_label2.pack()
-        self.data_despesas_entry2 = tk.Entry(self.registo_despesa, font=('Arial', 14),  bg='#d8e6f4')
+        self.data_despesas_entry2 = DateEntry(self.registo_despesa, font=('Arial', 14), bg='#d8e6f4')
         self.data_despesas_entry2.pack(pady=5)
+
         
         #categoria da despesa
         self.categoria_despesas_label2 = tk.Label(self.registo_despesa, text="Categoria da despesa: ", font=('Arial', 14), bg='#4db6e5')
