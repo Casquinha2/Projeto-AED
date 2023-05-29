@@ -326,6 +326,7 @@ class View:
         else:
             messagebox.showinfo("Sucesso", f"O seu orçamento mensal está definido para {self.orcamento}€.\nE o seu limite mensal é de {self.limite}%.")
             self.frame_orc.destroy()
+            self.frame_registar_despesa()
 
     def outra_categoria(self):
         #frame do outra categoria
