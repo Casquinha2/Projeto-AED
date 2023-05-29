@@ -21,7 +21,8 @@ class Despesa:
         self.categoria = categoria
     def set_descricao(self, descricao):
         self.descricao = descricao
-
+        
+# tiago explica
     @staticmethod
     def despesa_valida(valor, linkedlist, orcamento):
         despesa = 0
@@ -36,10 +37,20 @@ class Despesa:
         
     @staticmethod
     def verificar_limite(limite, despesa, linkedlist, orcamento):
-        limite = (limite * 100)/orcamento
         for i in range(linkedlist.size):
             despesa += linkedlist.get(i).get_valor()
-        if despesa < limite:
+        if despesa < limite and limite > orcamento:
             return True
         else:
             return False
+        
+   
+   #@staticmethod
+    #def verificar_limite(limite, despesa, linkedlist, orcamento):
+    #    limite = (limite * 100)/orcamento
+    #    for i in range(linkedlist.size):
+    #        despesa += linkedlist.get(i).get_valor()
+    #    if despesa < limite:
+    #        return True
+    #    else:
+    #        return False   
