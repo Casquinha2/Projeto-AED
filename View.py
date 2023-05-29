@@ -131,7 +131,7 @@ class View:
         #data de despesa
         self.data_despesas_label2 = tk.Label(self.registo_despesa, text="Data da despesa: ", font=('Arial', 14), bg='#4db6e5')
         self.data_despesas_label2.pack()
-        self.data_despesas_entry2 = DateEntry(self.registo_despesa, font=('Arial', 14), bg='#d8e6f4', date_pattern='dd/mm/yyyy')
+        self.data_despesas_entry2 = DateEntry(self.registo_despesa, font=('Arial', 14), bg='#d8e6f4', date_pattern='dd/mm/yyyy', foreground='black', background='#d8e6f4')
         self.data_despesas_entry2.pack(pady=5)
 
 
