@@ -109,7 +109,7 @@ class View:
 
     def pergunta_orcamento(self):
         if self.orcamento == 0:
-            message = messagebox.askquestion('Pergunta.', 'O utilizador ainda não definiu um orçamento mensal. Deseja definir?')
+            message = messagebox.askquestion('Pergunta.', 'O utilizador ainda não definiu um orçamento mensal, nem um limite mensal. Deseja definir?')
             if message == "yes":
                 self.orcamento_mensal()
             else:
@@ -219,6 +219,9 @@ class View:
                         self.nif_entry.delete(0, 'end')
                     else:
                         self.orcamento, self.despesas = self.ficheiro.json_para_linkedlist_despesa(self.nome)
+                        self.nome_entry.delete(0, 'end')
+                        self.password_entry.delete(0, 'end')
+                        self.nif_entry.delete(0, 'end')
                         self.frame_principal()
                         
 
@@ -272,21 +275,26 @@ class View:
                 despesa = Despesa(valor_despesas, data_despesas, descrição_despesa, categoria_despesa)
                 self.despesas.insert_last(despesa)
                 self.ficheiro.linkedlist_para_json_despesa(self.nome, self.orcamento, self.despesas)
-                self.registo_despesa.destroy()
+                if Despesa.verificar_limite(self.limite, valor_despesas, self.despesas, self.orcamento) == True:
+                    self.registo_despesa.destroy()
+                else:
+                    messagebox.showwarning("Cuidado", "O seu limite está a ser excedido.")
+                    self.registo_despesa.destroy()
             else:
                 self.descrição_despesas_entry2.delete(0,'end')
                 self.categoria_despesas_var.set(self.categoria_despesas_options[0])
                 self.valor_despesas_entry2.delete(0,"end")
-                self.data_despesas_entry2.delete(0,'end')
                 messagebox.showerror("Erro", "Um dos campos foi mal preenchido.\nPor favor introduza novamente.")
 
     # pagina de ajuda ao utilizador
     def messagebox_ajuda_login(self):
-        messagebox.showinfo('Como faço o login?', '''    Caso não efetuou registo, carregue no botão escrito "registo" e preencha os dados, note que o nif tem de ser igual ao do seu cartão de cidadão.
-    Após ter feito o registo, preencha os dados do login com os mesmos dados que preencheu quando fez registo.''')
+        messagebox.showinfo('Como faço o login?', '''    Caso não efetuou registo, carregue no botão escrito "Registo" e preencha os dados. Note que o nif tem de ser igual ao do seu cartão de cidadão.
+    Após ter efetuado o registo, preencha os dados do login com os mesmos dados que preencheu quando fez no registo.''')
     
     #pagina de ajuda no registo de despesas
     def messagebox_ajuda_despesas(self):
+
+        #este botao ou deve falar de todas as opcoes na tela principal, ou deve estar na frame de registar despesa
         messagebox.showinfo('Como registar seus gastos?','''Para registar as suas despesas deve seguir os seguintes passos:
     1º passo: Carregue no botão de registar despesas;
     2º passo: Preencha os dados descritos na nova janela aberta, note que, na "data da despesa" é necessário escrever a data no seguinte formato (dia/mês/ano);
