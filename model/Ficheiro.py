@@ -22,8 +22,9 @@ class Ficheiro:
             ficheiro = json.load(f)
         lista = DespesaslinkedList()
         orcamento = ficheiro[1][0]
+        limite = ficheiro[2][0]
         for i in ficheiro:
-            if ficheiro[0] == i or ficheiro[1] == i:
+            if ficheiro[0] == i or ficheiro[1] == i or ficheiro[2] == i:
                 continue
             else:
                 valor = i[0]
@@ -32,7 +33,7 @@ class Ficheiro:
                 descricao = i[3]
                 despesa = Despesa(valor, data, categoria, descricao)
                 lista.insert_last(despesa)
-        return orcamento, lista
+        return orcamento, limite, lista
     
     @staticmethod
     def json_para_linkedlist_cliente(linkedlist):
@@ -50,12 +51,14 @@ class Ficheiro:
             return linkedlist
     
     @staticmethod
-    def linkedlist_para_json_despesa(nome, orcamento, linkedlist):
+    def linkedlist_para_json_despesa(nome, orcamento, limite, linkedlist):
         lista_pai = []
         utilizador = [nome]
         orcamento = [orcamento]
+        limite = [limite]
         lista_pai.append(utilizador)
         lista_pai.append(orcamento)
+        lista_pai.append(limite)
         for i in range(linkedlist.size):
             elemento = linkedlist.get(i)
             valor = elemento.get_valor()

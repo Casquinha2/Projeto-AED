@@ -13,7 +13,6 @@ from tkcalendar import DateEntry
 
 class View:
     def __init__(self, master):
-        self.orcamento = 0
         self.ficheiro = Ficheiro
         self.master = master
         self.frame = self.frame_login()
@@ -181,7 +180,7 @@ class View:
                 if self.clientes.find_username(nome) == -1 and self.clientes.find_nif(nif) == -1:
                     self.clientes.insert_last(cliente)
                     self.ficheiro.linkedlist_para_json_cliente(self.clientes, self.clientes.size)
-                    self.ficheiro.linkedlist_para_json_despesa(nome, 0, self.despesas)
+                    self.ficheiro.linkedlist_para_json_despesa(nome, 0,0, self.despesas)
                     messagebox.showinfo('Sucesso!', 'Usuário registado com sucesso.\nJá pode fazer o login em sua conta.')
                     self.registo_utilizador.destroy()
                     
@@ -218,7 +217,7 @@ class View:
                         self.password_entry.delete(0, 'end')
                         self.nif_entry.delete(0, 'end')
                     else:
-                        self.orcamento, self.despesas = self.ficheiro.json_para_linkedlist_despesa(self.nome)
+                        self.orcamento, self.limite, self.despesas = self.ficheiro.json_para_linkedlist_despesa(self.nome)
                         self.nome_entry.delete(0, 'end')
                         self.password_entry.delete(0, 'end')
                         self.nif_entry.delete(0, 'end')
@@ -270,15 +269,23 @@ class View:
             data_despesas = self.data_despesas_entry2.get()
             descrição_despesa = Cliente.descrição_despesas(self.descrição_despesas_entry2.get())
             categoria_despesa = self.categoria_despesas_var.get()
-            if valor_despesas != False and descrição_despesa != False and Despesa.despesa_valida(valor_despesas, self.despesas, self.orcamento) ==True:
-                messagebox.showinfo("Sucesso","Despesa registada ")
-                despesa = Despesa(valor_despesas, data_despesas, descrição_despesa, categoria_despesa)
-                self.despesas.insert_last(despesa)
-                self.ficheiro.linkedlist_para_json_despesa(self.nome, self.orcamento, self.despesas)
-                if Despesa.verificar_limite(self.limite, valor_despesas, self.despesas, self.orcamento) == True:
-                    self.registo_despesa.destroy()
+            if valor_despesas != False and descrição_despesa != False:
+                if  Despesa.despesa_valida(valor_despesas, self.despesas, self.orcamento) == True:
+                    teste = messagebox.showinfo("Sucesso","Despesa registada ")
+                    despesa = Despesa(valor_despesas, data_despesas, descrição_despesa, categoria_despesa)
+                    self.despesas.insert_last(despesa)
+                    self.ficheiro.linkedlist_para_json_despesa(self.nome, self.orcamento, self.limite, self.despesas)
+                    if Despesa.verificar_limite(self.limite, valor_despesas, self.despesas, self.orcamento) == True:
+                        self.registo_despesa.destroy()
+                    else:
+                        self.descrição_despesas_entry2.delete(0,'end')
+                        self.categoria_despesas_var.set(self.categoria_despesas_options[0])
+                        self.valor_despesas_entry2.delete(0,"end")
+                        self.registo_despesa.destroy()
+                        messagebox.showwarning("Cuidado", "O seu limite está a ser excedido.")
+                        
                 else:
-                    messagebox.showwarning("Cuidado", "O seu limite está a ser excedido.")
+                    messagebox.showerror("Erro", "Não é possível introduzir essa despesa pois passará o seu orçamento mensal.")
                     self.registo_despesa.destroy()
             else:
                 self.descrição_despesas_entry2.delete(0,'end')
@@ -338,8 +345,12 @@ class View:
 
     def sugestoes(self):
         listacategoria = CategorialinkedList()
-        alimentacao, transporte, moradia, lazer, outra = 0
-        alimentacaova, transporteva, moradiava, lazerva, outrava = 0
+        alimentacao = transporte = moradia = lazer = outra = 0
+        alimentacaova = 0
+        transporteva = 0
+        moradiava = 0
+        lazerva = 0
+        outrava = 0
         for i in range(self.despesas.size):
             categoria = self.despesas.get(i).get_categoria()
             if categoria == "Alimenta\u00e7\u00e3o":
@@ -357,16 +368,36 @@ class View:
             else:
                 outra += 1
                 outrava += self.despesas.get(i).get_valor()
-        mediaal = alimentacaova/alimentacao
-        mediatra = transporteva/transporte
-        mediamo = moradiava/moradia
-        medialaz = lazerva/lazer
-        mediaou = outrava/outra
-        categoriaal = Categoria("Alimenta\u00e7\u00e3o", mediaal)
-        categoriatra = Categoria("Transporte",mediatra)
-        categoriamo = Categoria("Moradia", mediamo)
-        categorialaz = Categoria("Lazer", medialaz)
-        categoriaou = Categoria("Outro", mediaou)
+        try:
+            mediaal = alimentacaova/alimentacao
+        except ZeroDivisionError:
+            categoriaal = Categoria("Alimenta\u00e7\u00e3o", 0)
+        else:
+            categoriaal = Categoria("Alimenta\u00e7\u00e3o", mediaal)
+        try:
+            mediatra = transporteva/transporte
+        except ZeroDivisionError:
+            categoriatra = Categoria("Transporte",0)
+        else:
+            categoriatra = Categoria("Transporte",mediatra)
+        try:
+            mediamo = moradiava/moradia
+        except ZeroDivisionError:
+            categoriamo = Categoria("Moradia", 0)
+        else:
+            categoriamo = Categoria("Moradia", mediamo)
+        try:
+            medialaz = lazerva/lazer
+        except ZeroDivisionError:
+            categorialaz = Categoria("Lazer", 0)
+        else:
+            categorialaz = Categoria("Lazer", medialaz)
+        try:
+            mediaou = outrava/outra
+        except ZeroDivisionError:
+            categoriaou = Categoria("Outro", 0)
+        else:
+            categoriaou = Categoria("Outro", mediaou)  
         listacategoria.insert_last(categoriaal)
         listacategoria.insert_last(categoriatra)
         listacategoria.insert_last(categoriamo)
@@ -375,7 +406,4 @@ class View:
 
         #sort lista
 
-        messagebox.showinfo("",f"o maior e:{listacategoria.get_last().get_categoria()}")
-                
-                
-                
+        messagebox.showinfo("Sugestão",f"Anda a gastar maius dinheiro em {listacategoria.get_last().get_categoria()}.\nRecomendamos que corte em algumas dessas despesas.")
