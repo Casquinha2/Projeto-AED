@@ -8,7 +8,7 @@ from datetime import datetime
 from model.Ficheiro import *
 from model.Categoria import*
 from model.CategoriaLinkedList import*
-from tkcalender import DateEntry
+from tkcalendar import DateEntry
 
 
 class View:
@@ -193,7 +193,7 @@ class View:
 
     def login(self):
         if self.clientes.is_empty == True:
-            messagebox.showerror('Erro', 'Nenhum usuário registado.\nPor favor, registe um usuário antes de fazer login.')
+            messagebox.showerror('Erro', 'Nenhum usuário registado.\nPor favor, registe um utilizador antes de fazer login.')
         else:
             self.nome = self.nome_entry.get()
             password = self.password_entry.get()
@@ -295,17 +295,17 @@ class View:
 
     # pagina de ajuda ao utilizador
     def messagebox_ajuda_login(self):
-        messagebox.showinfo('Como faço o login?', '''    Caso não efetuou registo, carregue no botão escrito "Registo" e preencha os dados. Note que o nif tem de ser igual ao do seu cartão de cidadão.
+        messagebox.showinfo('Como faço o login?', '''    Caso ainda não tenha efetuado o registo, carregue no botão  "Registo" e preencha os dados. Verifique se o nif esta de acordo com o seu CC (cartão de cidadão).
     Após ter efetuado o registo, preencha os dados do login com os mesmos dados que preencheu quando fez no registo.''')
     
     #pagina de ajuda no registo de despesas
     def messagebox_ajuda_despesas(self):
 
         #este botao ou deve falar de todas as opcoes na tela principal, ou deve estar na frame de registar despesa
-        messagebox.showinfo('Como registar seus gastos?','''Para registar as suas despesas deve seguir os seguintes passos:
+        messagebox.showinfo('Como fazer registo do seus gastos?','''Para registar as suas despesas deve seguir os seguintes passos:
     1º passo: Carregue no botão de registar despesas;
-    2º passo: Preencha os dados descritos na nova janela aberta, note que, na "data da despesa" é necessário escrever a data no seguinte formato (dia/mês/ano);
-    3º passo: após tudo preenchido, carregue em registar despesa e pronto! Seu registo de despesa terá sido feito com sucesso''')
+    2º passo: Preencha os dados descritos na nova janela aberta, repare que, na "data da despesa" é necessário escrever a data no seguinte formato (dia/mês/ano);
+    3º passo: Após tudo preenchido, carregue em registar despesa e pronto! Seu registo de despesa terá sido feito com sucesso''')
 
     def orcamento_mensal(self):
         #frame do orcamento mensal
@@ -319,7 +319,7 @@ class View:
         self.orcamento_entry.pack(pady = 5)
         
         #limite mensal
-        self.limite_label = tk.Label(self.frame_orc, text="Qual é o limite mensal que pretende ser avisado?(Valor em percentagem)", font=("Arial", 14), bg="#4db6e5")
+        self.limite_label = tk.Label(self.frame_orc, text=" Defina o valor do limite mensal que pretende o envio da mensagem de alerta ?(Valor em percentagem)", font=("Arial", 14), bg="#4db6e5")
         self.limite_label.pack()
         self.limite_entry = tk.Entry(self.frame_orc, font=("Arial", 14),  bg='#d8e6f4')
         self.limite_entry.pack(pady= 5)
@@ -406,4 +406,4 @@ class View:
 
         #sort lista
 
-        messagebox.showinfo("Sugestão",f"Anda a gastar maius dinheiro em {listacategoria.get_last().get_categoria()}.\nRecomendamos que corte em algumas dessas despesas.")
+        messagebox.showinfo("Sugestão",f"Anda a gastar mais dinheiro em {listacategoria.get_last().get_categoria()}.\nRecomendamos que corte em algumas dessas despesas.")
