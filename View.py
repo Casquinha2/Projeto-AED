@@ -263,10 +263,10 @@ class View:
             self.categoria_despesas_var.set(self.categoria_despesas_options[0])
         else:
             valor_despesas = Cliente.valor_despesa(self.valor_despesas_entry2.get())
-            data_despesas = Cliente.data_despesas(self.data_despesas_entry2.get())
+            data_despesas = self.data_despesas_entry2.get()
             descrição_despesa = Cliente.descrição_despesas(self.descrição_despesas_entry2.get())
             categoria_despesa = self.categoria_despesas_var.get()
-            if valor_despesas != False and data_despesas != False and descrição_despesa != False and Despesa.despesa_valida(valor_despesas, self.despesas, self.orcamento) ==True:
+            if valor_despesas != False and descrição_despesa != False and Despesa.despesa_valida(valor_despesas, self.despesas, self.orcamento) ==True:
                 messagebox.showinfo("Sucesso","Despesa registada ")
                 despesa = Despesa(valor_despesas, data_despesas, descrição_despesa, categoria_despesa)
                 self.despesas.insert_last(despesa)
@@ -363,7 +363,7 @@ class View:
         listacategoria.insert_last(categoriamo)
         listacategoria.insert_last(categorialaz)
         listacategoria.insert_last(categoriaou)
-        
+
         #sort lista
 
         messagebox.showinfo("",f"o maior e:{listacategoria.get_last().get_categoria()}")

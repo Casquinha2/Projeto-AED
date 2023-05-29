@@ -56,25 +56,11 @@ class Cliente:
             return valorfloat
 
     @staticmethod  
-    def  categoria_despesas(descricao):
+    def  categoria_despesas(categoria):
         try:
-            categoria1 = float(descricao)
+            categoria1 = float(categoria)
         except ValueError:
-            return descricao
-        else:
-            return False
-        
-    @staticmethod
-    def data_despesas(data):
-        formato_data =  r'^\d{2}/\d{2}/\d{2}$'
-        if  re.match(formato_data , data):
-            try:
-                dia, mes, ano = map(int, data.split('/'))
-                datetime.datetime(year=ano, month=mes, day=dia)
-            except ValueError:
-                return False
-            else:
-                return dia, mes, ano
+            return categoria
         else:
             return False
         
