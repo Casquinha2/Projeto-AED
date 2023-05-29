@@ -271,7 +271,7 @@ class View:
             categoria_despesa = self.categoria_despesas_var.get()
             if valor_despesas != False and descrição_despesa != False:
                 if  Despesa.despesa_valida(valor_despesas, self.despesas, self.orcamento) == True:
-                    teste = messagebox.showinfo("Sucesso","Despesa registada ")
+                    messagebox.showinfo("Sucesso","Despesa registada ")
                     despesa = Despesa(valor_despesas, data_despesas, descrição_despesa, categoria_despesa)
                     self.despesas.insert_last(despesa)
                     self.ficheiro.linkedlist_para_json_despesa(self.nome, self.orcamento, self.limite, self.despesas)
