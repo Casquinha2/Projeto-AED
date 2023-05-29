@@ -8,7 +8,7 @@ from datetime import datetime
 from model.Ficheiro import *
 from model.Categoria import*
 from model.CategoriaLinkedList import*
-from tkcalendar import DateEntry
+from tkcalender import DateEntry
 
 
 class View:
