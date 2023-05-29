@@ -412,3 +412,6 @@ class View:
         listacategoria.insert_last(categoriaou)
         listacategoria.bubble_sort()
         messagebox.showinfo("Sugestão", f"Anda a gastar mais dinheiro em {listacategoria.get_last().get_categoria()}.\nRecomendamos que corte em algumas dessas despesas.")
+
+    def criar_grafico(self):
+        self.teste_linha = self.canvas_test.create_line(0, 0, 500, 1200, fill= 'red')
