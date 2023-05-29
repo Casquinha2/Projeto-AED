@@ -215,13 +215,14 @@ class View:
                         self.password_entry.delete(0, 'end')
                         self.nif_entry.delete(0, 'end')
                     else:
+                        self.frame_principal()
                         self.orcamento, self.despesas = self.ficheiro.json_para_linkedlist_despesa(f"{self.nome}")
                         print(self.orcamento)
-                        self.frame_principal()
+                        
 
     
     def quit(self):
-        self.ficheiro.linkedlist_para_json_despesa(self.nome, self.orcamento, self.despesas)
+        #self.ficheiro.linkedlist_para_json_despesa(self.nome, self.orcamento, self.despesas)
         self.master.deiconify()
         self.canvas_bg_principal.destroy()
     

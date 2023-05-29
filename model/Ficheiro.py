@@ -18,7 +18,7 @@ class Ficheiro:
     
     @staticmethod
     def json_para_linkedlist_despesa(nome):
-        with open(f"{nome}.json", "w") as f:
+        with open(f"{nome}.json", "r") as f:
             ficheiro = json.load(f)
         lista = DespesaslinkedList()
         orcamento = ficheiro[1][0]
