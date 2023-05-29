@@ -256,9 +256,7 @@ class View:
         
     #caracteristicas das despesas
     def caracteristicas_despesas(self):
-        if self.categoria_despesas_var.get() == "Outra":
-            self.outra_categoria()
-        elif self.categoria_despesas_var.get() == "Selecione uma opção":
+        if self.categoria_despesas_var.get() == "Selecione uma opção":
             messagebox.showerror("Erro", "Por favor selecione uma despesa para conseguir prosseguir.")
             self.categoria_despesas_var.set(self.categoria_despesas_options[0])
         else:
@@ -327,29 +325,6 @@ class View:
             self.frame_orc.destroy()
             self.frame_registar_despesa()
 
-    def outra_categoria(self):
-        #frame do outra categoria
-        self.frame_out_cat = tk.Toplevel(self.master)
-        self.frame_out_cat.configure(bg= '#CF0000')
-
-        #outra categoria
-        self.outracat_label=tk.Label(self.frame_out_cat, text="Indique qual é a categoria que deseja.", font=("Arial", 14), bg="#CF0000")
-        self.outracat_label.pack()
-        self.outracat_entry = tk.Entry(self.frame_out_cat, font=("Arial", 14))
-        self.outracat_entry.pack(pady = 5)
-        self.outracat_button = tk.Button(self.frame_out_cat, text = "Confirmar", font=("Arial", 14), bg="#6d7575", command = self.outra_cat_confirmar)
-        self.outracat_button.pack(pady=5)
-        self.outracat_button1 = tk.Button(self.frame_out_cat, text = "Voltar", font=("Arial", 14), bg="#6d7575", command = self.frame_out_cat.destroy)
-        self.outracat_button1.pack(pady = 5)
-
-    def outra_cat_confirmar(self):
-        try:
-            categoria1 = float(self.outracat_entry.get())
-        except ValueError:
-            return self.outracat_entry.get()
-        else:
-            messagebox.showerror("Erro", "Essa categoria não existe.\nPor favor tente introduzir outra.")
-
     def sugestoes(self):
         listacategoria = CategorialinkedList()
         for i in range(self.despesas.size):
@@ -362,6 +337,7 @@ class View:
                     valor += self.despesas.get(j+1).get_valor()
                     quantidade += 1
             media = valor/quantidade
+            print(media)
             categoriaobj = Categoria(media, categoria)
             listacategoria.insert_last(categoriaobj)
         listacategoria.bubble_sort()
