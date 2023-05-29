@@ -8,7 +8,7 @@ from datetime import datetime
 from model.Ficheiro import *
 from model.Categoria import*
 from model.CategoriaLinkedList import*
-from tkcalender import DateEntry
+from tkcalendar import DateEntry
 
 
 class View:
@@ -346,11 +346,7 @@ class View:
     def sugestoes(self):
         listacategoria = CategorialinkedList()
         alimentacao = transporte = moradia = lazer = outra = 0
-        alimentacaova = 0
-        transporteva = 0
-        moradiava = 0
-        lazerva = 0
-        outrava = 0
+        alimentacaova = transporteva = moradiava = lazerva = outrava = 0
         for i in range(self.despesas.size):
             categoria = self.despesas.get(i).get_categoria()
             if categoria == "Alimenta\u00e7\u00e3o":
@@ -404,6 +400,9 @@ class View:
         listacategoria.insert_last(categorialaz)
         listacategoria.insert_last(categoriaou)
 
-        #sort lista
+        listacategoria.bubble_sort()
+
+        for i in range(listacategoria.size):
+            print(listacategoria.get(i).get_categoria())
 
         messagebox.showinfo("Sugestão",f"Anda a gastar maius dinheiro em {listacategoria.get_last().get_categoria()}.\nRecomendamos que corte em algumas dessas despesas.")
