@@ -263,8 +263,7 @@ class View:
                         self.todas_despesas_options = ['Todas as despesas']
                         for i in range(self.despesas.size):
                             elemento = self.despesas.get(i)
-                            self.todas_despesas_options.append(f"{elemento.get_categoria()}, {elemento.get_valor()}€, {elemento.get_data()}, {elemento.get_descricao()}")
-                        print(self.todas_despesas_options)     
+                            self.todas_despesas_options.append(f"{elemento.get_categoria()}, {elemento.get_valor()}€, {elemento.get_data()}, {elemento.get_descricao()}") 
                         self.frame_principal()
                         self.inserir_tabela()
                                   
