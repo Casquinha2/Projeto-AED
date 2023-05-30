@@ -106,6 +106,16 @@ class View:
         self.exit_button1 = tk.Button(self.canvas_bg_principal, text="Ajuda", font=('Arial', 16), fg='black', bg='#92C3EC', command= self.messagebox_ajuda_despesas)
         self.canvas_bg_principal.create_window(1310, 715, anchor='center', window= self.exit_button1)
 
+        #todas as despesas
+
+        #botão remover despesa
+        self.remover_despesa = tk.Button(self.canvas_bg_principal, text="Remover despesa", font=("Arial", 16), fg='black', bg='#92C3EC')
+        while False: #fazer função que seja possivel selecionar a despesa da tabela
+            self.canvas_bg_principal.create_window(1000 , 700,anchor='center', window = self.remover_despesa)
+        self.canvas_bg_principal.delete(self.remover_despesa)
+
+        
+
     def pergunta_orcamento(self):
         if self.orcamento == 0:
             message = messagebox.askquestion('Pergunta.', 'O utilizador ainda não definiu um orçamento mensal, nem um limite mensal. Deseja definir?')
@@ -343,20 +353,20 @@ class View:
             self.frame_orc.destroy()
             self.frame_registar_despesa()
 
-    #def salvar_orcamento(self):
-    #    try:
-    #       self.orcamento = float(self.orcamento_entry.get())
-    #       self.limite = float(self.limite_entry.get())
-    #       if self.limite < 0 or self.limite > 100:
-    #           raise ValueError
-    #    except ValueError:
-    #       messagebox.showerror("Erro", "Esse valor não é aceite para o orçamento mensal ou para o limite mensal.\nPor favor tente introduzir um outro valor.")
-    #       self.orcamento_entry.delete("end", 0)
-    #       self.limite_entry.delete("end", 0)
-    #    else:
-    #       messagebox.showinfo("Sucesso", f"O seu orçamento mensal está definido para {self.orcamento}€.\nE o seu limite mensal é de {self.limite}%.")
-    #       self.frame_orc.destroy()
-    #       self.frame_registar_despesa()
+    def salvar_orcamento(self):
+        try:
+           self.orcamento = float(self.orcamento_entry.get())
+           self.limite = float(self.limite_entry.get())
+           if self.limite < 0 or self.limite > 100:
+               raise ValueError
+        except ValueError:
+           messagebox.showerror("Erro", "Esse valor não é aceite para o orçamento mensal ou para o limite mensal.\nPor favor tente introduzir um outro valor.")
+           self.orcamento_entry.delete("end", 0)
+           self.limite_entry.delete("end", 0)
+        else:
+           messagebox.showinfo("Sucesso", f"O seu orçamento mensal está definido para {self.orcamento}€.\nE o seu limite mensal é de {self.limite}%.")
+           self.frame_orc.destroy()
+           self.frame_registar_despesa()
 
     def sugestoes(self):
         listacategoria = CategorialinkedList()
@@ -414,10 +424,7 @@ class View:
         listacategoria.insert_last(categoriamo)
         listacategoria.insert_last(categorialaz)
         listacategoria.insert_last(categoriaou)
-
         listacategoria.bubble_sort()
-
         for i in range(listacategoria.size):
             print(listacategoria.get(i).get_categoria())
-
         messagebox.showinfo("Sugestão",f"Anda a gastar mais dinheiro em {listacategoria.get_last().get_categoria()}.\nRecomendamos que corte em algumas dessas despesas.")

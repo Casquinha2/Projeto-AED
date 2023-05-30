@@ -23,6 +23,7 @@ class Despesa:
         self.descricao = descricao
         
 # tiago explica
+#tiago explicação: esta função é para o utilizador não conseguir criar uma despesa que irá ultrapassar o orçamento mensal
     @staticmethod
     def despesa_valida(valor, linkedlist, orcamento):
         despesa = 0
@@ -45,12 +46,14 @@ class Despesa:
             return False
         
    
-   #@staticmethod
-    #def verificar_limite(limite, despesa, linkedlist, orcamento):
-    #    limite = (limite * 100)/orcamento
-    #    for i in range(linkedlist.size):
-    #        despesa += linkedlist.get(i).get_valor()
-    #    if despesa < limite:
-    #        return True
-    #    else:
-    #        return False   
+    @staticmethod
+    def verificar_limite(limite, despesa, linkedlist, orcamento):
+        limite = (limite * 100)/orcamento
+        for i in range(linkedlist.size):
+            despesa += linkedlist.get(i).get_valor()
+        if despesa < limite:
+            return True
+        else:
+            return False
+
+       
