@@ -12,6 +12,7 @@ class Ficheiro:
         lista = DespesaslinkedList()
         orcamento = ficheiro[1][0]
         limite = ficheiro[2][0]
+        print(orcamento, limite)
         for i in ficheiro:
             if ficheiro[0] == i or ficheiro[1] == i or ficheiro[2] == i:
                 continue

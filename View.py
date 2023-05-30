@@ -73,14 +73,20 @@ class View:
         #Frame de despesas
         self.master.withdraw()
         
+        print("teste4")
+
         self.frame1 = tk.Toplevel(self.master, bg= 'black')
         self.frame1.attributes('-fullscreen', True)
+
+        print("teste5")
         
         #bg
         self.canvas_bg_principal= tk.Canvas(self.frame1, width= 500, height= 350, background= '#4DB6E5', highlightbackground='#4DB6E5')
         self.canvas_bg_principal.pack(fill='both', expand= True)
         self.canvas_bg_principal.create_rectangle(900, 500, 1475, 825, fill= '#92C3EC')
         self.opcoes= self.canvas_bg_principal.create_rectangle(50, 50, 1500, 450, fill= 'white')
+
+        print("teste6")
         
         #botão logout ==> ok
         self.shutdown_button1 = tk.Button(self.canvas_bg_principal, text="Log out", width=15, font=('Arial', 16), fg='black', bg='#92C3EC', command=self.quit)
@@ -107,12 +113,28 @@ class View:
         self.canvas_bg_principal.create_window(1315, 705, anchor='center', window= self.ajuda_button)
 
         #todas as despesas
+        self.todas_despesas_options = ['Todas as despesas']
+        for i in range(self.despesas.size):
+            elemento = self.despesas.get(i)
+            self.todas_despesas_options.append(f"{elemento.get_despesa()}, {elemento.get_valor()}€, {elemento.get_categoria()}, {elemento.get_descricao()}")
+        self.todas_despesas_var = tk.StringVar(self.canvas_bg_principal)
+        self.todas_despesas_var.set(self.todas_despesas_options[0])
+        self.todas_despesas_menu = tk.OptionMenu(self.canvas_bg_principal, self.todas_despesas_var, *self.todas_despesas_options)
+        self.todas_despesas_menu.config(font=('Arial', 10),  bg='#d8e6f4')
+        self.canvas_bg_principal.create_window(100, 705, anchor="center",window=self.todas_despesas_menu)
 
         #botão remover despesa
-        self.remover_despesa = tk.Button(self.canvas_bg_principal, text="Remover despesa", font=("Arial", 16), fg='black', bg='#92C3EC')
-        while False: #fazer função que seja possivel selecionar a despesa da tabela
+        self.remover_despesa = tk.Button(self.canvas_bg_principal, text="Remover despesa", font=("Arial", 16), fg='black', bg='#92C3EC', command=self.eliminar_despesa)
+        while self.todas_despesas_var != "Todas as despesas": #fazer função que seja possivel selecionar a despesa da tabela
             self.canvas_bg_principal.create_window(1000 , 700,anchor='center', window = self.remover_despesa)
-        self.canvas_bg_principal.delete(self.remover_despesa)
+        #self.canvas_bg_principal.delete(self.remover_despesa)
+
+    def eliminar_despesa(self):
+        if self.todas_despesas_var != "Todas as despesas":
+            posicao = self.despesas.find(self.todas_despesas_var)
+            self.despesas.remove(posicao)
+            self.todas_despesas_options.remove(self.todas_despesas_var)
+            self.ficheiro.linkedlist_para_json_despesa(self.nome, self.orcamento, self.limite, self.despesas)
 
     def pergunta_orcamento(self):
         if self.orcamento == 0:
@@ -230,11 +252,14 @@ class View:
                         self.password_entry.delete(0, 'end')
                         self.nif_entry.delete(0, 'end')
                     else:
-                        self.frame_principal()
-                        self.orcamento, self.limite, self.despesas = self.ficheiro.json_para_linkedlist_despesa(self.nome)
+                        print("teste")
                         self.nome_entry.delete(0, 'end')
                         self.password_entry.delete(0, 'end')
                         self.nif_entry.delete(0, 'end')
+                        print("teste2")
+                        self.frame_principal()
+                        print("teste3")
+                        self.orcamento, self.limite, self.despesas = self.ficheiro.json_para_linkedlist_despesa(self.nome)
                         
                         
 
