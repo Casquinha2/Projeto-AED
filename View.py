@@ -95,7 +95,7 @@ class View:
         self.canvas_bg_principal.create_window(1075, 635, anchor='center', window= self.registo_despesas_button1)
         
         #botão de sugestoes
-        self.detalhes_button1 = tk.Button(self.canvas_bg_principal, text="Sugestões de cortes", font=('Arial', 16), fg='black', bg='#92C3EC', command=self.sugestoes)
+        self.detalhes_button1 = tk.Button(self.canvas_bg_principal, text="Sugestão de corte", font=('Arial', 16), fg='black', bg='#92C3EC', command=self.sugestoes)
         self.canvas_bg_principal.create_window(1330, 635, anchor='center', window= self.detalhes_button1)
 
         #botão de defição de orçamento mensal
@@ -118,12 +118,17 @@ class View:
 
     def pergunta_orcamento(self):
         if self.orcamento == 0:
-            message = messagebox.askquestion('Pergunta.', 'O utilizador ainda não definiu um orçamento mensal, nem um limite mensal. Deseja definir?')
+            message = messagebox.askquestion('Pergunta', 'O utilizador ainda não definiu um orçamento mensal, nem um limite mensal. Deseja definir?')
             if message == "yes":
                 self.orcamento_mensal()
             else:
                 self.frame_registar_despesa()
         else:
+            self.frame_registar_despesa()
+
+    def pergunta_despesa(self):
+        message = messagebox.askquestion("Pergunta", "O utilizador pretende efetuar um registo de uma despesa?")
+        if message == "yes":
             self.frame_registar_despesa()
 
     def frame_registar_despesa(self):        
@@ -174,14 +179,14 @@ class View:
             if cliente.controlNIF(nif) == False:
                 raise ValueError
         except ValueError:
-            messagebox.showerror('Erro.', 'Credênciais inválidas.')
+            messagebox.showerror('Erro', 'Credênciais inválidas.')
             self.nome_entry3.delete(0, 'end')
             self.password_entry3.delete(0, 'end')
             self.nif_entry3.delete(0, 'end')
             self.registo_utilizador.tkraise()
         else:
             if nome == '' or password == '':
-                messagebox.showerror('Erro.', 'Credênciais inválidas.')
+                messagebox.showerror('Erro', 'Credênciais inválidas.')
                 self.nome_entry3.delete(0, 'end')
                 self.password_entry3.delete(0, 'end')
                 self.nif_entry3.delete(0, 'end')
@@ -191,11 +196,11 @@ class View:
                     self.clientes.insert_last(cliente)
                     self.ficheiro.linkedlist_para_json_cliente(self.clientes, self.clientes.size)
                     self.ficheiro.linkedlist_para_json_despesa(nome, 0,0, self.despesas)
-                    messagebox.showinfo('Sucesso!', 'Usuário registado com sucesso.\nJá pode fazer o login em sua conta.')
+                    messagebox.showinfo('Sucesso', 'Usuário registado com sucesso.\nJá pode fazer o login em sua conta.')
                     self.registo_utilizador.destroy()
                     
                 else:
-                    messagebox.showerror('Erro.', 'Usuário ou NIF existente.\nPor favor, digite um nome de usuário ou um NIF que ainda não foi registado.')
+                    messagebox.showerror('Erro', 'Usuário ou NIF existente.\nPor favor, digite um nome de usuário ou um NIF que ainda não foi registado.')
                     self.nome_entry3.delete(0, 'end')
                     self.password_entry3.delete(0, 'end')
                     self.nif_entry3.delete(0, 'end')
@@ -210,19 +215,19 @@ class View:
             nif = self.nif_entry.get()
             posicao = self.clientes.find_username(self.nome)
             if posicao == -1:
-                messagebox.showerror('Erro.', 'Credênciais inválidas.')
+                messagebox.showerror('Erro', 'Credênciais inválidas.')
                 self.nome_entry.delete(0, 'end')
                 self.password_entry.delete(0, 'end')
                 self.nif_entry.delete(0, 'end')
             else:
                 if self.clientes.get(posicao).get_password() != password:
-                    messagebox.showerror('Erro.', 'Credênciais inválidas.')
+                    messagebox.showerror('Erro', 'Credênciais inválidas.')
                     self.nome_entry.delete(0, 'end')
                     self.password_entry.delete(0, 'end')
                     self.nif_entry.delete(0, 'end')
                 else:
                     if self.clientes.get(posicao).get_nif() != nif:
-                        messagebox.showerror('Erro.', 'Credênciais inválidas.')
+                        messagebox.showerror('Erro', 'Credênciais inválidas.')
                         self.nome_entry.delete(0, 'end')
                         self.password_entry.delete(0, 'end')
                         self.nif_entry.delete(0, 'end')
@@ -292,7 +297,7 @@ class View:
                         self.categoria_despesas_var.set(self.categoria_despesas_options[0])
                         self.valor_despesas_entry2.delete(0,"end")
                         self.registo_despesa.destroy()
-                        messagebox.showwarning("Cuidado", "Está proximo do seu limite.")
+                        messagebox.showwarning("Cuidado", "O seu limite está a ser excedido.")
                         
                 else:
                     messagebox.showerror("Erro", "Não é possível introduzir essa despesa pois passará o seu orçamento mensal.")
@@ -311,11 +316,16 @@ class View:
     #pagina de ajuda no registo de despesas
     def messagebox_ajuda_despesas(self):
 
-        #este botao ou deve falar de todas as opcoes na tela principal, ou deve estar na frame de registar despesa
-        messagebox.showinfo('Como fazer registo do seus gastos?','''Para registar as suas despesas deve seguir os seguintes passos:
-    1º passo: Carregue no botão de registar despesas;
-    2º passo: Preencha os dados descritos na nova janela aberta, repare que, na "data da despesa" é necessário escrever a data no seguinte formato (dia/mês/ano);
-    3º passo: Após tudo preenchido, carregue em registar despesa e pronto! Seu registo de despesa terá sido feito com sucesso''')
+        
+        messagebox.showinfo('Botões principais','''    Para registar as suas despesas deverá seguir os seguintes passos:
+    1º passo: Carregue no botão "registar despesas";
+    2º passo: Preencha os dados descritos na nova janela aberta, repare que na "data da despesa" é necessário escrever a data no seguinte formato (dia/mês/ano);
+    3º passo: Após tudo preenchido, carregue em "registar despesa" e pronto! O seu registo de despesa terá sido feito com sucesso.
+        Para definir um orçamento mensal e um limite mensal deverá seguir os seguintes passos:
+    1º passo: Carregue no botão "orçamento mensal";
+    2º passo: Preencha os dados descritos na nova janela aberta, repare que o limite é escrito em porcentagem
+    3º passo: Após tudo preenchido, carregue em "confirmar" e pronto! O seu orçamento mensal e limite mensal terão sido feitados com sucesso.
+        Se quiser ter uma sugestão para saber no que deve curtar das suas despesas mensais, clique no botão "Sugestão de corte".''')
 
     def orcamento_mensal(self):
         #frame do orcamento mensal
@@ -329,7 +339,7 @@ class View:
         self.orcamento_entry.pack(pady = 5)
         
         #limite mensal
-        self.limite_label = tk.Label(self.frame_orc, text=" Defina o valor do limite mensal que pretende para que o envio da mensagem de alerta seja feito ?(O valor atribuido não deve de exceder o valor do Orçamento).", font=("Arial", 14), bg="#4db6e5")
+        self.limite_label = tk.Label(self.frame_orc, text=" Defina o valor do limite mensal que pretende o envio da mensagem de alerta ?(Valor em percentagem)", font=("Arial", 14), bg="#4db6e5")
         self.limite_label.pack()
         self.limite_entry = tk.Entry(self.frame_orc, font=("Arial", 14),  bg='#d8e6f4')
         self.limite_entry.pack(pady= 5)
@@ -337,21 +347,6 @@ class View:
         #Botao confirmar
         self.orcamento_button = tk.Button(self.frame_orc, text = "Confirmar", font=("Arial", 14),  bg='#d8e6f4', command = self.salvar_orcamento)
         self.orcamento_button.pack(pady=5)
-
-    def salvar_orcamento(self):
-        try:
-            self.orcamento = float(self.orcamento_entry.get())
-            self.limite = float(self.limite_entry.get())
-            if self.limite < 0 or self.limite > self.orcamento :
-                raise ValueError
-        except ValueError:
-            messagebox.showerror("Erro", "Esse valor não é aceite para o orçamento mensal ou para o limite mensal.\nPor favor tente introduzir um outro valor.")
-            self.orcamento_entry.delete("end", 0)
-            self.limite_entry.delete("end", 0)
-        else:
-            messagebox.showinfo("Sucesso", f"O seu orçamento mensal está definido para {self.orcamento}€.\nE o seu limite mensal é de {self.limite}€")
-            self.frame_orc.destroy()
-            self.frame_registar_despesa()
 
     def salvar_orcamento(self):
         try:
@@ -365,8 +360,9 @@ class View:
            self.limite_entry.delete("end", 0)
         else:
            messagebox.showinfo("Sucesso", f"O seu orçamento mensal está definido para {self.orcamento}€.\nE o seu limite mensal é de {self.limite}%.")
+           self.ficheiro.linkedlist_para_json_despesa(self.nome, self.orcamento, self.limite, self.despesas)
            self.frame_orc.destroy()
-           self.frame_registar_despesa()
+           self.pergunta_despesa()
 
     def sugestoes(self):
         listacategoria = CategorialinkedList()
@@ -425,6 +421,7 @@ class View:
         listacategoria.insert_last(categorialaz)
         listacategoria.insert_last(categoriaou)
         listacategoria.bubble_sort()
-        for i in range(listacategoria.size):
-            print(listacategoria.get(i).get_categoria())
-        messagebox.showinfo("Sugestão",f"Anda a gastar mais dinheiro em {listacategoria.get_last().get_categoria()}.\nRecomendamos que corte em algumas dessas despesas.")
+        messagebox.showinfo("Sugestão", f"Anda a gastar mais dinheiro em {listacategoria.get_last().get_categoria()}.\nRecomendamos que corte em algumas dessas despesas.")
+
+    def criar_grafico(self):
+        self.teste_linha = self.canvas_test.create_line(0, 0, 500, 1200, fill= 'red')
