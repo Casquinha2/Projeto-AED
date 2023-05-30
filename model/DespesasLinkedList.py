@@ -118,3 +118,48 @@ class DespesaslinkedList(List):
         while node is not None:
             yield node.get_element()
             node = node.get_next_node()
+
+    def bubble_sort_valor(self):
+        if self.head is None:
+            return
+        is_sorted = False
+        while not is_sorted:
+            is_sorted = True
+            current = self.head
+            while current.get_next_node() is not None:
+                if current.get_element().get_valor() > current.get_next_node().get_element().get_valor():
+                    temp = current.get_element()
+                    current.set_element(current.get_next_node().get_element())
+                    current.get_next_node().set_element(temp)
+                    is_sorted = False
+                current = current.get_next_node()
+
+    def bubble_sort_data(self):
+        if self.head is None:
+            return
+        is_sorted = False
+        while not is_sorted:
+            is_sorted = True
+            current = self.head
+            while current.get_next_node() is not None:
+                if current.get_element().get_data() > current.get_next_node().get_element().get_data():
+                    temp = current.get_element()
+                    current.set_element(current.get_next_node().get_element())
+                    current.get_next_node().set_element(temp)
+                    is_sorted = False
+                current = current.get_next_node()
+
+    def bubble_sort_categoria(self):
+        if self.head is None:
+            return
+        is_sorted = False
+        while not is_sorted:
+            is_sorted = True
+            current = self.head
+            while current.get_next_node() is not None:
+                if current.get_element().get_categoria() > current.get_next_node().get_element().get_categoria():
+                    temp = current.get_element()
+                    current.set_element(current.get_next_node().get_element())
+                    current.get_next_node().set_element(temp)
+                    is_sorted = False
+                current = current.get_next_node()

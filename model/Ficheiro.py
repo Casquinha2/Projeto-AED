@@ -5,17 +5,6 @@ from model.Cliente import *
 from model.ClientLinkedList import *
 
 class Ficheiro:
-    def escrever_ficheiro_json(self, nome, d):
-        json_string = json.dumps(d)
-        json_file = open(nome, 'w')
-        json_file.write(json_string)
-        json_file.close()
-
-    def ler_ficheiro_json(self, nome):
-        with open(nome) as f:
-            data = json.load(f)
-        return data
-    
     @staticmethod
     def json_para_linkedlist_despesa(nome):
         with open(f"{nome}.json", "r") as f:
