@@ -107,7 +107,7 @@ class View:
         self.todas_despesas_var.set(self.todas_despesas_options[0])
         self.todas_despesas_menu = tk.OptionMenu(self.canvas_bg_principal, self.todas_despesas_var, *self.todas_despesas_options)
         self.todas_despesas_menu.config(font=('Arial', 10),  bg='#d8e6f4')
-        self.canvas_bg_principal.create_window(100, 705, anchor="center",window=self.todas_despesas_menu)
+        self.canvas_bg_principal.create_window(250, 705, anchor="center",window=self.todas_despesas_menu)
 
         #tabela
         self.tabela = ttk.Treeview(self.canvas_bg_principal, columns= ('valor', 'data', 'categoria', 'descrição'), show='headings')
@@ -134,10 +134,12 @@ class View:
                     self.todas_despesas_var.set(self.todas_despesas_options[0])
                     self.todas_despesas_menu = tk.OptionMenu(self.canvas_bg_principal, self.todas_despesas_var, *self.todas_despesas_options)
                     self.todas_despesas_menu.config(font=('Arial', 10),  bg='#d8e6f4')
-                    self.canvas_bg_principal.create_window(100, 705, anchor="center",window=self.todas_despesas_menu)
+                    self.canvas_bg_principal.create_window(250, 700, anchor="center",window=self.todas_despesas_menu)
                     self.despesas.remove(i)
                     self.ficheiro.linkedlist_para_json_despesa(self.nome, self.orcamento, self.limite, self.despesas)
+                    self.inserir_tabela()
                     messagebox.showinfo("Sucesso", "A despesa selecionada foi excluida.")
+
 
     def pergunta_orcamento(self):
         if self.orcamento == 0:
@@ -322,7 +324,7 @@ class View:
                     self.todas_despesas_var.set(self.todas_despesas_options[0])
                     self.todas_despesas_menu = tk.OptionMenu(self.canvas_bg_principal, self.todas_despesas_var, *self.todas_despesas_options)
                     self.todas_despesas_menu.config(font=('Arial', 10),  bg='#d8e6f4')
-                    self.canvas_bg_principal.create_window(100, 705, anchor="center",window=self.todas_despesas_menu)
+                    self.canvas_bg_principal.create_window(250, 705, anchor="center",window=self.todas_despesas_menu)
                     messagebox.showinfo("Sucesso","Despesa registada ")
                     self.inserir_tabela()
                     if Despesa.verificar_limite(self.limite, valor_despesas, self.despesas, self.orcamento) == True:
