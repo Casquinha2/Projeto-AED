@@ -1,3 +1,4 @@
+
 import tkinter as tk
 from model.ClientLinkedList import*
 from model.Cliente import *
@@ -20,8 +21,6 @@ class View:
         self.clientes = self.ficheiro.json_para_linkedlist_cliente(self.clientes)
         self.despesas = DespesaslinkedList()
 
-
-        
     def frame_login(self):        
         #Frame
         self.master.attributes('-fullscreen', True)
@@ -90,15 +89,15 @@ class View:
         self.detalhes_button1 = tk.Button(self.canvas_bg_principal, text="Sugestão de corte", width=15, font=('Arial', 16), fg='black', bg='#92C3EC', command=self.sugestoes)
         self.canvas_bg_principal.create_window(1315, 630, anchor='center', window= self.detalhes_button1)
 
-        #botão logout ==> ok
+        #botão logout
         self.shutdown_button1 = tk.Button(self.canvas_bg_principal, text="Log out", width=15, font=('Arial', 16), fg='black', bg='#92C3EC', command=self.quit)
         self.canvas_bg_principal.create_window(1065, 700, anchor='center', window= self.shutdown_button1)
 
-        #botão de ajuda ==> ok
+        #botão de ajuda
         self.ajuda_button = tk.Button(self.canvas_bg_principal, text="Ajuda", width=15, font=('Arial', 16), fg='black', bg='#92C3EC', command= self.messagebox_ajuda_despesas)
         self.canvas_bg_principal.create_window(1315, 700, anchor='center', window= self.ajuda_button)
         
-        #botão de shutdown ==> ok
+        #botão de shutdown
         self.exit_button1 = tk.Button(self.canvas_bg_principal, text="Sair para área de trabalho", width=21, font=('Arial', 16), fg='black', bg='#92C3EC', command= self.master.destroy)
         self.canvas_bg_principal.create_window(1190, 770, anchor='center', window= self.exit_button1)
 
@@ -120,6 +119,10 @@ class View:
         #botão remover despesa
         self.remover_despesa = tk.Button(self.canvas_bg_principal, text="Remover despesa", font=("Arial", 16), fg='black', bg='#92C3EC', command=self.eliminar_despesa)
         self.canvas_bg_principal.create_window(250, 750,anchor="center", window=self.remover_despesa)
+
+        #orçamento definido
+        self.orcamento_definido = tk.Label(self.canvas_bg_principal, text=f'Orçamento definido: {self.orcamento}')
+        self.canvas_bg_principal.create_text(250, 125, anchor='sw', font=("Arial", 16), fill='black')
 
     def eliminar_despesa(self):
         if self.todas_despesas_var.get() == "Todas as despesas":
@@ -255,9 +258,7 @@ class View:
                         self.password_entry.delete(0, 'end')
                         self.nif_entry.delete(0, 'end')
                     else:
-                        
                         self.orcamento, self.limite, self.despesas = self.ficheiro.json_para_linkedlist_despesa(self.nome)
-                        
                         self.nome_entry.delete(0, 'end')
                         self.password_entry.delete(0, 'end')
                         self.nif_entry.delete(0, 'end')
@@ -351,8 +352,6 @@ class View:
     
     #pagina de ajuda no registo de despesas
     def messagebox_ajuda_despesas(self):
-
-        
         messagebox.showinfo('Botões principais','''    Para registar as suas despesas deverá seguir os seguintes passos:
     1º passo: Carregue no botão "registar despesas";
     2º passo: Preencha os dados descritos na nova janela aberta, repare que na "data da despesa" é necessário escrever a data no seguinte formato (dia/mês/ano);
@@ -458,7 +457,6 @@ class View:
         listacategoria.insert_last(categoriaou)
         listacategoria.bubble_sort()
         messagebox.showinfo("Sugestão", f"Anda a gastar mais dinheiro em {listacategoria.get_last().get_categoria()}.\nRecomendamos que corte em algumas dessas despesas.")
-    
     
     def inserir_tabela(self):
         for i in self.tabela.get_children():
