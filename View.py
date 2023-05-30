@@ -80,10 +80,10 @@ class View:
         self.canvas_bg_principal= tk.Canvas(self.frame1, width= 500, height= 350, background= '#4DB6E5', highlightbackground='#4DB6E5')
         self.canvas_bg_principal.pack(fill='both', expand= True)
         self.canvas_bg_principal.create_rectangle(900, 500, 1475, 825, fill= '#92C3EC')
-        self.canvas_bg_principal.create_rectangle(50, 50, 1500, 450, fill= 'white')
+        self.opcoes= self.canvas_bg_principal.create_rectangle(50, 50, 1500, 450, fill= 'white')
         
         #botão logout ==> ok
-        self.shutdown_button1 = tk.Button(self.canvas_bg_principal, text="Log out", font=('Arial', 16), fg='black', bg='#92C3EC', command=self.quit)
+        self.shutdown_button1 = tk.Button(self.canvas_bg_principal, text="Log out", width=15, font=('Arial', 16), fg='black', bg='#92C3EC', command=self.quit)
         self.canvas_bg_principal.create_window(1070, 715, anchor='center', window= self.shutdown_button1)
         
         #botão de shutdown ==> ok
@@ -91,19 +91,19 @@ class View:
         self.canvas_bg_principal.create_window(1190, 780, anchor='center', window= self.exit_button1)
         
         #botão de registo de despesas 
-        self.registo_despesas_button1 = tk.Button(self.canvas_bg_principal, text="Registar despesas", font=('Arial', 16), fg='black', bg='#92C3EC', command= self.pergunta_orcamento)
-        self.canvas_bg_principal.create_window(1075, 635, anchor='center', window= self.registo_despesas_button1)
+        self.registo_despesas_button1 = tk.Button(self.canvas_bg_principal, text="Registar despesas", width=15, font=('Arial', 16), fg='black', bg='#92C3EC', command= self.pergunta_orcamento)
+        self.canvas_bg_principal.create_window(1065, 635, anchor='center', window= self.registo_despesas_button1)
         
         #botão de sugestoes
         self.detalhes_button1 = tk.Button(self.canvas_bg_principal, text="Sugestão de corte", font=('Arial', 16), fg='black', bg='#92C3EC', command=self.sugestoes)
-        self.canvas_bg_principal.create_window(1330, 635, anchor='center', window= self.detalhes_button1)
+        self.canvas_bg_principal.create_window(1325, 635, anchor='center', window= self.detalhes_button1)
 
         #botão de defição de orçamento mensal
-        self.orcamento_button1 = tk.Button(self.canvas_bg_principal, text="Definir orçamento mensal", font=('Arial', 16), fg='black', bg='#92C3EC', command=self.orcamento_mensal)
+        self.orcamento_button1 = tk.Button(self.canvas_bg_principal, text="Definir orçamento mensal", width=21, font=('Arial', 16), fg='black', bg='#92C3EC', command=self.orcamento_mensal)
         self.canvas_bg_principal.create_window(1190, 560, anchor='center', window= self.orcamento_button1)
         
         #botão de ajuda ==> ok
-        self.exit_button1 = tk.Button(self.canvas_bg_principal, text="Ajuda", font=('Arial', 16), fg='black', bg='#92C3EC', command= self.messagebox_ajuda_despesas)
+        self.exit_button1 = tk.Button(self.canvas_bg_principal, text="Ajuda", width=15, font=('Arial', 16), fg='black', bg='#92C3EC', command= self.messagebox_ajuda_despesas)
         self.canvas_bg_principal.create_window(1310, 715, anchor='center', window= self.exit_button1)
 
     def pergunta_orcamento(self):
@@ -222,11 +222,12 @@ class View:
                         self.password_entry.delete(0, 'end')
                         self.nif_entry.delete(0, 'end')
                     else:
+                        self.frame_principal()
                         self.orcamento, self.limite, self.despesas = self.ficheiro.json_para_linkedlist_despesa(self.nome)
                         self.nome_entry.delete(0, 'end')
                         self.password_entry.delete(0, 'end')
                         self.nif_entry.delete(0, 'end')
-                        self.frame_principal()
+                        
                         
 
     
@@ -277,9 +278,11 @@ class View:
             if valor_despesas != False and descrição_despesa != False:
                 if  Despesa.despesa_valida(valor_despesas, self.despesas, self.orcamento) == True:
                     messagebox.showinfo("Sucesso","Despesa registada ")
+                    self.criar_grafico()
                     despesa = Despesa(valor_despesas, data_despesas, categoria_despesa, descrição_despesa)
                     self.despesas.insert_last(despesa)
                     self.ficheiro.linkedlist_para_json_despesa(self.nome, self.orcamento, self.limite, self.despesas)
+                    
                     if Despesa.verificar_limite(self.limite, valor_despesas, self.despesas, self.orcamento) == True:
                         self.registo_despesa.destroy()
                     else:
@@ -414,4 +417,4 @@ class View:
         messagebox.showinfo("Sugestão", f"Anda a gastar mais dinheiro em {listacategoria.get_last().get_categoria()}.\nRecomendamos que corte em algumas dessas despesas.")
 
     def criar_grafico(self):
-        self.teste_linha = self.canvas_test.create_line(0, 0, 500, 1200, fill= 'red')
+        self.canvas_bg_principal.create_line(0, 450, 1500, 0, fill= 'black')
