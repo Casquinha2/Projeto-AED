@@ -56,7 +56,7 @@ class Cliente:
             return valorfloat
 
     @staticmethod  
-    def  categoria_despesas(categoria):
+    def categoria_despesas(categoria):
         try:
             categoria1 = float(categoria)
         except ValueError:
@@ -65,7 +65,7 @@ class Cliente:
             return False
         
     @staticmethod
-    def descrição_despesas(descricao):
+    def descricao_despesas(descricao):
         try:
             descricao1 = float(descricao)
         except ValueError:

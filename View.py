@@ -113,10 +113,7 @@ class View:
         self.canvas_bg_principal.create_window(1190, 770, anchor='center', window= self.exit_button1)
 
         #todas as despesas
-        self.todas_despesas_options = ['Todas as despesas']
-        for i in range(self.despesas.size):
-            elemento = self.despesas.get(i)
-            self.todas_despesas_options.append(f"{elemento.get_despesa()}, {elemento.get_valor()}€, {elemento.get_categoria()}, {elemento.get_descricao()}")
+        
         self.todas_despesas_var = tk.StringVar(self.canvas_bg_principal)
         self.todas_despesas_var.set(self.todas_despesas_options[0])
         self.todas_despesas_menu = tk.OptionMenu(self.canvas_bg_principal, self.todas_despesas_var, *self.todas_despesas_options)
@@ -125,14 +122,15 @@ class View:
 
         #botão remover despesa
         self.remover_despesa = tk.Button(self.canvas_bg_principal, text="Remover despesa", font=("Arial", 16), fg='black', bg='#92C3EC', command=self.eliminar_despesa)
-        while self.todas_despesas_var != "Todas as despesas": #fazer função que seja possivel selecionar a despesa da tabela
-            self.canvas_bg_principal.create_window(1000 , 700,anchor='center', window = self.remover_despesa)
-        #self.canvas_bg_principal.delete(self.remover_despesa)
+        self.canvas_bg_principal.create_window(250, 750,anchor="center", window=self.remover_despesa)
 
     def eliminar_despesa(self):
-        if self.todas_despesas_var != "Todas as despesas":
-            posicao = self.despesas.find(self.todas_despesas_var)
-            self.despesas.remove(posicao)
+        if self.todas_despesas_var == "Todas as despesas":
+            messagebox.showerror("Erro", "Não existe essa despesa.\nPor favor selecione uma das despesas apresentadas.")
+        else:    
+            posicao1 = self.despesas.find_valor(self.todas_despesas_var)
+            posicao1 = self.despesas.find_valor(self.todas_despesas_var)
+            self.despesas.remove(posicao1)
             self.todas_despesas_options.remove(self.todas_despesas_var)
             self.ficheiro.linkedlist_para_json_despesa(self.nome, self.orcamento, self.limite, self.despesas)
 
@@ -179,10 +177,10 @@ class View:
         self.categoria_despesas_menu.pack(pady=5)
         
         #descrição de despesa
-        self.descrição_despesas_label2 = tk.Label(self.registo_despesa, text="Descrição da despesa (ex.: Almoço em restaurante): ", font=('Arial', 14), bg='#4db6e5')
-        self.descrição_despesas_label2.pack()
-        self.descrição_despesas_entry2 = tk.Entry(self.registo_despesa, font=('Arial', 14),  bg='#d8e6f4')
-        self.descrição_despesas_entry2.pack(pady=5)
+        self.descricao_despesas_label2 = tk.Label(self.registo_despesa, text="Descrição da despesa (ex.: Almoço em restaurante): ", font=('Arial', 14), bg='#4db6e5')
+        self.descricao_despesas_label2.pack()
+        self.descricao_despesas_entry2 = tk.Entry(self.registo_despesa, font=('Arial', 14),  bg='#d8e6f4')
+        self.descricao_despesas_entry2.pack(pady=5)
 
         #Botão de registar despesa
         self.registo_button2 = tk.Button(self.registo_despesa, text="Registo de Despesas", font=('Arial', 14), bg='#d8e6f4', command=self.caracteristicas_despesas)
@@ -258,7 +256,11 @@ class View:
                         self.frame_principal()
                         print("teste3")
                         self.orcamento, self.limite, self.despesas = self.ficheiro.json_para_linkedlist_despesa(self.nome)
-                        
+                        self.todas_despesas_options = ['Todas as despesas']
+                        for i in range(self.despesas.size):
+                            elemento = self.despesas.get(i)
+                            self.todas_despesas_options.append(f"{elemento.get_categoria()}, {elemento.get_valor()}€, {elemento.get_data()}, {elemento.get_descricao()}")
+                                        
                         
 
     
@@ -298,26 +300,28 @@ class View:
         
     #caracteristicas das despesas
     def caracteristicas_despesas(self):
+        print(self.orcamento, self.limite)
         if self.categoria_despesas_var.get() == "Selecione uma opção":
             messagebox.showerror("Erro", "Por favor selecione uma despesa para conseguir prosseguir.")
             self.categoria_despesas_var.set(self.categoria_despesas_options[0])
         else:
             valor_despesas = Cliente.valor_despesa(self.valor_despesas_entry2.get())
-            data_despesas = self.data_despesas_entry2.get()
-            descrição_despesa = Cliente.descrição_despesas(self.descrição_despesas_entry2.get())
+            data_despesas = self.data_despesas_entry2.get_date()
+            descricao_despesa = Cliente.descricao_despesas(self.descricao_despesas_entry2.get())
             categoria_despesa = self.categoria_despesas_var.get()
-            if valor_despesas != False and descrição_despesa != False:
+            if valor_despesas != False and descricao_despesa != False:
                 if  Despesa.despesa_valida(valor_despesas, self.despesas, self.orcamento) == True:
                     messagebox.showinfo("Sucesso","Despesa registada ")
                     self.criar_grafico()
-                    despesa = Despesa(valor_despesas, data_despesas, categoria_despesa, descrição_despesa)
+                    despesa = Despesa(valor_despesas, data_despesas, categoria_despesa, descricao_despesa)
                     self.despesas.insert_last(despesa)
                     self.ficheiro.linkedlist_para_json_despesa(self.nome, self.orcamento, self.limite, self.despesas)
+                    self.todas_despesas_options.append(f"{categoria_despesa}, {valor_despesas}€, {data_despesas}, {descricao_despesa}")
                     
                     if Despesa.verificar_limite(self.limite, valor_despesas, self.despesas, self.orcamento) == True:
                         self.registo_despesa.destroy()
                     else:
-                        self.descrição_despesas_entry2.delete(0,'end')
+                        self.descricao_despesas_entry2.delete(0,'end')
                         self.categoria_despesas_var.set(self.categoria_despesas_options[0])
                         self.valor_despesas_entry2.delete(0,"end")
                         self.registo_despesa.destroy()
@@ -327,7 +331,7 @@ class View:
                     messagebox.showerror("Erro", "Não é possível introduzir essa despesa pois passará o seu orçamento mensal.")
                     self.registo_despesa.destroy()
             else:
-                self.descrição_despesas_entry2.delete(0,'end')
+                self.descricao_despesas_entry2.delete(0,'end')
                 self.categoria_despesas_var.set(self.categoria_despesas_options[0])
                 self.valor_despesas_entry2.delete(0,"end")
                 messagebox.showerror("Erro", "Um dos campos foi mal preenchido.\nPor favor introduza novamente.")

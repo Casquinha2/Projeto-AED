@@ -40,6 +40,43 @@ class DespesaslinkedList(List):
             posicao += 1
         return -1
     
+    def find_valor(self, elemento):
+        node = self.head
+        posicao = 0
+        while node is not None:
+            if node.get_element().get_valor() == elemento:
+                return posicao
+            node = node.get_next_node()
+            posicao += 1
+        return -1
+    def find_data(self, elemento):
+        node = self.head
+        posicao = 0
+        while node is not None:
+            if node.get_element().get_data() == elemento:
+                return posicao
+            node = node.get_next_node()
+            posicao += 1
+        return -1
+    def find_categoria(self, elemento):
+        node = self.head
+        posicao = 0
+        while node is not None:
+            if node.get_element().get_categoria() == elemento:
+                return posicao
+            node = node.get_next_node()
+            posicao += 1
+        return -1
+    def find_descricao(self, elemento):
+        node = self.head
+        posicao = 0
+        while node is not None:
+            if node.get_element().get_descricao() == elemento:
+                return posicao
+            node = node.get_next_node()
+            posicao += 1
+        return -1
+    
     def insert(self, elemento, posicao):
         if posicao < 0 or posicao > self.size:
             raise Exception("Posição inválida")
