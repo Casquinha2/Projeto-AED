@@ -35,16 +35,6 @@ class Despesa:
             return True
         else:
             return False
-        
-    @staticmethod
-    def verificar_limite(limite, despesa, linkedlist, orcamento):
-        for i in range(linkedlist.size):
-            despesa += linkedlist.get(i).get_valor()
-        if despesa < limite and limite > orcamento:
-            return True
-        else:
-            return False
-        
    
     @staticmethod
     def verificar_limite(limite, despesa, linkedlist, orcamento):
