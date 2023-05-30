@@ -9,7 +9,7 @@ from model.Ficheiro import *
 from model.Categoria import*
 from model.CategoriaLinkedList import*
 from tkcalendar import DateEntry
-
+from tkinter import ttk
 
 class View:
     def __init__(self, master):
@@ -58,9 +58,6 @@ class View:
         self.registo2_button = tk.Button(self.canvas_test, text="Registo", font=('Arial', 14), command=self.frame_registar, bg='#d8e6f4')
         self.canvas_test.create_window(350, 480, anchor='center', window= self.registo2_button)
 
-        self.registo_button = tk.Button(self.canvas_test, text="Registo  ahaha", font=('Arial', 14), fg='white', bg='#2343b4', command=self.frame_principal)
-        self.canvas_test.create_window(1280, 150, anchor='center', window= self.registo_button)
-
         #botão de fecho do programa
         self.shutdown_button = tk.Button(self.canvas_test, text="Sair", font=('Arial', 14), command= self.master.destroy, bg='#d8e6f4')
         self.canvas_test.create_window(400, 550, anchor='center', window= self.shutdown_button)
@@ -79,7 +76,7 @@ class View:
         #bg
         self.canvas_bg_principal= tk.Canvas(self.frame1, width= 500, height= 350, background= '#4DB6E5', highlightbackground='#4DB6E5')
         self.canvas_bg_principal.pack(fill='both', expand= True)
-        self.canvas_bg_principal.create_rectangle(900, 500, 1475, 825, fill= '#92C3EC')
+        self.retangulo = self.canvas_bg_principal.create_rectangle(900, 500, 1475, 825, fill= '#92C3EC')
         self.opcoes= self.canvas_bg_principal.create_rectangle(50, 50, 1500, 450, fill= 'white')
         
         #botão de defição de orçamento mensal
@@ -109,10 +106,19 @@ class View:
         #todas as despesas
 
         #botão remover despesa
-        self.remover_despesa = tk.Button(self.canvas_bg_principal, text="Remover despesa", font=("Arial", 16), fg='black', bg='#92C3EC')
-        while False: #fazer função que seja possivel selecionar a despesa da tabela
-            self.canvas_bg_principal.create_window(1000 , 700,anchor='center', window = self.remover_despesa)
-        self.canvas_bg_principal.delete(self.remover_despesa)
+        #self.remover_despesa = tk.Button(self.canvas_bg_principal, text="Remover despesa", font=("Arial", 16), fg='black', bg='#92C3EC')
+        #while False: #fazer função que seja possivel selecionar a despesa da tabela
+        #    self.canvas_bg_principal.create_window(1000 , 700,anchor='center', window = self.remover_despesa)
+        #self.canvas_bg_principal.delete(self.remover_despesa)
+
+        #tabela
+        self.tabela = ttk.Treeview(self.canvas_bg_principal, columns= ('valor', 'data', 'categoria', 'descrição'), show='headings')
+        self.tabela.heading("valor", text= "Valor")
+        self.tabela.heading('data', text= 'Data')
+        self.tabela.heading('categoria', text= 'Categoria')
+        self.tabela.heading('descrição', text= 'Descrição')
+        self.canvas_bg_principal.create_window(50, 50, width=1450, height=400, anchor='nw', window=self.tabela)
+
 
     def pergunta_orcamento(self):
         if self.orcamento == 0:
@@ -230,19 +236,16 @@ class View:
                     else:
                         self.frame_principal()
                         self.orcamento, self.limite, self.despesas = self.ficheiro.json_para_linkedlist_despesa(self.nome)
+                        self.inserir_tabela()
                         self.nome_entry.delete(0, 'end')
                         self.password_entry.delete(0, 'end')
                         self.nif_entry.delete(0, 'end')
-                        
-                        
-
     
     def quit(self):
         #self.ficheiro.linkedlist_para_json_despesa(self.nome, self.orcamento, self.despesas)
         self.master.deiconify()
         self.canvas_bg_principal.destroy()
     
-
     #frame de registar utilizador janela pequena
     def frame_registar(self):        
        
@@ -284,8 +287,8 @@ class View:
             if valor_despesas != False and descrição_despesa != False:
                 if  Despesa.despesa_valida(valor_despesas, self.despesas, self.orcamento) == True:
                     messagebox.showinfo("Sucesso","Despesa registada ")
-                    self.criar_grafico()
                     despesa = Despesa(valor_despesas, data_despesas, categoria_despesa, descrição_despesa)
+                    self.tabela.insert('', 'end', values= (valor_despesas, data_despesas, categoria_despesa, descrição_despesa))
                     self.despesas.insert_last(despesa)
                     self.ficheiro.linkedlist_para_json_despesa(self.nome, self.orcamento, self.limite, self.despesas)
                     
@@ -421,6 +424,10 @@ class View:
         listacategoria.insert_last(categoriaou)
         listacategoria.bubble_sort()
         messagebox.showinfo("Sugestão", f"Anda a gastar mais dinheiro em {listacategoria.get_last().get_categoria()}.\nRecomendamos que corte em algumas dessas despesas.")
-
-    def criar_grafico(self):
-        self.teste_linha = self.canvas_test.create_line(0, 0, 500, 1200, fill= 'red')
+    
+    
+    def inserir_tabela(self):
+        for i in range(self.despesas.size): 
+            elemento = self.despesas.get(i)
+            self.tabela.insert('', 'end', values= (elemento.get_valor(), elemento.get_data(), elemento.get_categoria(), elemento.get_descricao()))
+            self.despesas.get(i)

@@ -38,7 +38,7 @@ class Despesa:
    
     @staticmethod
     def verificar_limite(limite, despesa, linkedlist, orcamento):
-        limite = (limite * 100)/orcamento
+        limite = (limite * orcamento) /100
         for i in range(linkedlist.size):
             despesa += linkedlist.get(i).get_valor()
         if despesa < limite:
