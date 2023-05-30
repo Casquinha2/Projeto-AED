@@ -45,5 +45,3 @@ class Despesa:
             return True
         else:
             return False
-
-       
