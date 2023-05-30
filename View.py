@@ -69,22 +69,15 @@ class View:
     def frame_principal(self):
         #Frame de despesas
         self.master.withdraw()
-        
-        print("teste4")
-
         self.frame1 = tk.Toplevel(self.master, bg= 'black')
         self.frame1.attributes('-fullscreen', True)
 
-        print("teste5")
-        
         #bg
         self.canvas_bg_principal= tk.Canvas(self.frame1, width= 500, height= 350, background= '#4DB6E5', highlightbackground='#4DB6E5')
         self.canvas_bg_principal.pack(fill='both', expand= True)
         self.retangulo = self.canvas_bg_principal.create_rectangle(900, 500, 1475, 825, fill= '#92C3EC')
         self.opcoes= self.canvas_bg_principal.create_rectangle(50, 50, 1500, 450, fill= 'white')
 
-        print("teste6")
-        
         #botão de defição de orçamento mensal
         self.orcamento_button1 = tk.Button(self.canvas_bg_principal, text="Definir orçamento mensal", width=21, font=('Arial', 16), fg='black', bg='#92C3EC', command=self.orcamento_mensal)
         self.canvas_bg_principal.create_window(1190, 560, anchor='center', window= self.orcamento_button1)
@@ -110,7 +103,6 @@ class View:
         self.canvas_bg_principal.create_window(1190, 770, anchor='center', window= self.exit_button1)
 
         #todas as despesas
-        
         self.todas_despesas_var = tk.StringVar(self.canvas_bg_principal)
         self.todas_despesas_var.set(self.todas_despesas_options[0])
         self.todas_despesas_menu = tk.OptionMenu(self.canvas_bg_principal, self.todas_despesas_var, *self.todas_despesas_options)
@@ -133,7 +125,6 @@ class View:
         if self.todas_despesas_var.get() == "Todas as despesas":
             messagebox.showerror("Erro", "Não existe essa despesa.\nPor favor selecione uma das despesas apresentadas.")
         else:    
-            opcao = self.todas_despesas_var.get()
             despesa = self.todas_despesas_var.get().split(", ")
             valor = float(despesa[1].replace("€", ""))
             for i in range(self.despesas.size):
@@ -264,7 +255,7 @@ class View:
                     else:
                         
                         self.orcamento, self.limite, self.despesas = self.ficheiro.json_para_linkedlist_despesa(self.nome)
-                        self.inserir_tabela()
+                        
                         self.nome_entry.delete(0, 'end')
                         self.password_entry.delete(0, 'end')
                         self.nif_entry.delete(0, 'end')
@@ -275,6 +266,7 @@ class View:
                             self.todas_despesas_options.append(f"{elemento.get_categoria()}, {elemento.get_valor()}€, {elemento.get_data()}, {elemento.get_descricao()}")
                         print(self.todas_despesas_options)     
                         self.frame_principal()
+                        self.inserir_tabela()
                                   
     
     def quit(self):
@@ -322,11 +314,7 @@ class View:
             categoria_despesa = self.categoria_despesas_var.get()
             if valor_despesas != False and descricao_despesa != False:
                 if  Despesa.despesa_valida(valor_despesas, self.despesas, self.orcamento) == True:
-
-                    messagebox.showinfo("Sucesso","Despesa registada ")
                     despesa = Despesa(valor_despesas, data_despesas, categoria_despesa, descricao_despesa)
-                    self.tabela.insert('', 'end', values= (valor_despesas, data_despesas, categoria_despesa, descricao_despesa))
-
                     despesa = Despesa(valor_despesas, data_despesas, categoria_despesa, descricao_despesa)
                     self.despesas.insert_last(despesa)
                     self.ficheiro.linkedlist_para_json_despesa(self.nome, self.orcamento, self.limite, self.despesas)
@@ -336,8 +324,7 @@ class View:
                     self.todas_despesas_menu.config(font=('Arial', 10),  bg='#d8e6f4')
                     self.canvas_bg_principal.create_window(100, 705, anchor="center",window=self.todas_despesas_menu)
                     messagebox.showinfo("Sucesso","Despesa registada ")
-                    self.criar_grafico()
-                    
+                    self.inserir_tabela()
                     if Despesa.verificar_limite(self.limite, valor_despesas, self.despesas, self.orcamento) == True:
                         self.registo_despesa.destroy()
                     else:
@@ -473,7 +460,8 @@ class View:
     
     
     def inserir_tabela(self):
+        for i in self.tabela.get_children():
+            self.tabela.delete(i)
         for i in range(self.despesas.size): 
             elemento = self.despesas.get(i)
-            self.tabela.insert('', 'end', values= (elemento.get_valor(), elemento.get_data(), elemento.get_categoria(), elemento.get_descricao()))
-            self.despesas.get(i)
+            self.tabela.insert('', 'end', values= (f"{elemento.get_valor()}€", elemento.get_data(), elemento.get_categoria(), elemento.get_descricao()))
