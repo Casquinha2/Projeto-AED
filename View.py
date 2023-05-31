@@ -476,3 +476,15 @@ class View:
         for i in range(self.despesas.size): 
             elemento = self.despesas.get(i)
             self.tabela.insert('', 'end', values= (f"{elemento.get_valor()}€", elemento.get_data(), elemento.get_categoria(), elemento.get_descricao()))
+
+    def filtrar_valor(self):
+        self.despesas.bubble_sort_valor()
+        self.inserir_tabela()
+
+    def filtrar_data(self):
+        self.despesas.bubble_sort_data()
+        self.inserir_tabela()
+    
+    def filtrar_categoria(self):
+        self.despesas.bubble_sort_categoria()
+        self.inserir_tabela()
