@@ -83,9 +83,6 @@ class View:
         #limite definido
         self.canvas_bg_principal.create_text(185, 570,text=f'O limite definido é de: {self.limite}%', anchor='sw', font=("Arial", 16), fill='black')
 
-        #percentagem restante até o limite
-        #self.canvas_bg_principal.create_text(55, 585,text=f'O seu orçamento é de: {self.l}', anchor='sw', font=("Arial", 16), fill='black')
-
         #colocar tudo na frame
         self.canvas_bg_principal.pack(fill='both', expand= True)
 
