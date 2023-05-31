@@ -78,13 +78,10 @@ class View:
 
         #orçamento definido
         self.canvas_bg_principal.create_rectangle(50, 500, 600, 825, fill= '#92C3EC')
-        self.canvas_bg_principal.create_text(155, 535,text=f'O seu orçamento é de: {self.orcamento} €', anchor='sw', font=("Arial", 16), fill='black')
+        self.text_orcamento = self.canvas_bg_principal.create_text(155, 535,text=f'O seu orçamento é de: {self.orcamento} €', anchor='sw', font=("Arial", 16), fill='black')
         
         #limite definido
-        self.canvas_bg_principal.create_text(185, 570,text=f'O limite definido é de: {self.limite}%', anchor='sw', font=("Arial", 16), fill='black')
-
-        #percentagem restante até o limite
-        #self.canvas_bg_principal.create_text(55, 585,text=f'O seu orçamento é de: {self.l}', anchor='sw', font=("Arial", 16), fill='black')
+        self.text_limite = self.canvas_bg_principal.create_text(185, 570,text=f'O limite definido é de: {self.limite}%', anchor='sw', font=("Arial", 16), fill='black')
 
         #colocar tudo na frame
         self.canvas_bg_principal.pack(fill='both', expand= True)
@@ -138,7 +135,7 @@ class View:
             messagebox.showerror("Erro", "Não existe essa despesa.\nPor favor selecione uma das despesas apresentadas.")
         else:
             if self.todas_despesas_var.get() == "Todas as despesas":
-                opcao = messagebox.askquestion("", "Tem a certeza que pretende apagar todas as despesas?")
+                opcao = messagebox.askquestion("Pergunta", "Tem a certeza que pretende apagar todas as despesas?")
                 if opcao == "yes":
                     self.despesas.make_empty()
                     self.todas_despesas_options = ["Despesas registadas:"]
@@ -433,6 +430,8 @@ class View:
         else:
            messagebox.showinfo("Sucesso", f"O seu orçamento mensal está definido para {self.orcamento}€.\nE o seu limite mensal é de {self.limite}%.")
            self.ficheiro.linkedlist_para_json_despesa(self.nome, self.orcamento, self.limite, self.despesas)
+           self.canvas_bg_principal.itemconfigure(self.text_orcamento, text=f'O seu orçamento é de: {self.orcamento} €')
+           self.canvas_bg_principal.itemconfigure(self.text_limite, text=f'O limite definido é de: {self.limite}%')
            self.frame_orc.destroy()
            self.pergunta_despesa()
 
