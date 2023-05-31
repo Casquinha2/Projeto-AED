@@ -77,10 +77,11 @@ class View:
         self.opcoes= self.canvas_bg_principal.create_rectangle(50, 50, 1500, 450, fill= 'white')
 
         #orçamento definido
-        self.canvas_bg_principal.create_text(55, 565,text=f'O seu orçamento é de: {self.orcamento} €', anchor='sw', font=("Arial", 16), fill='black')
+        self.canvas_bg_principal.create_rectangle(50, 500, 600, 825, fill= '#92C3EC')
+        self.canvas_bg_principal.create_text(155, 535,text=f'O seu orçamento é de: {self.orcamento} €', anchor='sw', font=("Arial", 16), fill='black')
         
         #limite definido
-        self.canvas_bg_principal.create_text(55, 595,text=f'O limite definido é de: {self.limite}%', anchor='sw', font=("Arial", 16), fill='black')
+        self.canvas_bg_principal.create_text(185, 570,text=f'O limite definido é de: {self.limite}%', anchor='sw', font=("Arial", 16), fill='black')
 
         #percentagem restante até o limite
         #self.canvas_bg_principal.create_text(55, 585,text=f'O seu orçamento é de: {self.l}', anchor='sw', font=("Arial", 16), fill='black')
@@ -89,27 +90,27 @@ class View:
         self.canvas_bg_principal.pack(fill='both', expand= True)
 
         #botão de defição de orçamento mensal
-        self.orcamento_button1 = tk.Button(self.canvas_bg_principal, text="Definir orçamento mensal", width=21, font=('Arial', 16), fg='black', bg='#92C3EC', command=self.orcamento_mensal)
+        self.orcamento_button1 = tk.Button(self.canvas_bg_principal, text="Definir orçamento mensal", height= 1, width=21, font=('Arial', 16), fg='black', bg='#92C3EC', command=self.orcamento_mensal)
         self.canvas_bg_principal.create_window(1190, 560, anchor='center', window= self.orcamento_button1)
         
         #botão de registo de despesas 
-        self.registo_despesas_button1 = tk.Button(self.canvas_bg_principal, text="Registar despesas", width=15, font=('Arial', 16), fg='black', bg='#92C3EC', command= self.pergunta_orcamento)
+        self.registo_despesas_button1 = tk.Button(self.canvas_bg_principal, text="Registar despesas", height= 1, width=15, font=('Arial', 16), fg='black', bg='#92C3EC', command= self.pergunta_orcamento)
         self.canvas_bg_principal.create_window(1065, 630, anchor='center', window= self.registo_despesas_button1)
         
         #botão de sugestoes
-        self.detalhes_button1 = tk.Button(self.canvas_bg_principal, text="Sugestão de corte", width=15, font=('Arial', 16), fg='black', bg='#92C3EC', command=self.sugestoes)
+        self.detalhes_button1 = tk.Button(self.canvas_bg_principal, text="Sugestão de corte", height= 1, width=15, font=('Arial', 16), fg='black', bg='#92C3EC', command=self.sugestoes)
         self.canvas_bg_principal.create_window(1315, 630, anchor='center', window= self.detalhes_button1)
 
         #botão logout
-        self.shutdown_button1 = tk.Button(self.canvas_bg_principal, text="Log out", width=15, font=('Arial', 16), fg='black', bg='#92C3EC', command=self.quit)
+        self.shutdown_button1 = tk.Button(self.canvas_bg_principal, text="Log out", height= 1, width=15, font=('Arial', 16), fg='black', bg='#92C3EC', command=self.quit)
         self.canvas_bg_principal.create_window(1065, 700, anchor='center', window= self.shutdown_button1)
 
         #botão de ajuda
-        self.ajuda_button = tk.Button(self.canvas_bg_principal, text="Ajuda", width=15, font=('Arial', 16), fg='black', bg='#92C3EC', command= self.messagebox_ajuda_despesas)
+        self.ajuda_button = tk.Button(self.canvas_bg_principal, text="Ajuda", height= 1, width=15, font=('Arial', 16), fg='black', bg='#92C3EC', command= self.messagebox_ajuda_despesas)
         self.canvas_bg_principal.create_window(1315, 700, anchor='center', window= self.ajuda_button)
         
         #botão de shutdown
-        self.exit_button1 = tk.Button(self.canvas_bg_principal, text="Sair para área de trabalho", width=21, font=('Arial', 16), fg='black', bg='#92C3EC', command= self.master.destroy)
+        self.exit_button1 = tk.Button(self.canvas_bg_principal, text="Sair para área de trabalho", height= 1, width=21, font=('Arial', 16), fg='black', bg='#92C3EC', command= self.master.destroy)
         self.canvas_bg_principal.create_window(1190, 770, anchor='center', window= self.exit_button1)
 
         #todas as despesas
@@ -117,7 +118,7 @@ class View:
         self.todas_despesas_var.set(self.todas_despesas_options[0])
         self.todas_despesas_menu = tk.OptionMenu(self.canvas_bg_principal, self.todas_despesas_var, *self.todas_despesas_options)
         self.todas_despesas_menu.config(font=('Arial', 10),  bg='#d8e6f4')
-        self.canvas_bg_principal.create_window(250, 705, anchor="center",window=self.todas_despesas_menu)
+        self.canvas_bg_principal.create_window(320, 655, anchor="center",window=self.todas_despesas_menu)
 
         #tabela
         self.tabela = ttk.Treeview(self.canvas_bg_principal, columns= ('valor', 'data', 'categoria', 'descrição'), show='headings')
@@ -128,10 +129,9 @@ class View:
         self.canvas_bg_principal.create_window(50, 50, width=1450, height=400, anchor='nw', window=self.tabela)
 
         #botão remover despesa
-        self.remover_despesa = tk.Button(self.canvas_bg_principal, text="Remover despesa", font=("Arial", 16), fg='black', bg='#92C3EC', command=self.eliminar_despesa)
-        self.canvas_bg_principal.create_window(250, 750,anchor="center", window=self.remover_despesa)
+        self.remover_despesa = tk.Button(self.canvas_bg_principal, text="Remover despesa", height= 1, font=("Arial", 16), fg='black', bg='#92C3EC', command=self.eliminar_despesa)
+        self.canvas_bg_principal.create_window(320, 605,anchor="center", window=self.remover_despesa)
 
-        print(self.tabela.keys())
 
     def eliminar_despesa(self):
         if self.todas_despesas_var.get() == "Todas as despesas":
