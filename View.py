@@ -73,9 +73,20 @@ class View:
 
         #bg
         self.canvas_bg_principal= tk.Canvas(self.frame1, width= 500, height= 350, background= '#4DB6E5', highlightbackground='#4DB6E5')
-        self.canvas_bg_principal.pack(fill='both', expand= True)
         self.retangulo = self.canvas_bg_principal.create_rectangle(900, 500, 1475, 825, fill= '#92C3EC')
         self.opcoes= self.canvas_bg_principal.create_rectangle(50, 50, 1500, 450, fill= 'white')
+
+        #orçamento definido
+        self.canvas_bg_principal.create_text(55, 565,text=f'O seu orçamento é de: {self.orcamento} €', anchor='sw', font=("Arial", 16), fill='black')
+        
+        #limite definido
+        self.canvas_bg_principal.create_text(55, 595,text=f'O limite definido é de: {self.limite}%', anchor='sw', font=("Arial", 16), fill='black')
+
+        #percentagem restante até o limite
+        #self.canvas_bg_principal.create_text(55, 585,text=f'O seu orçamento é de: {self.l}', anchor='sw', font=("Arial", 16), fill='black')
+
+        #colocar tudo na frame
+        self.canvas_bg_principal.pack(fill='both', expand= True)
 
         #botão de defição de orçamento mensal
         self.orcamento_button1 = tk.Button(self.canvas_bg_principal, text="Definir orçamento mensal", width=21, font=('Arial', 16), fg='black', bg='#92C3EC', command=self.orcamento_mensal)
@@ -120,9 +131,7 @@ class View:
         self.remover_despesa = tk.Button(self.canvas_bg_principal, text="Remover despesa", font=("Arial", 16), fg='black', bg='#92C3EC', command=self.eliminar_despesa)
         self.canvas_bg_principal.create_window(250, 750,anchor="center", window=self.remover_despesa)
 
-        #orçamento definido
-        self.orcamento_definido = tk.Label(self.canvas_bg_principal, text=f'Orçamento definido: {self.orcamento}')
-        self.canvas_bg_principal.create_text(250, 125, anchor='sw', font=("Arial", 16), fill='black')
+        print(self.tabela.keys())
 
     def eliminar_despesa(self):
         if self.todas_despesas_var.get() == "Todas as despesas":
@@ -270,6 +279,7 @@ class View:
                             self.todas_despesas_options.append(f"{elemento.get_categoria()}, {elemento.get_valor()}€, {elemento.get_data()}, {elemento.get_descricao()}") 
                         self.frame_principal()
                         self.inserir_tabela()
+                        self.ordenar()
                                   
     
     def quit(self):
