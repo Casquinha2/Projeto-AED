@@ -134,24 +134,39 @@ class View:
         print(self.tabela.keys())
 
     def eliminar_despesa(self):
-        if self.todas_despesas_var.get() == "Todas as despesas":
+        if self.todas_despesas_var.get() == "Despesas registadas:":
             messagebox.showerror("Erro", "Não existe essa despesa.\nPor favor selecione uma das despesas apresentadas.")
-        else:    
-            despesa = self.todas_despesas_var.get().split(", ")
-            valor = float(despesa[1].replace("€", ""))
-            for i in range(self.despesas.size):
-                elemento = self.despesas.get(i)
-                if elemento.get_categoria() == despesa[0] and elemento.get_valor() == valor and elemento.get_data() == despesa[2] and elemento.get_descricao() == despesa[3]:
-                    self.todas_despesas_options.remove(self.todas_despesas_var.get())
+        else:
+            if self.todas_despesas_var.get() == "Todas as despesas":
+                opcao = messagebox.askquestion("", "Tem a certeza que pretende apagar todas as despesas?")
+                if opcao == "yes":
+                    self.despesas.make_empty()
+                    self.todas_despesas_options = ["Despesas registadas:"]
                     self.todas_despesas_menu.destroy()
                     self.todas_despesas_var.set(self.todas_despesas_options[0])
                     self.todas_despesas_menu = tk.OptionMenu(self.canvas_bg_principal, self.todas_despesas_var, *self.todas_despesas_options)
                     self.todas_despesas_menu.config(font=('Arial', 10),  bg='#d8e6f4')
                     self.canvas_bg_principal.create_window(250, 700, anchor="center",window=self.todas_despesas_menu)
-                    self.despesas.remove(i)
                     self.ficheiro.linkedlist_para_json_despesa(self.nome, self.orcamento, self.limite, self.despesas)
                     self.inserir_tabela()
-                    messagebox.showinfo("Sucesso", "A despesa selecionada foi excluida.")
+            else:
+                despesa = self.todas_despesas_var.get().split(", ")
+                valor = float(despesa[1].replace("€", ""))
+                for i in range(self.despesas.size):
+                    elemento = self.despesas.get(i)
+                    if elemento.get_categoria() == despesa[0] and elemento.get_valor() == valor and elemento.get_data() == despesa[2] and elemento.get_descricao() == despesa[3]:
+                            self.todas_despesas_options.remove(self.todas_despesas_var.get())
+                            self.despesas.remove(i)
+                            if self.despesas.is_empty == True:
+                                self.todas_despesas_options.remove("Todas as despesas")
+                            self.todas_despesas_menu.destroy()
+                            self.todas_despesas_var.set(self.todas_despesas_options[0])
+                            self.todas_despesas_menu = tk.OptionMenu(self.canvas_bg_principal, self.todas_despesas_var, *self.todas_despesas_options)
+                            self.todas_despesas_menu.config(font=('Arial', 10),  bg='#d8e6f4')
+                            self.canvas_bg_principal.create_window(250, 700, anchor="center",window=self.todas_despesas_menu)
+                            self.ficheiro.linkedlist_para_json_despesa(self.nome, self.orcamento, self.limite, self.despesas)
+                            self.inserir_tabela()
+                            messagebox.showinfo("Sucesso", "A despesa selecionada foi excluida.")
 
 
     def pergunta_orcamento(self):
@@ -273,13 +288,14 @@ class View:
                         self.password_entry.delete(0, 'end')
                         self.nif_entry.delete(0, 'end')
                         self.orcamento, self.limite, self.despesas = self.ficheiro.json_para_linkedlist_despesa(self.nome)
-                        self.todas_despesas_options = ['Todas as despesas']
+                        self.todas_despesas_options = ['Despesas registadas:']
                         for i in range(self.despesas.size):
                             elemento = self.despesas.get(i)
                             self.todas_despesas_options.append(f"{elemento.get_categoria()}, {elemento.get_valor()}€, {elemento.get_data()}, {elemento.get_descricao()}") 
+                        if self.despesas.is_empty == False:
+                            self.todas_despesas_options.append("Todas as despesas")
                         self.frame_principal()
                         self.inserir_tabela()
-                        self.ordenar()
                                   
     
     def quit(self):
@@ -331,7 +347,11 @@ class View:
                     despesa = Despesa(valor_despesas, data_despesas, categoria_despesa, descricao_despesa)
                     self.despesas.insert_last(despesa)
                     self.ficheiro.linkedlist_para_json_despesa(self.nome, self.orcamento, self.limite, self.despesas)
+                    for i in self.todas_despesas_options:
+                        if i == "Todas as despesas":
+                            self.todas_despesas_options.remove("Todas as despesas")
                     self.todas_despesas_options.append(f"{categoria_despesa}, {valor_despesas}€, {data_despesas}, {descricao_despesa}")
+                    self.todas_despesas_options.append("Todas as despesas")
                     self.todas_despesas_var.set(self.todas_despesas_options[0])
                     self.todas_despesas_menu.destroy()
                     self.todas_despesas_menu = tk.OptionMenu(self.canvas_bg_principal, self.todas_despesas_var, *self.todas_despesas_options)
@@ -370,9 +390,14 @@ class View:
     3º passo: Após tudo preenchido, carregue em "registar despesa" e pronto! O seu registo de despesa terá sido feito com sucesso.
         Para definir um orçamento mensal e um limite mensal deverá seguir os seguintes passos:
     1º passo: Carregue no botão "orçamento mensal";
-    2º passo: Preencha os dados descritos na nova janela aberta, repare que o limite é escrito em porcentagem
+    2º passo: Preencha os dados descritos na nova janela aberta, repare que o limite é escrito em porcentagem;
     3º passo: Após tudo preenchido, carregue em "confirmar" e pronto! O seu orçamento mensal e limite mensal terão sido feitados com sucesso.
-        Se quiser ter uma sugestão para saber no que deve curtar das suas despesas mensais, clique no botão "Sugestão de corte".''')
+        Para ter uma sugestã no que deve curtar das suas despesas mensais:
+    1º passo: Carregue no botão "Sugestão de corte".
+        Para remover uma despesa:
+    1º passo: Selecione uma das despesas no menu (se quiser remover todas as despesas, selecione na opção "Todas as despesas");
+    2º passo: Clique no botão "Remover despesa";
+        ''')
 
     def orcamento_mensal(self):
         #frame do orcamento mensal
