@@ -78,10 +78,10 @@ class View:
 
         #orçamento definido
         self.canvas_bg_principal.create_rectangle(50, 500, 600, 825, fill= '#92C3EC')
-        self.text_orcamento = self.canvas_bg_principal.create_text(155, 535,text=f'O seu orçamento é de: {self.orcamento} €', anchor='sw', font=("Arial", 16), fill='black')
+        self.text_orcamento = self.canvas_bg_principal.create_text(335, 525,text=f'O seu orçamento é de: {self.orcamento} €', anchor='center', font=("Arial", 16), fill='black')
         
         #limite definido
-        self.text_limite = self.canvas_bg_principal.create_text(185, 570,text=f'O limite definido é de: {self.limite}%', anchor='sw', font=("Arial", 16), fill='black')
+        self.text_limite = self.canvas_bg_principal.create_text(335, 560,text=f'O limite definido é de: {self.limite}%', anchor='center', font=("Arial", 16), fill='black')
 
         #colocar tudo na frame
         self.canvas_bg_principal.pack(fill='both', expand= True)
@@ -128,6 +128,16 @@ class View:
         #botão remover despesa
         self.remover_despesa = tk.Button(self.canvas_bg_principal, text="Remover despesa", height= 1, font=("Arial", 16), fg='black', bg='#92C3EC', command=self.eliminar_despesa)
         self.canvas_bg_principal.create_window(320, 605,anchor="center", window=self.remover_despesa)
+
+        #filtrar tabela
+        self.canvas_bg_principal.create_text(750, 560, text="Filtrar tabela por:", anchor='center', font=("Arial", 16), fill='black' )
+
+        self.filtrar_valor_button = tk.Button(self.canvas_bg_principal, text="Valor", height= 1, font=("Arial", 16), fg='black', bg='#92C3EC', command=self.filtrar_valor)
+        self.canvas_bg_principal.create_window(748, 630,anchor="center", window=self.filtrar_valor_button)
+        self.filtrar_data_button = tk.Button(self.canvas_bg_principal, text="Data", height= 1, font=("Arial", 16), fg='black', bg='#92C3EC', command=self.filtrar_data)
+        self.canvas_bg_principal.create_window(748, 700, anchor="center", window=self.filtrar_data_button)
+        self.filtrar_categoria_button = tk.Button(self.canvas_bg_principal,text="Categoria", height= 1, font=("Arial", 16), fg='black', bg='#92C3EC', command=self.filtrar_categoria)
+        self.canvas_bg_principal.create_window(748 ,770, anchor="center", window=self.filtrar_categoria_button)
 
         
 
