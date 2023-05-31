@@ -143,6 +143,7 @@ class View:
                 elemento = self.despesas.get(i)
                 if elemento.get_categoria() == despesa[0] and elemento.get_valor() == valor and elemento.get_data() == despesa[2] and elemento.get_descricao() == despesa[3]:
                     self.todas_despesas_options.remove(self.todas_despesas_var.get())
+                    self.todas_despesas_menu.destroy()
                     self.todas_despesas_var.set(self.todas_despesas_options[0])
                     self.todas_despesas_menu = tk.OptionMenu(self.canvas_bg_principal, self.todas_despesas_var, *self.todas_despesas_options)
                     self.todas_despesas_menu.config(font=('Arial', 10),  bg='#d8e6f4')
@@ -332,6 +333,7 @@ class View:
                     self.ficheiro.linkedlist_para_json_despesa(self.nome, self.orcamento, self.limite, self.despesas)
                     self.todas_despesas_options.append(f"{categoria_despesa}, {valor_despesas}€, {data_despesas}, {descricao_despesa}")
                     self.todas_despesas_var.set(self.todas_despesas_options[0])
+                    self.todas_despesas_menu.destroy()
                     self.todas_despesas_menu = tk.OptionMenu(self.canvas_bg_principal, self.todas_despesas_var, *self.todas_despesas_options)
                     self.todas_despesas_menu.config(font=('Arial', 10),  bg='#d8e6f4')
                     self.canvas_bg_principal.create_window(250, 705, anchor="center",window=self.todas_despesas_menu)
