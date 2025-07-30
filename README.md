@@ -13,4 +13,5 @@ A adição e remoção de despesas é feita numa janela que abre depois de clica
 - JSon - usado para o armazeno de dados.
 
 Neste projeto pode existir vários ficheiros JSon. Os ficheiros JSon são criados um para cada utilizador.  
-Estes ficheiros armazenão os dados de login e todas as despesas do utilizador.
+Estes ficheiros armazenão os dados de login e todas as despesas do utilizador.   
+Este projeto foi feito com o TKinter para a interface gráfica.
